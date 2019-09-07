@@ -1,22 +1,20 @@
 <template>
-  <div class="demo-groupData">
+  <div class="demo-sportData">
     <h4>文化板块各单位运营成本明细统计表</h4>
-    <el-form :model="groupData" :rules="rules" ref="groupData" label-width="110px" label-position="left" >
+    <el-form :model="sportData" :rules="rules" ref="sportData" label-width="110px" label-position="left" >
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="单位名称" prop="departmentId">
-            <el-select v-model="groupData.departmentId" placeholder="请选择部门">
-              <el-option label="集团公司管理层" value="1"></el-option>
-              <el-option label="企业发展中心" value="2"></el-option>
-              <el-option label="智能服务中心" value="3"></el-option>
-              <el-option label="财务管理中心" value="4"></el-option>
+            <el-select v-model="sportData.departmentId" placeholder="请选择部门">
+              <el-option label="健和公司" value="22"></el-option>
+              <el-option label="泉湖圣竟公司" value="23"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="年份" prop="groupYear">
+          <el-form-item label="年份" prop="sportYear">
             <el-date-picker
-              v-model="groupData.groupYear"
+              v-model="sportData.sportYear"
               type="year"
               placeholder="请选择年份">
             </el-date-picker>
@@ -25,7 +23,7 @@
         <el-col :span="8">
           <el-form-item label="明细类型" prop="value">
             <el-cascader
-              v-model="groupData.value"
+              v-model="sportData.value"
               :options="options"
               @change="handleChange"></el-cascader>
           </el-form-item>
@@ -33,112 +31,95 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="工资" prop="groupSalary">
-            <el-input v-model="groupData.groupSalary" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="工资" prop="sportSalary">
+            <el-input v-model="sportData.sportSalary" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="行政收入" prop="groupAdministrative">
-            <el-input v-model="groupData.groupAdministrative" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="培训费" prop="sportTraining">
+            <el-input v-model="sportData.sportTraining" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="固定资产投资" prop="groupFixedAssets">
-            <el-input v-model="groupData.groupFixedAssets" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="培训费" prop="groupTraining">
-            <el-input v-model="groupData.groupTraining" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="科技创新费" prop="groupTechnology">
-            <el-input v-model="groupData.groupTechnology" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="招待费" prop="groupEntertain">
-            <el-input v-model="groupData.groupEntertain" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="招待费" prop="sportEntertain">
+            <el-input v-model="sportData.sportEntertain" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="经营费" prop="groupOperating">
-            <el-input v-model="groupData.groupOperating" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="经营费" prop="sportOperating">
+            <el-input v-model="sportData.sportOperating" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="财务费用" prop="groupFinance">
-            <el-input v-model="groupData.groupFinance" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="房租费" prop="sportRent">
+            <el-input v-model="sportData.sportRent" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="各类税费" prop="groupTaxes">
-            <el-input v-model="groupData.groupTaxes" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="审计费" prop="groupAudit">
-            <el-input v-model="groupData.groupAudit" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="律师费用" prop="groupLawyer">
-            <el-input v-model="groupData.groupLawyer" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="证书费用" prop="groupCertificate">
-            <el-input v-model="groupData.groupCertificate" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="水电费" prop="sportHydropower">
+            <el-input v-model="sportData.sportHydropower" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="伙食费用" prop="groupMeal">
-            <el-input v-model="groupData.groupMeal" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="伙食费" prop="sportMeal">
+            <el-input v-model="sportData.sportMeal" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="房租费用" prop="groupRent">
-            <el-input v-model="groupData.groupRent" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="行政费用" prop="sportAdministrative">
+            <el-input v-model="sportData.sportAdministrative" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="其他费用" prop="groupOther">
-            <el-input v-model="groupData.groupOther" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="财务费用" prop="sportFinance">
+            <el-input v-model="sportData.sportFinance" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="费用合计" prop="groupTotal">
-            <el-input v-model="groupData.groupTotal" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="各类税费" prop="sportTaxes">
+            <el-input v-model="sportData.sportTaxes" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="编制人" prop="groupEditor">
-            <el-input v-model="groupData.groupEditor" clearable></el-input>
+          <el-form-item label="宣传费用" prop="sportPropaganda">
+            <el-input v-model="sportData.sportPropaganda" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="编制日期" prop="groupEditorDate">
-            <el-input v-model="groupData.groupEditorDate" clearable></el-input>
+          <el-form-item label="其他费用" prop="sportOther">
+            <el-input v-model="sportData.sportOther" clearable><template slot="append">元</template></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item label="费用合计" prop="sportTotal">
+            <el-input v-model="sportData.sportTotal" clearable><template slot="append">元</template></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="编制人" prop="sportEditor">
+            <el-input v-model="sportData.sportEditor" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="编制日期" prop="sportEditorDate">
+            <el-input v-model="sportData.sportEditorDate" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-form-item label="备注">
-        <el-input v-model="groupData.groupRemark" clearable></el-input>
+        <el-input v-model="sportData.sportRemark" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('groupData')">立即创建</el-button>
-        <el-button @click="resetForm('groupData')">重置</el-button>
+        <el-button type="primary" @click="submitForm('sportData')">立即创建</el-button>
+        <el-button @click="resetForm('sportData')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -149,54 +130,47 @@ export default {
   name: 'AddSport',
   data () {
     return {
-      groupData: {
+      sportData: {
         departmentId: '',
-        groupYear: '',
-        groupQuarter: '',
-        groupEstimatedOrActual: '',
-        groupSalary: '',
-        groupAdministrative: '',
-        groupFixedAssets: '',
-        groupTraining: '',
-        groupTechnology: '',
-        groupEntertain: '',
-        groupOperating: '',
-        groupFinance: '',
-        groupTaxes: '',
-        groupAudit: '',
-        groupLawyer: '',
-        groupCertificate: '',
-        groupMeal: '',
-        groupEditorDate: '',
-        groupOther: '',
-        groupRemark: '',
-        groupTotal: '',
-        groupEditor: '',
-        groupRent: '',
+        sportYear: '',
+        sportQuarter: '', // 季度
+        sportEstimatedOrActual: '', // 预估实际
+        sportSalary: '',
+        sportTraining: '',
+        sportEntertain: '',
+        sportOperating: '',
+        sportRent: '',
+        sportHydropower: '',
+        sportMeal: '',
+        sportAdministrative: '',
+        sportFinance: '',
+        sportTaxes: '',
+        sportPropaganda: '',
+        sportOther: '',
+        sportRemark: '',
+        sportTotal: '',
+        sportEditor: '',
+        sportEditorDate: '',
         value: [] // 提交时删除
       },
       rules: {
         departmentId: [{ required: true, message: '请选择部门', trigger: 'change' }],
-        groupYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
+        sportYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
         value: [{ type: 'array', required: true, message: '请选择类型', trigger: 'change' }],
-        groupSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupAdministrative: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupFixedAssets: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupTraining: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupTechnology: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupEntertain: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupOperating: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupFinance: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupTaxes: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupAudit: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupLawyer: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupCertificate: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupMeal: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupEditorDate: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupOther: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupTotal: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupEditor: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupRent: [{ required: true, message: '请输入金额', trigger: 'change' }]
+        sportSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportTraining: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportEntertain: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportOperating: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportRent: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportHydropower: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportMeal: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportAdministrative: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportFinance: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportTaxes: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportOther: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportTotal: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportEditor: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportPropaganda: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
       value: [],
       options: [{
@@ -224,8 +198,8 @@ export default {
   methods: {
     handleChange (val) {
       console.log(val)
-      this.groupData.groupEstimatedOrActual = val[0]
-      this.groupData.groupQuarter = val[1]
+      this.sportData.sportEstimatedOrActual = val[0]
+      this.sportData.sportQuarter = val[1]
     },
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
@@ -245,7 +219,7 @@ export default {
 </script>
 
 <style scoped>
-  .demo-groupData {
+  .demo-sportData {
     padding: 15px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
   }

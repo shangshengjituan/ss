@@ -1,23 +1,26 @@
 <template>
-  <div class="demo-groupData">
+  <div class="demo-buildingData">
     <h4>集团建筑板块各单位运营成本明细统计表</h4>
-    <el-form :model="groupData" :rules="rules" ref="groupData" label-width="110px" label-position="left" >
+    <el-divider></el-divider>
+    <el-form :model="buildingData" :rules="rules" ref="buildingData" label-width="110px" label-position="right" >
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="单位名称" prop="departmentId">
-            <el-select v-model="groupData.departmentId" placeholder="请选择部门">
-              <el-option label="集团公司管理层" value="1"></el-option>
-              <el-option label="企业发展中心" value="2"></el-option>
-              <el-option label="智能服务中心" value="3"></el-option>
-              <el-option label="财务管理中心" value="4"></el-option>
+            <el-select v-model="buildingData.departmentId" placeholder="请选择部门">
+              <el-option label="明麓公司总工办" value="6"></el-option>
+              <el-option label="明麓公司经营部" value="7"></el-option>
+              <el-option label="明麓公司成本部" value="8"></el-option>
+              <el-option label="祥能管理公司" value="21"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="年份" prop="groupYear">
+          <el-form-item label="年份" prop="buildingYear">
             <el-date-picker
-              v-model="groupData.groupYear"
+              v-model="buildingData.buildingYear"
               type="year"
+              format="yyyy"
+              value-format="yyyy"
               placeholder="请选择年份">
             </el-date-picker>
           </el-form-item>
@@ -25,7 +28,7 @@
         <el-col :span="8">
           <el-form-item label="明细类型" prop="value">
             <el-cascader
-              v-model="groupData.value"
+              v-model="buildingData.value"
               :options="options"
               @change="handleChange"></el-cascader>
           </el-form-item>
@@ -33,112 +36,88 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="工资" prop="groupSalary">
-            <el-input v-model="groupData.groupSalary" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="工资" prop="buildingSalary">
+            <el-input v-model.number="buildingData.buildingSalary" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="行政收入" prop="groupAdministrative">
-            <el-input v-model="groupData.groupAdministrative" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="行政费用" prop="buildingAdministrative">
+            <el-input v-model.number="buildingData.buildingAdministrative" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="固定资产投资" prop="groupFixedAssets">
-            <el-input v-model="groupData.groupFixedAssets" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="固定资产投资" prop="buildingFixedAssets">
+            <el-input v-model.number="buildingData.buildingFixedAssets" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="培训费" prop="groupTraining">
-            <el-input v-model="groupData.groupTraining" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="培训费" prop="buildingTraining">
+            <el-input v-model.number="buildingData.buildingTraining" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="科技创新费" prop="groupTechnology">
-            <el-input v-model="groupData.groupTechnology" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="科技创新费" prop="buildingTechnology">
+            <el-input v-model.number="buildingData.buildingTechnology" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="招待费" prop="groupEntertain">
-            <el-input v-model="groupData.groupEntertain" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="招待费" prop="buildingEntertain">
+            <el-input v-model.number="buildingData.buildingEntertain" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="经营费" prop="groupOperating">
-            <el-input v-model="groupData.groupOperating" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="经营费" prop="buildingOperating">
+            <el-input v-model.number="buildingData.buildingOperating" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="财务费用" prop="groupFinance">
-            <el-input v-model="groupData.groupFinance" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="财务费用" prop="buildingFinance">
+            <el-input v-model.number="buildingData.buildingFinance" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="各类税费" prop="groupTaxes">
-            <el-input v-model="groupData.groupTaxes" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="各类税费" prop="buildingTaxes">
+            <el-input v-model.number="buildingData.buildingTaxes" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="审计费" prop="groupAudit">
-            <el-input v-model="groupData.groupAudit" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="其他费用" prop="buildingOther">
+            <el-input v-model.number="buildingData.buildingOther" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="律师费用" prop="groupLawyer">
-            <el-input v-model="groupData.groupLawyer" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="证书费用" prop="groupCertificate">
-            <el-input v-model="groupData.groupCertificate" clearable><template slot="append">元</template></el-input>
+        <el-col :span="16">
+          <el-form-item label="备注">
+            <el-input v-model="buildingData.buildingRemark" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="伙食费用" prop="groupMeal">
-            <el-input v-model="groupData.groupMeal" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="费用合计" prop="buildingTotal">
+            <span>{{totalCost}} 元</span>
+            <!--<el-input v-model="buildingData.buildingTotal" clearable><template slot="append">元</template></el-input>-->
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="房租费用" prop="groupRent">
-            <el-input v-model="groupData.groupRent" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="编制人" prop="buildingEditor">
+            <span>{{buildingData.buildingEditor}}</span>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="其他费用" prop="groupOther">
-            <el-input v-model="groupData.groupOther" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<el-form-item label="编制日期" prop="buildingEditorDate">-->
+            <!--<el-input v-model="buildingData.buildingEditorDate" clearable></el-input>-->
+          <!--</el-form-item>-->
+        <!--</el-col>-->
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="费用合计" prop="groupTotal">
-            <el-input v-model="groupData.groupTotal" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="编制人" prop="groupEditor">
-            <el-input v-model="groupData.groupEditor" clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="编制日期" prop="groupEditorDate">
-            <el-input v-model="groupData.groupEditorDate" clearable></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-form-item label="备注">
-        <el-input v-model="groupData.groupRemark" clearable></el-input>
-      </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('groupData')">立即创建</el-button>
-        <el-button @click="resetForm('groupData')">重置</el-button>
+        <el-button type="primary" @click="validateData('buildingData')">立即创建</el-button>
+        <el-button @click="resetForm('buildingData')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -149,54 +128,41 @@ export default {
   name: 'AddBuilding',
   data () {
     return {
-      groupData: {
+      buildingData: {
         departmentId: '',
-        groupYear: '',
-        groupQuarter: '',
-        groupEstimatedOrActual: '',
-        groupSalary: '',
-        groupAdministrative: '',
-        groupFixedAssets: '',
-        groupTraining: '',
-        groupTechnology: '',
-        groupEntertain: '',
-        groupOperating: '',
-        groupFinance: '',
-        groupTaxes: '',
-        groupAudit: '',
-        groupLawyer: '',
-        groupCertificate: '',
-        groupMeal: '',
-        groupEditorDate: '',
-        groupOther: '',
-        groupRemark: '',
-        groupTotal: '',
-        groupEditor: '',
-        groupRent: '',
-        value: [] // 提交时删除
+        buildingYear: '',
+        buildingQuarter: '', // 季度
+        buildingEstimatedOrActual: '', // 预估实际
+        buildingSalary: '',
+        buildingAdministrative: '',
+        buildingFixedAssets: '',
+        buildingTraining: '',
+        buildingTechnology: '',
+        buildingEntertain: '',
+        buildingOperating: '',
+        buildingFinance: '',
+        buildingTaxes: '',
+        buildingOther: '',
+        buildingRemark: '',
+        // buildingTotal: '',
+        buildingEditor: '测试员',
+        value: [] // 暂存类型季度
       },
       rules: {
         departmentId: [{ required: true, message: '请选择部门', trigger: 'change' }],
-        groupYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
+        buildingYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
         value: [{ type: 'array', required: true, message: '请选择类型', trigger: 'change' }],
-        groupSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupAdministrative: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupFixedAssets: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupTraining: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupTechnology: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupEntertain: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupOperating: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupFinance: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupTaxes: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupAudit: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupLawyer: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupCertificate: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupMeal: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupEditorDate: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupOther: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupTotal: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupEditor: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupRent: [{ required: true, message: '请输入金额', trigger: 'change' }]
+        buildingSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingAdministrative: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingFixedAssets: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingTraining: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingTechnology: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingEntertain: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingOperating: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingFinance: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingTaxes: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingOther: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        buildingRent: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
       value: [],
       options: [{
@@ -218,35 +184,100 @@ export default {
           value: '4',
           label: '第四季度'
         }]
-      }]
+      }],
+      tempTotal: 0
+    }
+  },
+  computed: {
+    totalCost () {
+      let _this = this
+      let arr = Object.values(this.buildingData)
+      console.log(arr)
+      let total = 0
+      let filterArr = arr.filter(function (item, index, arr) {
+        return typeof item === 'number' && !isNaN(item)
+      })
+      filterArr.forEach(function (item, index, arr) {
+        total = total + item
+        return total
+      })
+      console.log(total)
+      _this.tempTotal = total
+      return total.toString().replace(/\B(?=(\d{3})+$)/g, ',')
     }
   },
   methods: {
     handleChange (val) {
       console.log(val)
-      this.groupData.groupEstimatedOrActual = val[0]
-      this.groupData.groupQuarter = val[1]
+      this.buildingData.buildingEstimatedOrActual = val[0]
+      this.buildingData.buildingQuarter = val[1] || ''
     },
-    submitForm (formName) {
+    validateData (formName) {
+      let _this = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          // 将验证后的buildingData数据增减字段为formDate后提交
+          let formDate = _this.buildingData
+          formDate.buildingTotal = _this.tempTotal
+          console.log(formDate)
+          // 提交确认框
+          _this.$confirm('提交后将无法修改，确认提交吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            // 提交
+            _this.$axios.post('/insertForm', formDate)
+              .then(rsp => {
+                console.log(rsp.data)
+                let data = rsp.data
+                if (data.result === 500) {
+                  // 请勿重复填写
+                  _this.$alert(data.resultText, '提示', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                      console.log(action)
+                      return false
+                    }
+                  })
+                } else if (data.result === 200) {
+                  _this.$message({
+                    message: '提交成功！',
+                    type: 'success',
+                    onClose () {
+                      _this.$router.push({path: '/home'})
+                    }
+                  })
+                } else if (data.result === 404) {
+                  _this.$message({
+                    message: '未知错误，提交失败。',
+                    type: 'error'
+                  })
+                }
+              })
+          }).catch(() => {
+            console.log('cancel submit.')
+          })
         } else {
           console.log('error submit!!')
           return false
         }
       })
-    },
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
     }
   }
 }
 </script>
 
-<style scoped>
-  .demo-groupData {
+<style>
+  .demo-buildingData {
     padding: 15px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+  }
+  .demo-buildingData input::-webkit-outer-spin-button,
+  .demo-buildingData input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  .demo-buildingData input[type="number"] {
+    -moz-appearance: textfield;
   }
 </style>

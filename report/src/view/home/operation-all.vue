@@ -1,22 +1,21 @@
 <template>
   <div>
     <template v-if="type==='group'">
-      <add-group></add-group>
+      <all-group></all-group>
     </template>
     <template v-else-if="type==='building'">
-      <add-building></add-building>
+      <all-building></all-building>
     </template>
     <template v-else-if="type==='sport'">
-      <add-sport></add-sport>
+      <all-sport></all-sport>
     </template>
   </div>
 </template>
 
 <script>
-
-import AddGroup from '../../components/operation/AddGroup'
-import AddBuilding from '../../components/operation/AddBuilding'
-import AddSport from '../../components/operation/AddSport'
+import AllGroup from '../../components/operation/AllGroup'
+import AllBuilding from '../../components/operation/AllBuilding'
+import AllSport from '../../components/operation/AllSport'
 export default {
   beforeRouteEnter (to, from, next) {
     // 在渲染该组件的对应路由被 confirm 前调用
@@ -47,9 +46,9 @@ export default {
   },
   name: 'operation-add',
   components: {
-    AddSport,
-    AddBuilding,
-    AddGroup
+    AllSport,
+    AllBuilding,
+    AllGroup
   },
   methods: {
     onSubmit (form) {

@@ -14,7 +14,7 @@ Vue.prototype.$axios = Axios
 Vue.use(ElementUI)
 
 // 设置baseURL
-Axios.defaults.baseURL = 'http://192.168.20.56:8089'
+Axios.defaults.baseURL = 'http://192.168.20.56:8081'
 // 设置token值
 // Axios.defaults.headers.common['Authorization'] = AUTH_TOKEN
 // 请求头

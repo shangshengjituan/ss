@@ -8,13 +8,13 @@
           <span>运营成本统计</span>
         </template>
         <el-submenu index="1-1">
-          <template slot="title">运营成本汇总表</template>
+          <template slot="title">运营成本统计</template>
           <el-menu-item index="1-1-1"><router-link :to="{name:'AddOperation',params:{type:'group'}}">集团模块</router-link></el-menu-item>
           <el-menu-item index="1-1-2"><router-link :to="{name:'AddOperation',params:{type:'building'}}">建筑模块</router-link></el-menu-item>
           <el-menu-item index="1-1-3"><router-link :to="{name:'AddOperation',params:{type:'sport'}}">文体模块</router-link></el-menu-item>
         </el-submenu>
           <el-submenu index="1-2">
-            <template slot="title">运营成本统计表</template>
+            <template slot="title">运营成本汇总</template>
             <el-menu-item index="1-2-1"><router-link :to="{name:'AllOperation',params:{type:'group'}}">集团模块</router-link></el-menu-item>
             <el-menu-item index="1-2-2"><router-link :to="{name:'AllOperation',params:{type:'building'}}">建筑模块</router-link></el-menu-item>
             <el-menu-item index="1-2-3"><router-link :to="{name:'AllOperation',params:{type:'sport'}}">文体模块</router-link></el-menu-item>
