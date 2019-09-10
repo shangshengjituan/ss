@@ -25,6 +25,7 @@ export default {
     console.log('Enter', to)
     next(vm => {
       vm.type = to.params.type
+      console.log(JSON.stringify(sessionStorage))
     })
   },
   beforeRouteUpdate (to, from, next) {

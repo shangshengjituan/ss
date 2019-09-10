@@ -117,7 +117,7 @@
       </el-row>
       <el-form-item>
         <el-button type="primary" @click="validateData('buildingData')">立即创建</el-button>
-        <el-button @click="resetForm('buildingData')">重置</el-button>
+        <el-button @click="test">测试</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -245,7 +245,7 @@ export default {
                     message: '提交成功！',
                     type: 'success',
                     onClose () {
-                      _this.$router.push({path: '/home'})
+                      _this.$router.push({path: '/alloperation'})
                     }
                   })
                 } else if (data.result === 404) {
@@ -263,6 +263,9 @@ export default {
           return false
         }
       })
+    },
+    test () {
+      this.$router.push({name: 'AllOperation', params: {'type': 'building'}})
     }
   }
 }

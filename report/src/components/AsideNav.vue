@@ -2,22 +2,29 @@
   <el-row class="tac">
     <el-col>
       <el-menu
+        :default-active="$route.path"
+        router
+        active-text-color="#409EFF"
         class="el-menu-vertical-demo">
+        <el-menu-item index="/home">
+          <span slot="title" >首页</span>
+        </el-menu-item>
         <el-submenu index="1">
         <template slot="title">
           <span>运营成本统计</span>
         </template>
         <el-submenu index="1-1">
           <template slot="title">运营成本统计</template>
-          <el-menu-item index="1-1-1"><router-link :to="{name:'AddOperation',params:{type:'group'}}">集团模块</router-link></el-menu-item>
-          <el-menu-item index="1-1-2"><router-link :to="{name:'AddOperation',params:{type:'building'}}">建筑模块</router-link></el-menu-item>
-          <el-menu-item index="1-1-3"><router-link :to="{name:'AddOperation',params:{type:'sport'}}">文体模块</router-link></el-menu-item>
+          <!--<router-link :to="{name:'AddOperation',params:{type:'group'}}">集团模块</router-link>-->
+          <el-menu-item index="/addoperation/group">集团模块</el-menu-item>
+          <el-menu-item index="/addoperation/building">建筑模块</el-menu-item>
+          <el-menu-item index="/addoperation/sport">文体模块</el-menu-item>
         </el-submenu>
           <el-submenu index="1-2">
             <template slot="title">运营成本汇总</template>
-            <el-menu-item index="1-2-1"><router-link :to="{name:'AllOperation',params:{type:'group'}}">集团模块</router-link></el-menu-item>
-            <el-menu-item index="1-2-2"><router-link :to="{name:'AllOperation',params:{type:'building'}}">建筑模块</router-link></el-menu-item>
-            <el-menu-item index="1-2-3"><router-link :to="{name:'AllOperation',params:{type:'sport'}}">文体模块</router-link></el-menu-item>
+            <el-menu-item index="/alloperation/group">集团模块</el-menu-item>
+            <el-menu-item index="/alloperation/building">建筑模块</el-menu-item>
+            <el-menu-item index="/alloperation/sport">文体模块</el-menu-item>
           </el-submenu>
         </el-submenu>
         <el-submenu index="2">
@@ -57,15 +64,5 @@ export default {
 </script>
 
 <style scoped>
-a {
-  color: #303133;
-  text-decoration: none;
-}
-.is-active {
-  background: #ecf5ff;
-}
-.is-active .router-link-active {
-  color: #409EFF;
-  text-decoration: none;
-}
+
 </style>
