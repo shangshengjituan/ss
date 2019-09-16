@@ -1,5 +1,9 @@
 <template>
   <div>
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>运营成本统计表</el-breadcrumb-item>
+    </el-breadcrumb>
     <template v-if="type==='group'">
       <add-group></add-group>
     </template>
@@ -87,7 +91,7 @@ export default {
 </script>
 
 <style scoped>
-.el-form-item {
-  width: 680px;
+.el-breadcrumb {
+  margin-bottom: 20px;
 }
 </style>

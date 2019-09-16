@@ -6,7 +6,7 @@
         router
         active-text-color="#409EFF"
         class="el-menu-vertical-demo">
-        <el-menu-item index="/home">
+        <el-menu-item index="/admin">
           <span slot="title" >首页</span>
         </el-menu-item>
         <el-submenu index="1">
@@ -29,7 +29,7 @@
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">
-            <span>新闻中心</span>
+            <span>侧栏数据一</span>
           </template>
           <el-menu-item index="2-1"><router-link to="/puttype">类别管理</router-link></el-menu-item>
           <el-menu-item index="2-2"><router-link to="/sortnews">新闻管理</router-link></el-menu-item>
@@ -37,11 +37,11 @@
           <el-menu-item index="2-4"><router-link to="/losenews">回收站管理</router-link></el-menu-item>
         </el-submenu>
         <el-menu-item index="3">
-          <span slot="title" @click="clickSome">报名系统</span>
+          <span slot="title" @click="clickSome">侧栏数据一</span>
         </el-menu-item>
         <el-submenu index="4">
           <template slot="title">
-            <span>其他设置</span>
+            <span>侧栏数据一</span>
           </template>
           <el-menu-item index="4-1"><router-link to="/">首页轮播图</router-link></el-menu-item>
           <el-menu-item index="4-2"><router-link to="/">建议反馈</router-link></el-menu-item>

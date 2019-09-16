@@ -63,7 +63,7 @@ export default {
               this.ruleForm2.password === '123456') {
             this.logining = false
             sessionStorage.setItem('user', this.ruleForm2.username)
-            this.$router.push({path: '/home'})
+            this.$router.push({path: '/admin'})
           } else {
             this.logining = false
             this.$alert('username or password wrong!', 'info', {

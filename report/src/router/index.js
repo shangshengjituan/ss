@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/view/home'
 import Login from '@/view/login'
 import Error from '@/view/error'
+import Admin from '@/view/home/admin'
 import AddOperation from '@/view/home/operation-add'
 import AllOperation from '@/view/home/operation-all'
 
@@ -22,6 +23,10 @@ export default new Router({
       name: 'Home',
       component: Home,
       children: [{
+        path: '/admin',
+        name: 'Admin',
+        component: Admin
+      }, {
         path: '/addoperation/:type',
         name: 'AddOperation',
         component: AddOperation

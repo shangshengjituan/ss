@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-groupData">
+  <el-card shadow="hover">
     <h4>集团管理层及各管理中心运营成本明细表</h4>
     <el-divider></el-divider>
     <el-form :model="groupData" :rules="rules" ref="groupData" label-width="110px" label-position="right" >
@@ -19,6 +19,8 @@
             <el-date-picker
               v-model="groupData.groupYear"
               type="year"
+              format="yyyy"
+              value-format="yyyy"
               placeholder="请选择年份">
             </el-date-picker>
           </el-form-item>
@@ -35,148 +37,111 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="工资" prop="groupSalary">
-            <el-input v-model="groupData.groupSalary" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupSalary" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="行政收入" prop="groupAdministrative">
-            <el-input v-model="groupData.groupAdministrative" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupAdministrative" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="固定资产投资" prop="groupFixedAssets">
-            <el-input v-model="groupData.groupFixedAssets" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupFixedAssets" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="培训费" prop="groupTraining">
-            <el-input v-model="groupData.groupTraining" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupTraining" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="科技创新费" prop="groupTechnology">
-            <el-input v-model="groupData.groupTechnology" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupTechnology" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="招待费" prop="groupEntertain">
-            <el-input v-model="groupData.groupEntertain" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupEntertain" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="经营费" prop="groupOperating">
-            <el-input v-model="groupData.groupOperating" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupOperating" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="财务费用" prop="groupFinance">
-            <el-input v-model="groupData.groupFinance" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupFinance" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="各类税费" prop="groupTaxes">
-            <el-input v-model="groupData.groupTaxes" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupTaxes" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="审计费" prop="groupAudit">
-            <el-input v-model="groupData.groupAudit" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupAudit" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="律师费用" prop="groupLawyer">
-            <el-input v-model="groupData.groupLawyer" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupLawyer" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="证书费用" prop="groupCertificate">
-            <el-input v-model="groupData.groupCertificate" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupCertificate" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="伙食费用" prop="groupMeal">
-            <el-input v-model="groupData.groupMeal" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupMeal" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="房租费用" prop="groupRent">
-            <el-input v-model="groupData.groupRent" clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupRent" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="其他费用" prop="groupOther">
-            <el-input v-model="groupData.groupOther" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="费用合计" prop="groupTotal">
-            <el-input v-model="groupData.groupTotal" clearable><template slot="append">元</template></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <!--<el-form-item label="编制人" prop="groupEditor">-->
-          <!--<el-input v-model="groupData.groupEditor" clearable></el-input>-->
-          <!--</el-form-item>-->
-          <el-form-item label="编制人">
-            <span>{{groupData.groupEditor}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="编制日期" prop="groupEditorDate">
-            <el-input v-model="groupData.groupEditorDate" clearable></el-input>
+            <el-input v-model.number="groupData.groupOther" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-form-item label="备注">
         <el-input v-model="groupData.groupRemark" clearable></el-input>
       </el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item label="费用合计" prop="groupTotal">
+            <span>{{totalCost}} 元</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <!--<el-form-item label="编制人" prop="groupEditor">-->
+          <!--<el-input v-model="groupData.groupEditor" clearable></el-input>-->
+          <!--</el-form-item>-->
+          <el-form-item label="编制人" >
+            <span>{{groupData.groupEditor}}</span>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item>
         <el-button type="primary" @click="validateData('groupData')">立即创建</el-button>
       </el-form-item>
     </el-form>
-    <el-dialog title="信息如下" :visible.sync="dialogVisible">
-      <el-table :data="list">
-        <el-table-column property="departmentId" label="部门"></el-table-column>
-        <el-table-column property="groupYear" label="年份"></el-table-column>
-        <el-table-column property="groupEditor" label="编制人"></el-table-column>
-        <el-table-column property="departmentId" label="部门"></el-table-column>
-        <el-table-column property="groupYear" label="年份"></el-table-column>
-        <el-table-column property="groupEditor" label="编制人"></el-table-column>
-        <el-table-column property="departmentId" label="部门"></el-table-column>
-        <el-table-column property="groupYear" label="年份"></el-table-column>
-        <el-table-column property="groupEditor" label="编制人"></el-table-column>
-        <el-table-column property="departmentId" label="部门"></el-table-column>
-        <el-table-column property="groupYear" label="年份"></el-table-column>
-        <el-table-column property="groupEditor" label="编制人"></el-table-column>
-        <el-table-column property="departmentId" label="部门"></el-table-column>
-        <el-table-column property="groupYear" label="年份"></el-table-column>
-        <el-table-column property="groupEditor" label="编制人"></el-table-column>
-        <el-table-column property="departmentId" label="部门"></el-table-column>
-        <el-table-column property="groupYear" label="年份"></el-table-column>
-        <el-table-column property="groupEditor" label="编制人"></el-table-column>
-        <el-table-column property="departmentId" label="部门"></el-table-column>
-        <el-table-column property="groupYear" label="年份"></el-table-column>
-        <el-table-column property="groupEditor" label="编制人"></el-table-column>
-        <el-table-column property="departmentId" label="部门"></el-table-column>
-        <el-table-column property="groupYear" label="年份"></el-table-column>
-        <el-table-column property="groupEditor" label="编制人"></el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitData">确 定</el-button>
-      </span>
-    </el-dialog>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -185,10 +150,10 @@ export default {
   data () {
     return {
       groupData: {
-        departmentId: '智能服务中心',
-        groupYear: '2019',
-        groupQuarter: '',
-        groupEstimatedOrActual: '',
+        departmentId: '',
+        groupYear: '',
+        groupQuarter: '', // 季度
+        groupEstimatedOrActual: '', // 预估实际
         groupSalary: '',
         groupAdministrative: '',
         groupFixedAssets: '',
@@ -202,13 +167,12 @@ export default {
         groupLawyer: '',
         groupCertificate: '',
         groupMeal: '',
-        groupEditorDate: '',
         groupOther: '',
         groupRemark: '',
-        groupTotal: '',
+        // groupTotal: '',
         groupEditor: '测试人',
         groupRent: '',
-        value: [] // 提交时删除
+        value: [] // 暂存类型季度
       },
       rules: {
         departmentId: [{ required: true, message: '请选择部门', trigger: 'change' }],
@@ -227,9 +191,8 @@ export default {
         groupLawyer: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupCertificate: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupMeal: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupEditorDate: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupOther: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        groupTotal: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        // groupTotal: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupEditor: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupRent: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
@@ -254,40 +217,94 @@ export default {
           label: '第四季度'
         }]
       }],
-      dialogVisible: false,
-      list: []
+      tempTotal: 0
+    }
+  },
+  computed: {
+    totalCost () {
+      // 费用合计
+      let _this = this
+      let arr = Object.values(this.groupData)
+      console.log(arr)
+      let total = 0
+      let filterArr = arr.filter(function (item, index, arr) {
+        return typeof item === 'number' && !isNaN(item)
+      })
+      filterArr.forEach(function (item, index, arr) {
+        total = total + item
+        return total
+      })
+      console.log(total)
+      _this.tempTotal = total
+      return total.toString().replace(/\B(?=(\d{3})+$)/g, ',')
     }
   },
   methods: {
     handleChange (val) {
       console.log(val)
       this.groupData.groupEstimatedOrActual = val[0]
-      this.groupData.groupQuarter = val[1]
+      this.groupData.groupQuarter = val[1] || '0'
     },
     validateData (formName) {
       let _this = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          _this.list[0] = _this.groupData
-          _this.dialogVisible = true
+          // 将验证后的buildingData数据增减字段为formDate后提交
+          let formDate = _this.groupData
+          formDate.groupTotal = _this.tempTotal
+          console.log(JSON.stringify(formDate))
+          // 提交确认框
+          _this.$confirm('提交后将无法修改，确认提交吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            // 提交
+            _this.$axios.post('/insertGroupForm', formDate)
+              .then(rsp => {
+                console.log(rsp.data)
+                let data = rsp.data
+                if (data.result === 500) {
+                  // 请勿重复填写
+                  _this.$alert(data.resultText, '提示', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                      console.log(action)
+                      return false
+                    }
+                  })
+                } else if (data.result === 200) {
+                  _this.$router.push({path: '/alloperation/group'})
+                  _this.$message({
+                    message: '提交成功！',
+                    type: 'success'
+                  })
+                } else if (data.result === 404) {
+                  _this.$message({
+                    message: '未知错误，提交失败。',
+                    type: 'error'
+                  })
+                }
+              })
+          }).catch(() => {
+            console.log('cancel submit.')
+          })
         } else {
           console.log('error submit!!')
           return false
         }
       })
-      this.dialogVisible = true
-    },
-    submitData () {
-      let _this = this
-      _this.dialogVisible = false
     }
   }
 }
 </script>
 
-<style scoped>
-.demo-groupData {
-  padding: 15px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
-}
+<style>
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 </style>

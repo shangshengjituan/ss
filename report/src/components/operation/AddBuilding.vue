@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-buildingData">
+  <el-card shadow="hover">
     <h4>集团建筑板块各单位运营成本明细统计表</h4>
     <el-divider></el-divider>
     <el-form :model="buildingData" :rules="rules" ref="buildingData" label-width="110px" label-position="right" >
@@ -10,6 +10,7 @@
               <el-option label="明麓公司总工办" value="6"></el-option>
               <el-option label="明麓公司经营部" value="7"></el-option>
               <el-option label="明麓公司成本部" value="8"></el-option>
+              <el-option label="明麓新型建材公司" value="19"></el-option>
               <el-option label="祥能管理公司" value="21"></el-option>
             </el-select>
           </el-form-item>
@@ -105,22 +106,16 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="编制人" prop="buildingEditor">
+          <el-form-item label="编制人">
             <span>{{buildingData.buildingEditor}}</span>
           </el-form-item>
         </el-col>
-        <!--<el-col :span="8">-->
-          <!--<el-form-item label="编制日期" prop="buildingEditorDate">-->
-            <!--<el-input v-model="buildingData.buildingEditorDate" clearable></el-input>-->
-          <!--</el-form-item>-->
-        <!--</el-col>-->
       </el-row>
       <el-form-item>
-        <el-button type="primary" @click="validateData('buildingData')">立即创建</el-button>
-        <el-button @click="test">测试</el-button>
+        <el-button type="primary" @click="validateData('buildingData')"> 立即创建 </el-button>
       </el-form-item>
     </el-form>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -190,6 +185,7 @@ export default {
   },
   computed: {
     totalCost () {
+      // 费用合计
       let _this = this
       let arr = Object.values(this.buildingData)
       console.log(arr)
@@ -208,9 +204,8 @@ export default {
   },
   methods: {
     handleChange (val) {
-      console.log(val)
       this.buildingData.buildingEstimatedOrActual = val[0]
-      this.buildingData.buildingQuarter = val[1] || ''
+      this.buildingData.buildingQuarter = val[1] || '0'
     },
     validateData (formName) {
       let _this = this
@@ -227,7 +222,7 @@ export default {
             type: 'warning'
           }).then(() => {
             // 提交
-            _this.$axios.post('/insertForm', formDate)
+            _this.$axios.post('/insertBuildingForm', formDate)
               .then(rsp => {
                 console.log(rsp.data)
                 let data = rsp.data
@@ -241,12 +236,10 @@ export default {
                     }
                   })
                 } else if (data.result === 200) {
+                  _this.$router.push({path: '/alloperation/building'})
                   _this.$message({
                     message: '提交成功！',
-                    type: 'success',
-                    onClose () {
-                      _this.$router.push({path: '/alloperation'})
-                    }
+                    type: 'success'
                   })
                 } else if (data.result === 404) {
                   _this.$message({
@@ -263,24 +256,17 @@ export default {
           return false
         }
       })
-    },
-    test () {
-      this.$router.push({name: 'AllOperation', params: {'type': 'building'}})
     }
   }
 }
 </script>
 
 <style>
-  .demo-buildingData {
-    padding: 15px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
-  }
-  .demo-buildingData input::-webkit-outer-spin-button,
-  .demo-buildingData input::-webkit-inner-spin-button {
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
-  .demo-buildingData input[type="number"] {
+  input[type="number"]{
     -moz-appearance: textfield;
   }
 </style>
