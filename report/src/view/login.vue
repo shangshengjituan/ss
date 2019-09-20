@@ -48,8 +48,8 @@ export default {
         password: '123456'
       },
       rules2: {
-        username: [{required: true, message: 'please enter your account', trigger: 'blur'}],
-        password: [{required: true, message: 'enter your password', trigger: 'blur'}]
+        username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+        password: [{required: true, message: '请输入密码', trigger: 'blur'}]
       },
       checked: false
     }
@@ -66,8 +66,8 @@ export default {
             this.$router.push({path: '/admin'})
           } else {
             this.logining = false
-            this.$alert('username or password wrong!', 'info', {
-              confirmButtonText: 'ok'
+            this.$alert('用户名或密码错误！', '提示：', {
+              confirmButtonText: '确认'
             })
           }
         } else {

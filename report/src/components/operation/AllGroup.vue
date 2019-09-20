@@ -63,6 +63,9 @@ export default {
   },
   created () {
     let _this = this
+    // this.$api.operation.allgroup(this.searchData).then(res => {
+    //   _this.tableData = res.groupLists
+    // })
     this.getList(this.searchData, function (data) {
       _this.tableData = data.groupLists
     })

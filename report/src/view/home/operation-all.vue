@@ -53,40 +53,12 @@ export default {
     AllSport,
     AllBuilding,
     AllGroup
-  },
-  methods: {
-    onSubmit (form) {
-      let news = this.form
-      let _this = this
-      console.log(news)
-      if (!this.newsContent) {
-        _this.isValue = true
-      }
-      this.$refs[form].validate((valid) => {
-        if (valid) {
-          news.newsContent = _this.newsContent
-          console.log(JSON.stringify(news))
-          this.$axios.post('/insertNews', JSON.stringify(news))
-            .then(rsp => {
-              console.log('insertNews success')
-              // console.log(rsp)
-              _this.$alert('新闻创建成功！', '标题名称', {
-                confirmButtonText: '确定',
-                callback: action => {
-                  _this.$router.push({path: '/sortnews'})
-                }
-              })
-            })
-            .catch(error => { console.log(error) })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    }
   }
 }
 </script>
 
 <style scoped>
+  .el-breadcrumb {
+    margin-bottom: 20px;
+  }
 </style>

@@ -1,9 +1,11 @@
 <template>
-  <div style="overflow: hidden;">
-    <div>尚昇集团</div>
-    <span style="float: left">江苏尚昇建设集团有限公司</span>
+  <div class="zhz-header">
+    <!--<img src="../assets/logo.png" style="height: 40px;float: left;padding: 10px" alt="">-->
+    <div style="float: left">
+      <span style="font-weight: bold">江苏尚昇建设集团有限公司</span>
+    </div>
     <div style="float: right">
-      管理员：<span>test</span>
+      当前用户：<span>测试员</span>
     </div>
   </div>
 </template>
@@ -26,5 +28,10 @@ export default {
 </script>
 
 <style scoped>
-
+.zhz-header {
+  padding: 0 20px;
+  overflow: hidden;
+  color: #ffffff;
+  line-height: 60px;
+}
 </style>
