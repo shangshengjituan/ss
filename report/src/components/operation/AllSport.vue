@@ -111,26 +111,25 @@ export default {
     }
   },
   created () {
-    let _this = this
-    this.getList('/selectsportform', this.searchData, function (data) {
-      _this.tableData = _this.changeData(data).sportLists
+    this.$api.operation.getSport(this.searchData).then(rsp => {
+      this.tableData = this.changeData(rsp.data).sportLists
     })
-    this.getList('/selectActivityForm', this.searchData1, function (data) {
-      _this.tableData1 = _this.changeData1(data).activityList
+    this.$api.operation.getActivity(this.searchData1).then(rsp => {
+      this.tableData1 = this.changeData1(rsp.data).activityList
     })
   },
   methods: {
-    getList (url, searchData, callback) {
-      this.$axios.get(url, {
-        params: searchData
-      })
-        .then(rsp => {
-          callback(rsp.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
+    // getList (url, searchData, callback) {
+    //   this.$axios.get(url, {
+    //     params: searchData
+    //   })
+    //     .then(rsp => {
+    //       callback(rsp.data)
+    //     })
+    //     .catch(error => {
+    //       console.log(error)
+    //     })
+    // },
     // 修改 /selectsportform 响应的数据
     changeData (data) {
       console.log(JSON.stringify(data))
@@ -175,16 +174,20 @@ export default {
       return data
     },
     searchList () {
-      let _this = this
-      this.getList('/selectsportform', this.searchData, function (data) {
-        _this.tableData = _this.changeData(data).sportLists
+      this.$api.operation.getSport(this.searchData).then(rsp => {
+        this.tableData = this.changeData(rsp.data).sportLists
       })
+      // this.getList('/selectsportform', this.searchData, function (data) {
+      //   _this.tableData = _this.changeData(data).sportLists
+      // })
     },
     searchList1 () {
-      let _this = this
-      this.getList('/selectActivityForm', this.searchData1, function (data) {
-        _this.tableData1 = _this.changeData1(data).activityList
+      this.$api.operation.getActivity(this.searchData1).then(rsp => {
+        this.tableData1 = this.changeData1(rsp.data).activityList
       })
+      // this.getList('/selectActivityForm', this.searchData1, function (data) {
+      //   _this.tableData1 = _this.changeData1(data).activityList
+      // })
     },
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === 0) {

@@ -170,7 +170,7 @@ export default {
         groupOther: '',
         groupRemark: '',
         // groupTotal: '',
-        groupEditor: '测试人',
+        groupEditor: this.$store.getters.userName,
         groupRent: '',
         value: [] // 暂存类型季度
       },
@@ -260,7 +260,8 @@ export default {
             type: 'warning'
           }).then(() => {
             // 提交
-            _this.$axios.post('/insertGroupForm', formDate)
+            _this.$api.operation.addGroup(formDate)
+            // _this.$axios.post('/insertGroupForm', formDate)
               .then(rsp => {
                 console.log(rsp.data)
                 let data = rsp.data

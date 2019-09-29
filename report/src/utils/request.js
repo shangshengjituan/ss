@@ -1,15 +1,22 @@
 import axios from 'axios'
+import store from '@/store'
 
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 const instance = axios.create({
-  baseURL: 'http://192.168.20.56:8081'
+  baseURL: 'http://192.168.20.203:8081'
 })
 
 // 请求拦截器
 instance.interceptors.request.use(
   config => {
     // 在发送请求之前做些什么
-    console.log(config)
+    console.log('request config:', config)
+    // console.log(store.state)
+    let token = store.getters.token
+    if (token) {
+      config.headers.common['Authorization'] = token
+    }
     return config
   },
   error => {

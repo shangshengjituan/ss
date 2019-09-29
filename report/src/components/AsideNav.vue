@@ -16,15 +16,15 @@
         <el-submenu index="1-1">
           <template slot="title">运营成本统计</template>
           <!--<router-link :to="{name:'AddOperation',params:{type:'group'}}">集团模块</router-link>-->
-          <el-menu-item index="/addoperation/group">集团模块</el-menu-item>
-          <el-menu-item index="/addoperation/building">建筑模块</el-menu-item>
-          <el-menu-item index="/addoperation/sport">文体模块</el-menu-item>
+          <el-menu-item index="/operation/add/group">集团模块</el-menu-item>
+          <el-menu-item index="/operation/add/building">建筑模块</el-menu-item>
+          <el-menu-item index="/operation/add/sport">文体模块</el-menu-item>
         </el-submenu>
           <el-submenu index="1-2">
             <template slot="title">运营成本汇总</template>
-            <el-menu-item index="/alloperation/group">集团模块</el-menu-item>
-            <el-menu-item index="/alloperation/building">建筑模块</el-menu-item>
-            <el-menu-item index="/alloperation/sport">文体模块</el-menu-item>
+            <el-menu-item index="/operation/all/group">集团模块</el-menu-item>
+            <el-menu-item index="/operation/all/building">建筑模块</el-menu-item>
+            <el-menu-item index="/operation/all/sport">文体模块</el-menu-item>
           </el-submenu>
         </el-submenu>
         <el-submenu index="2">

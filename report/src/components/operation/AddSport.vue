@@ -239,7 +239,7 @@ export default {
         sportOther: '',
         sportRemark: '',
         // sportTotal: '',
-        sportEditor: '测试员',
+        sportEditor: this.$store.getters.userName,
         value: [] // 暂存类型季度
       },
       rules: {
@@ -291,7 +291,7 @@ export default {
         activityEstimatedCost: '',
         activityActualCost: '',
         activityRemark: '',
-        activityEditor: '测试员'
+        activityEditor: this.$store.getters.userName
       },
       rules1: {
         activityYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
@@ -330,21 +330,21 @@ export default {
       this.sportData.sportQuarter = val[1] || '0'
     },
     validateData (formName) {
-      let _this = this
+      // let _this = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 将验证后的sportData数据增减字段为formDate后提交
-          let formData = _this.sportData
-          formData.sportTotal = _this.tempTotal
+          let formData = this.sportData
+          formData.sportTotal = this.tempTotal
           console.log(formData)
           // 提交确认框
-          _this.$confirm('提交后将无法修改，确认提交吗？', '提示', {
+          this.$confirm('提交后将无法修改，确认提交吗？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
             // 提交
-            _this.submitForm('/insertSportForm', formData)
+            this.submitForm(formData)
           }).catch(() => {
             console.log('cancel submit.')
           })
@@ -368,7 +368,7 @@ export default {
             type: 'warning'
           }).then(() => {
             // 提交
-            _this.submitForm('/insertActivityForm', formData)
+            _this.submitForm1(formData)
           }).catch(() => {
             console.log('cancel submit.')
           })
@@ -378,16 +378,15 @@ export default {
         }
       })
     },
-    submitForm (url, formDate) {
-      let _this = this
+    submitForm (formDate) {
       // 提交
-      this.$axios.post(url, formDate)
+      this.$api.operation.addSport(formDate)
         .then(rsp => {
           console.log(rsp.data)
           let data = rsp.data
           if (data.result === 500) {
             // 请勿重复填写
-            _this.$alert(data.resultText, '提示', {
+            this.$alert(data.resultText, '提示', {
               confirmButtonText: '确定',
               callback: action => {
                 console.log(action)
@@ -395,13 +394,42 @@ export default {
               }
             })
           } else if (data.result === 200) {
-            _this.$router.push({path: '/alloperation/sport'})
-            _this.$message({
+            this.$router.push({path: '/alloperation/sport'})
+            this.$message({
               message: '提交成功！',
               type: 'success'
             })
           } else if (data.result === 404) {
-            _this.$message({
+            this.$message({
+              message: '未知错误，提交失败。',
+              type: 'error'
+            })
+          }
+        })
+    },
+    submitForm1 (formDate) {
+      // 提交
+      this.$api.operation.addActivity(formDate)
+        .then(rsp => {
+          console.log(rsp.data)
+          let data = rsp.data
+          if (data.result === 500) {
+            // 请勿重复填写
+            this.$alert(data.resultText, '提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                console.log(action)
+                return false
+              }
+            })
+          } else if (data.result === 200) {
+            this.$router.push({path: '/alloperation/sport'})
+            this.$message({
+              message: '提交成功！',
+              type: 'success'
+            })
+          } else if (data.result === 404) {
+            this.$message({
               message: '未知错误，提交失败。',
               type: 'error'
             })

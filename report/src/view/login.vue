@@ -1,26 +1,26 @@
 <template>
   <div class="login-container">
     <el-form
-      :model="ruleForm2"
-      :rules="rules2"
+      :model="loginForm"
+      :rules="rules"
       status-icon
-      ref="ruleForm2"
+      ref="loginForm"
       label-position="left"
       label-width="0px"
       class="demo-ruleForm login-page">
       <h3 class="title">系统登录</h3>
-      <el-form-item prop="username">
+      <el-form-item prop="userNum">
         <el-input
           type="text"
-          v-model="ruleForm2.username"
+          v-model="loginForm.userNum"
           auto-complete="off"
-          placeholder="用户名"
+          placeholder="工号"
         ></el-input>
       </el-form-item>
-      <el-form-item prop="password">
+      <el-form-item prop="userPwd">
         <el-input
           type="password"
-          v-model="ruleForm2.password"
+          v-model="loginForm.userPwd"
           auto-complete="off"
           placeholder="密码"
         ></el-input>
@@ -43,35 +43,44 @@ export default {
   data () {
     return {
       logining: false,
-      ruleForm2: {
-        username: 'admin',
-        password: '123456'
+      loginForm: {
+        userNum: '00224',
+        userPwd: '12345'
       },
-      rules2: {
-        username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-        password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+      rules: {
+        userNum: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+        userPwd: [{required: true, message: '请输入密码', trigger: 'blur'}]
       },
       checked: false
     }
   },
   methods: {
     handleSubmit (event) {
-      this.$refs.ruleForm2.validate((valid) => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.logining = true
-          if (this.ruleForm2.username === 'admin' &&
-              this.ruleForm2.password === '123456') {
-            this.logining = false
-            sessionStorage.setItem('user', this.ruleForm2.username)
-            this.$router.push({path: '/admin'})
-          } else {
-            this.logining = false
-            this.$alert('用户名或密码错误！', '提示：', {
-              confirmButtonText: '确认'
-            })
+          let userInfo = {
+            userNum: this.loginForm.userNum,
+            userPwd: this.loginForm.userPwd
           }
+          // 登录
+          this.$store.dispatch('login', userInfo).then(rsp => {
+            console.log(rsp)
+            if (rsp.result === '200') {
+              this.$router.push({path: '/admin'})
+              this.logining = false
+            } else {
+              this.$alert(rsp.resultText, '提示：', {
+                confirmButtonText: '确定',
+                callback: () => {
+                  this.loginForm.userNum = ''
+                  this.loginForm.userPwd = ''
+                  this.logining = false
+                }
+              })
+            }
+          })
         } else {
-          console.log('error submit!')
           return false
         }
       })

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <span>当前用户：测试员</span>
+  <span>当前用户：{{username}}</span>
   <el-divider></el-divider>
   <el-row>
     <el-col :span="12">
@@ -14,8 +14,14 @@
 </template>
 
 <script>
+
 export default {
-  name: 'admin'
+  name: 'admin',
+  data () {
+    return {
+      username: this.$store.getters.userName
+    }
+  }
 }
 </script>
 

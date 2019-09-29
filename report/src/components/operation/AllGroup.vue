@@ -72,13 +72,11 @@ export default {
   },
   methods: {
     getList (searchData, callback) {
-      this.$axios.get('/selectgroupform', {
-        params: {
-          'groupYear': searchData.groupYear,
-          'groupEstimatedOrActual': searchData.groupEstimatedOrActual,
-          'departmentId': searchData.departmentId,
-          'plateId': searchData.plateId
-        }
+      this.$api.operation.getGroup({
+        'groupYear': searchData.groupYear,
+        'groupEstimatedOrActual': searchData.groupEstimatedOrActual,
+        'departmentId': searchData.departmentId,
+        'plateId': searchData.plateId
       })
         .then(rsp => {
           console.log(JSON.stringify(rsp.data))

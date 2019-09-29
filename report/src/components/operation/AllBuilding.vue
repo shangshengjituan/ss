@@ -75,13 +75,11 @@ export default {
   },
   methods: {
     getList (searchData, callback) {
-      this.$axios.get('/selectbuildingform', {
-        params: {
-          'buildingYear': searchData.buildingYear,
-          'buildingEstimatedOrActual': searchData.buildingEstimatedOrActual,
-          'departmentId': searchData.departmentId,
-          'plateId': searchData.plateId
-        }
+      this.$api.operation.getBuilding({
+        'buildingYear': searchData.buildingYear,
+        'buildingEstimatedOrActual': searchData.buildingEstimatedOrActual,
+        'departmentId': searchData.departmentId,
+        'plateId': searchData.plateId
       })
         .then(rsp => {
           console.log(JSON.stringify(rsp.data))

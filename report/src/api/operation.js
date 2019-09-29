@@ -12,19 +12,19 @@ const operation = {
   },
   // 建筑
   addBuilding (data) {
-    return axios.post('/insertGroupForm', data)
+    return axios.post('/insertBuildingForm', data)
   },
   getBuilding (data) {
-    return axios.get('/selectgroupform', {
+    return axios.get('/selectbuildingform', {
       params: data
     })
   },
   // 文体
   addSport (data) {
-    return axios.post('/insertGroupForm', data)
+    return axios.post('/insertSportForm', data)
   },
   getSport (data) {
-    return axios.get('/selectgroupform', {
+    return axios.get('/selectsportform', {
       params: data
     })
   },

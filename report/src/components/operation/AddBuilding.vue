@@ -140,7 +140,7 @@ export default {
         buildingOther: '',
         buildingRemark: '',
         // buildingTotal: '',
-        buildingEditor: '测试员',
+        buildingEditor: this.$store.getters.userName,
         value: [] // 暂存类型季度
       },
       rules: {
@@ -212,17 +212,18 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 将验证后的buildingData数据增减字段为formDate后提交
-          let formDate = _this.buildingData
-          formDate.buildingTotal = _this.tempTotal
+          let formDate = this.buildingData
+          formDate.buildingTotal = this.tempTotal
           console.log(formDate)
           // 提交确认框
-          _this.$confirm('提交后将无法修改，确认提交吗？', '提示', {
+          this.$confirm('提交后将无法修改，确认提交吗？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
             // 提交
-            _this.$axios.post('/insertBuildingForm', formDate)
+            _this.$api.operation.addBuilding(formDate)
+            // _this.$axios.post('/insertBuildingForm', formDate)
               .then(rsp => {
                 console.log(rsp.data)
                 let data = rsp.data
