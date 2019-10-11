@@ -2,14 +2,10 @@
 <div>
   <span>当前用户：{{username}}</span>
   <el-divider></el-divider>
-  <el-row>
-    <el-col :span="12">
-      <el-card>
+      <el-card style="width: 600px;height: 600px">
         <el-calendar>
         </el-calendar>
       </el-card>
-    </el-col>
-  </el-row>
 </div>
 </template>
 

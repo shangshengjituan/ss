@@ -1,7 +1,7 @@
 import axios from '@/utils/request'
 
 const user = {
-  // 集团
+  // 登录
   login (data) {
     return axios.post('/login', data)
   },

@@ -10,6 +10,9 @@ const operation = {
       params: data
     })
   },
+  updateGroup (data) {
+    return axios.post('/updateGroupForm', data)
+  },
   // 建筑
   addBuilding (data) {
     return axios.post('/insertBuildingForm', data)
@@ -18,6 +21,9 @@ const operation = {
     return axios.get('/selectbuildingform', {
       params: data
     })
+  },
+  updateBuilding (data) {
+    return axios.post('/updateBuildingForm', data)
   },
   // 文体
   addSport (data) {
@@ -35,6 +41,9 @@ const operation = {
     return axios.get('/selectActivityForm', {
       params: data
     })
+  },
+  updateSport (data) {
+    return axios.post('/updateSportForm', data)
   }
 }
 

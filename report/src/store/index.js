@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import $api from '@/api'
 import { asyncRoutes, constantRoutes } from '@/router'
+import router from '../router'
 // import user from './user'
 // import permission from './permission'
 // import getters from './getters'
@@ -15,7 +16,7 @@ Vue.use(Vuex)
  */
 function hasPermission (roles, route) {
   if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role) >= 0)
+    return roles.some(role => route.meta.roles.includes(role))
   } else {
     return true
   }
@@ -27,30 +28,62 @@ let store = new Vuex.Store({
     token: '',
     routers: constantRoutes,
     addRouters: [],
-    isRouters: false
-    // departmentId: '',
-    // departmentName: '',
-    // plateId: '',
-    // userDepartment: '',
-    // userId: '',
-    // userName: '',
-    // userNum: ''
+    // 预估实际季度选择
+    addType: [{
+      value: '1',
+      label: '预估'
+    }, {
+      value: '2',
+      label: '实际',
+      children: [{
+        value: '1',
+        label: '第一季度'
+      }, {
+        value: '2',
+        label: '第二季度'
+      }, {
+        value: '3',
+        label: '第三季度'
+      }, {
+        value: '4',
+        label: '第四季度'
+      }]
+    }],
+    // operation
+    tempGroup: {},
+    tempBuilding: {},
+    tempSport: {}
   },
   getters: {
     token: state => state.token,
     userName: state => state.user.userName,
     userId: state => state.user.userId,
     userNum: state => state.user.userNum,
-    userDepartment: state => state.user.userDepartment,
-    plateId: state => {
+    plateId: state => state.user.plateId,
+    // plateId转换为plateIdArr控制侧栏显示
+    plateIdArr: state => {
       let arr = []
       arr[0] = state.user.plateId
       return arr
     },
     departmentName: state => state.user.departmentName,
     departmentId: state => state.user.departmentId,
+    // 控制个别按钮，小功能
+    role: state => {
+      let tem = state.user.plateId
+      if (tem === '1' || tem === '2' || tem === '3') {
+        return 'leader'
+      } else {
+        return 'superLeader'
+      }
+    },
+    routers: state => state.routers,
     addRouters: state => state.addRouters,
-    isRouters: state => state.isRouters
+    addType: state => state.addType, // 预估实际季度选择
+    // operation
+    tempGroup: state => state.tempGroup,
+    tempBuilding: state => state.tempBuilding,
+    tempSport: state => state.tempSport
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -63,13 +96,19 @@ let store = new Vuex.Store({
       state.addRouters = routers
       state.routers = constantRoutes.concat(routers)
     },
-    MODIFY_ISROUTERS: (state) => {
-      state.isRouters = true
+    // operation中转
+    updateGroup: (state, data) => {
+      state.tempGroup = data
+    },
+    updateBuilding: (state, data) => {
+      state.tempBuilding = data
+    },
+    updateSport: (state, data) => {
+      state.tempSport = data
     }
   },
   actions: {
-    login ({ commit }, userInfo) {
-      console.log(userInfo)
+    login ({ commit, dispatch, getters }, userInfo) {
       return new Promise((resolve, reject) => {
         $api.user.login(userInfo).then(rsp => {
           let data = rsp.data
@@ -77,11 +116,13 @@ let store = new Vuex.Store({
           if (data.result === '200') {
             commit('SET_USER', data.user)
             commit('SET_TOKEN', data.token)
-            // // 生成可访问的路由表
-            // store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
-            //   router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-            //   next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-            // })
+            // 生成可访问的路由表
+            let roles = getters.plateIdArr
+            let userNum = getters.userNum
+            dispatch('generateRoutes', { roles, userNum }).then(() => { // 生成可访问的路由表
+              // console.log(JSON.stringify(getters.routers))
+              router.addRoutes(getters.addRouters) // 动态添加可访问路由表
+            })
           }
           resolve(rsp.data)
         }).catch(error => {
@@ -91,14 +132,26 @@ let store = new Vuex.Store({
     },
     generateRoutes ({ commit }, data) {
       return new Promise(resolve => {
+        console.log(data)
         const roles = data.roles
-        console.log(roles)
+        let num = data.userNum
         const accessedRouters = asyncRoutes.filter(v => {
-          if (roles.indexOf('admin') >= 0) return true
+          // 第一层 v
+          if (num === 'admin') return true // 测试账号
           if (hasPermission(roles, v)) {
             if (v.children && v.children.length > 0) {
+              // 第二层 child
               v.children = v.children.filter(child => {
                 if (hasPermission(roles, child)) {
+                  if (child.children && child.children.length > 0) {
+                    // 第三层 son
+                    child.children = child.children.filter(son => {
+                      if (hasPermission(roles, son)) {
+                        return son
+                      }
+                      return false
+                    })
+                  }
                   return child
                 }
                 return false
@@ -116,42 +169,5 @@ let store = new Vuex.Store({
     }
   }
 })
-
-/* const store = new Vuex.Store({
-  modules: {
-    user,
-    permission
-  },
-  getters: {
-    // token: state => state.user.token,
-    userName: state => state.user.user.userName,
-    userId: state => state.user.user.userId,
-    userNum: state => state.user.user.userNum,
-    userDepartment: state => state.user.user.userDepartment,
-    roles: state => {
-      let arr = []
-      arr[0] = state.user.user.plateId
-      return arr
-    },
-    departmentName: state => state.user.user.departmentName,
-    departmentId: state => state.user.user.departmentId,
-    // language: state => state.app.language,
-    // sidebar: state => state.app.sidebar,
-    // device: state => state.app.device,
-    // avatar: state => state.user.avatar,
-    // name: state => state.user.name,
-    // roles: state => state.user.roles,
-    permission_routers: state => state.permission.routers,
-    addRouters: state => state.permission.addRouters
-    // website: state => state.common.website,
-    // isLock: state => state.user.isLock,
-    // lockPasswd: state => state.user.lockPasswd,
-    // isFullScren: state => state.common.isFullScren,
-    // visitedViews: state => state.tagsView.visitedViews,
-    // cachedViews: state => state.tagsView.cachedViews,
-    // browserHeaderTitle: state => state.user.browserHeaderTitle,
-    // errorLogs: state => state.errorLog.logs
-  }
-}) */
 
 export default store

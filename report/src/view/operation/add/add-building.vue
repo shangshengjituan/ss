@@ -6,13 +6,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="单位名称" prop="departmentId">
-            <el-select v-model="buildingData.departmentId" placeholder="请选择部门">
-              <el-option label="明麓公司总工办" value="6"></el-option>
-              <el-option label="明麓公司经营部" value="7"></el-option>
-              <el-option label="明麓公司成本部" value="8"></el-option>
-              <el-option label="明麓新型建材公司" value="19"></el-option>
-              <el-option label="祥能管理公司" value="21"></el-option>
-            </el-select>
+            <el-input v-model="departmentName" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -123,8 +117,9 @@ export default {
   name: 'AddBuilding',
   data () {
     return {
+      departmentName: this.$store.getters.departmentName,
       buildingData: {
-        departmentId: '',
+        departmentId: this.$store.getters.departmentId,
         buildingYear: '',
         buildingQuarter: '', // 季度
         buildingEstimatedOrActual: '', // 预估实际
@@ -160,26 +155,7 @@ export default {
         buildingRent: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
       value: [],
-      options: [{
-        value: '1',
-        label: '预估'
-      }, {
-        value: '2',
-        label: '实际',
-        children: [{
-          value: '1',
-          label: '第一季度'
-        }, {
-          value: '2',
-          label: '第二季度'
-        }, {
-          value: '3',
-          label: '第三季度'
-        }, {
-          value: '4',
-          label: '第四季度'
-        }]
-      }],
+      options: this.$store.getters.addType, // 预估实际季度选择
       tempTotal: 0
     }
   },
@@ -188,7 +164,6 @@ export default {
       // 费用合计
       let _this = this
       let arr = Object.values(this.buildingData)
-      console.log(arr)
       let total = 0
       let filterArr = arr.filter(function (item, index, arr) {
         return typeof item === 'number' && !isNaN(item)
@@ -197,7 +172,6 @@ export default {
         total = total + item
         return total
       })
-      console.log(total)
       _this.tempTotal = total
       return total.toString().replace(/\B(?=(\d{3})+$)/g, ',')
     }
@@ -223,7 +197,7 @@ export default {
           }).then(() => {
             // 提交
             _this.$api.operation.addBuilding(formDate)
-            // _this.$axios.post('/insertBuildingForm', formDate)
+              // _this.$axios.post('/insertBuildingForm', formDate)
               .then(rsp => {
                 console.log(rsp.data)
                 let data = rsp.data
@@ -237,7 +211,7 @@ export default {
                     }
                   })
                 } else if (data.result === 200) {
-                  _this.$router.push({path: '/alloperation/building'})
+                  _this.$router.push({path: '/operation/all/building'})
                   _this.$message({
                     message: '提交成功！',
                     type: 'success'
@@ -269,5 +243,8 @@ export default {
   }
   input[type="number"]{
     -moz-appearance: textfield;
+  }
+  .el-breadcrumb {
+    margin-bottom: 20px;
   }
 </style>

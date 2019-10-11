@@ -5,7 +5,7 @@
       <span style="font-weight: bold">江苏尚昇建设集团有限公司</span>
     </div>
     <div style="float: right">
-      当前用户：<span>测试员</span>
+      当前用户：<span>{{userName}}</span>
     </div>
   </div>
 </template>
@@ -15,8 +15,7 @@ export default {
   name: 'HeaderNav',
   data () {
     return {
-      activeIndex: '1',
-      activeIndex2: '1'
+      userName: this.$store.getters.userName
     }
   },
   methods: {

@@ -24,6 +24,9 @@
             <el-button type="primary" @click="searchList"> 查询 </el-button>
           </el-form-item>
         </el-form>
+        <div v-show="role === 'superLeader'">
+          <el-divider content-position="left"><span class="txt-brand">汇总数据</span></el-divider>
+        </div>
         <el-table
           :data="tableData"
           style="width: 100%;margin-bottom: 20px;"
@@ -51,6 +54,48 @@
           <el-table-column prop="sportEditor" label="编制人"></el-table-column>
           <el-table-column prop="sportEditorDate" label="编制时间" width="120"></el-table-column>
         </el-table>
+        <div v-show="role === 'superLeader'">
+          <el-divider content-position="left"><span class="txt-brand">实际纵向综合</span></el-divider>
+          <el-table
+            :data="ActualTotal"
+            border
+            row-key="id"
+            :indent="0">
+            <el-table-column prop="sportSalary" label="工资"></el-table-column>
+            <el-table-column prop="sportTraining" label="培训费"></el-table-column>
+            <el-table-column prop="sportEntertain" label="招待费"></el-table-column>
+            <el-table-column prop="sportOperating" label="经营费"></el-table-column>
+            <el-table-column prop="sportRent" label="房租费"></el-table-column>
+            <el-table-column prop="sportHydropower" label="水电费"></el-table-column>
+            <el-table-column prop="sportMeal" label="伙食费"></el-table-column>
+            <el-table-column prop="sportAdministrative" label="行政费用"></el-table-column>
+            <el-table-column prop="sportFinance" label="财务费用"></el-table-column>
+            <el-table-column prop="sportTaxes" label="各类税费"></el-table-column>
+            <el-table-column prop="sportPropaganda" label="宣传费用"></el-table-column>
+            <el-table-column prop="sportOther" label="其他费用"></el-table-column>
+            <el-table-column prop="sportTotal" label="费用合计"></el-table-column>
+          </el-table>
+          <el-divider content-position="left"><span class="txt-brand">预估纵向综合</span></el-divider>
+          <el-table
+            :data="EstimateTotal"
+            border
+            row-key="id"
+            :indent="0">
+            <el-table-column prop="sportSalary" label="工资"></el-table-column>
+            <el-table-column prop="sportTraining" label="培训费"></el-table-column>
+            <el-table-column prop="sportEntertain" label="招待费"></el-table-column>
+            <el-table-column prop="sportOperating" label="经营费"></el-table-column>
+            <el-table-column prop="sportRent" label="房租费"></el-table-column>
+            <el-table-column prop="sportHydropower" label="水电费"></el-table-column>
+            <el-table-column prop="sportMeal" label="伙食费"></el-table-column>
+            <el-table-column prop="sportAdministrative" label="行政费用"></el-table-column>
+            <el-table-column prop="sportFinance" label="财务费用"></el-table-column>
+            <el-table-column prop="sportTaxes" label="各类税费"></el-table-column>
+            <el-table-column prop="sportPropaganda" label="宣传费用"></el-table-column>
+            <el-table-column prop="sportOther" label="其他费用"></el-table-column>
+            <el-table-column prop="sportTotal" label="费用合计"></el-table-column>
+          </el-table>
+        </div>
       </el-tab-pane>
       <!-- 赛事活动 -->
       <el-tab-pane label="赛事活动">
@@ -97,10 +142,13 @@ export default {
       searchData: {
         sportYear: '2019',
         sportEstimatedOrActual: '0', // 类型
-        departmentId: 0, // session，所属部门，权限
-        plateId: '3' // session，所属板块
+        departmentId: this.$store.getters.departmentId, // store 所属部门，权限
+        plateId: this.$store.getters.plateId // store 所属板块
       },
       tableData: [],
+      ActualTotal: [],
+      EstimateTotal: [],
+      role: this.$store.getters.role,
       searchData1: {
         activityYear: '2019'
         // sportEstimatedOrActual: '0', // 类型
@@ -113,23 +161,14 @@ export default {
   created () {
     this.$api.operation.getSport(this.searchData).then(rsp => {
       this.tableData = this.changeData(rsp.data).sportLists
+      this.ActualTotal = rsp.data.ActualTotal
+      this.EstimateTotal = rsp.data.EstimateTotal
     })
     this.$api.operation.getActivity(this.searchData1).then(rsp => {
       this.tableData1 = this.changeData1(rsp.data).activityList
     })
   },
   methods: {
-    // getList (url, searchData, callback) {
-    //   this.$axios.get(url, {
-    //     params: searchData
-    //   })
-    //     .then(rsp => {
-    //       callback(rsp.data)
-    //     })
-    //     .catch(error => {
-    //       console.log(error)
-    //     })
-    // },
     // 修改 /selectsportform 响应的数据
     changeData (data) {
       console.log(JSON.stringify(data))
@@ -176,48 +215,31 @@ export default {
     searchList () {
       this.$api.operation.getSport(this.searchData).then(rsp => {
         this.tableData = this.changeData(rsp.data).sportLists
+        this.ActualTotal = rsp.data.ActualTotal
+        this.EstimateTotal = rsp.data.EstimateTotal
       })
-      // this.getList('/selectsportform', this.searchData, function (data) {
-      //   _this.tableData = _this.changeData(data).sportLists
-      // })
     },
     searchList1 () {
       this.$api.operation.getActivity(this.searchData1).then(rsp => {
         this.tableData1 = this.changeData1(rsp.data).activityList
       })
-      // this.getList('/selectActivityForm', this.searchData1, function (data) {
-      //   _this.tableData1 = _this.changeData1(data).activityList
-      // })
     },
-    objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
-        if (rowIndex % 2 === 0) {
-          return {
-            rowspan: 2,
-            colspan: 1
-          }
-        } else {
-          return {
-            rowspan: 0,
-            colspan: 0
-          }
-        }
-      }
+    handleClick (id) {
+      console.log(id)
     }
   }
 }
 </script>
 
 <style>
-  .o-container .el-form,
   .o-container .el-table {
-    padding: 10px;
     margin-bottom: 10px;
   }
   .o-container .el-form-item {
     margin: 10px;
   }
   .o-container .el-form {
+    padding: 10px;
     background: #F2F2F2;
     margin: 20px 0;
   }
@@ -226,5 +248,12 @@ export default {
   }
   .o-container .expanded {
     background: #000;
+  }
+  .el-divider {
+    background-color: #409EFF;
+  }
+  .txt-brand {
+    color: #409EFF;
+    font-weight: bold;
   }
 </style>

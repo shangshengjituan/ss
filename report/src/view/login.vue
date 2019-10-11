@@ -8,7 +8,7 @@
       label-position="left"
       label-width="0px"
       class="demo-ruleForm login-page">
-      <h3 class="title">系统登录</h3>
+      <h3 class="title">尚昇系统登录</h3>
       <el-form-item prop="userNum">
         <el-input
           type="text"

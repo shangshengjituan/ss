@@ -6,7 +6,8 @@
       </el-header>
       <el-container class="zhz-container">
         <el-aside width="200px">
-          <aside-nav></aside-nav>
+          <sidebar :routes="routes"></sidebar>
+          <!--<aside-nav></aside-nav>-->
         </el-aside>
         <el-main>
           <router-view/>
@@ -23,35 +24,21 @@
 import HeaderNav from '../components/HeaderNav'
 import AsideNav from '../components/AsideNav'
 import FooterMsg from '../components/FooterMsg'
+import Sidebar from '../components/Sidebar'
 
 export default {
-  name: 'home',
+  name: 'layout',
   components: {
+    Sidebar,
     HeaderNav,
     AsideNav,
     FooterMsg
   },
-  created () {
-    /* this.$axios.get('/selectAll', {
-      params: {
-        page: 1,
-        size: 10
-      }
-    })
-      .then(rsp => { console.log(rsp) })
-      .catch(error => { console.log(error) }) */
-    /* // 这里的请求参数不需要处理，按照之前的书写方式即可。
-    this.$axios.post('/25-3', {
-      id: '13030300',
-      showapi_appid: '231235',
-      showapi_test_draft: false,
-      showapi_timestamp: '20180228110925',
-      showapi_sign: '437f31128631e33542ad23a65678e709'
-    })
-      .then(rsp => {
-        console.log('success:')
-        console.log(rsp)
-      }) */
+  data () {
+    console.log(this.$store.getters.routers)
+    return {
+      routes: this.$store.getters.routers
+    }
   }
 }
 </script>

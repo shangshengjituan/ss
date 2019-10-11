@@ -6,12 +6,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="单位名称" prop="departmentId">
-            <el-select v-model="groupData.departmentId" placeholder="请选择部门">
-              <el-option label="集团公司管理层" value="1"></el-option>
-              <el-option label="企业发展中心" value="2"></el-option>
-              <el-option label="智能服务中心" value="3"></el-option>
-              <el-option label="财务管理中心" value="4"></el-option>
-            </el-select>
+            <el-input v-model="departmentName" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -149,8 +144,9 @@ export default {
   name: 'AddGroup',
   data () {
     return {
+      departmentName: this.$store.getters.departmentName,
       groupData: {
-        departmentId: '',
+        departmentId: this.$store.getters.departmentId,
         groupYear: '',
         groupQuarter: '', // 季度
         groupEstimatedOrActual: '', // 预估实际
@@ -196,27 +192,7 @@ export default {
         groupEditor: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupRent: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
-      value: [],
-      options: [{
-        value: '1',
-        label: '预估'
-      }, {
-        value: '2',
-        label: '实际',
-        children: [{
-          value: '1',
-          label: '第一季度'
-        }, {
-          value: '2',
-          label: '第二季度'
-        }, {
-          value: '3',
-          label: '第三季度'
-        }, {
-          value: '4',
-          label: '第四季度'
-        }]
-      }],
+      options: this.$store.getters.addType, // 预估实际季度选择
       tempTotal: 0
     }
   },
@@ -261,7 +237,7 @@ export default {
           }).then(() => {
             // 提交
             _this.$api.operation.addGroup(formDate)
-            // _this.$axios.post('/insertGroupForm', formDate)
+              // _this.$axios.post('/insertGroupForm', formDate)
               .then(rsp => {
                 console.log(rsp.data)
                 let data = rsp.data
@@ -275,7 +251,7 @@ export default {
                     }
                   })
                 } else if (data.result === 200) {
-                  _this.$router.push({path: '/alloperation/group'})
+                  _this.$router.push({path: '/operation/all/group'})
                   _this.$message({
                     message: '提交成功！',
                     type: 'success'
@@ -307,5 +283,8 @@ export default {
   }
   input[type="number"] {
     -moz-appearance: textfield;
+  }
+  .el-breadcrumb {
+    margin-bottom: 20px;
   }
 </style>
