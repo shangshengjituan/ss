@@ -5,7 +5,7 @@
     <el-form :model="buildingData" :rules="rules" ref="buildingData" label-width="110px" label-position="right" >
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="单位名称" prop="departmentId">
+          <el-form-item label="单位名称">
             <el-input v-model="departmentName" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
@@ -139,7 +139,6 @@ export default {
         value: [] // 暂存类型季度
       },
       rules: {
-        departmentId: [{ required: true, message: '请选择部门', trigger: 'change' }],
         buildingYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
         value: [{ type: 'array', required: true, message: '请选择类型', trigger: 'change' }],
         buildingSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],
@@ -154,7 +153,6 @@ export default {
         buildingOther: [{ required: true, message: '请输入金额', trigger: 'change' }],
         buildingRent: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
-      value: [],
       options: this.$store.getters.addType, // 预估实际季度选择
       tempTotal: 0
     }
@@ -237,13 +235,6 @@ export default {
 </script>
 
 <style>
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-  input[type="number"]{
-    -moz-appearance: textfield;
-  }
   .el-breadcrumb {
     margin-bottom: 20px;
   }

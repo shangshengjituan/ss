@@ -26,7 +26,6 @@ export default {
   computed: {
     fatherPath () {
       // 这里直接获取路由配置的 '/' 项
-      console.log(this.$router.options.routes[1].path)
       return '/'
     }
   }

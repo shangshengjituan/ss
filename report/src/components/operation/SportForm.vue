@@ -1,12 +1,10 @@
 <template>
-  <el-form :model="sportData" :rules="rules" ref="sportData" label-width="110px" label-position="right" >
+  <el-form :model="sportData" :rules="rules" ref="sportData" label-width="110px" label-position="right" @validate="handleSum">
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="单位名称" prop="departmentId">
-          <el-select v-model="sportData.departmentId" placeholder="请选择部门">
-            <el-option label="健和公司" value="22"></el-option>
-            <el-option label="泉湖圣竟公司" value="23"></el-option>
-          </el-select>
+        <el-form-item label="单位名称">
+          <span>{{sportData.departmentName}}</span>
+          <!--<el-input v-model="sportData.departmentName" :readonly="true"></el-input>-->
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -22,10 +20,8 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="明细类型" prop="value">
-          <el-cascader
-            v-model="sportData.value"
-            :options="options"
-            @change="handleChange"></el-cascader>
+          <span>{{sportData.sportType}}</span>
+          <!--<el-input v-model="sportData.sportType" :readonly="true"></el-input>-->
         </el-form-item>
       </el-col>
     </el-row>
@@ -103,7 +99,7 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="费用合计">
-          <span>{{totalCost}} 元</span>
+          <span>{{tempTotal}} 元</span>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -113,17 +109,79 @@
       </el-col>
     </el-row>
     <el-form-item>
-      <el-button type="primary" @click="validateData('sportData')">立即创建</el-button>
+      <el-button @click="handleCancel">取 消</el-button>
+      <el-button type="primary" @click="handleConfirm('sportData')">确 定</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-  export default {
-    name: 'SportForm'
+export default {
+  name: 'SportForm',
+  props: {
+    formData: {
+      type: Object
+    }
+  },
+  watch: {
+    formData: {
+      handler (newValue, oldValue) {
+        this.sportData = newValue
+      },
+      deep: true
+    }
+  },
+  data () {
+    return {
+      sportData: this.formData,
+      rules: {
+        sportSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportTraining: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportEntertain: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportOperating: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportRent: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportHydropower: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportMeal: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportAdministrative: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportFinance: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportTaxes: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportOther: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        sportPropaganda: [{ required: true, message: '请输入金额', trigger: 'change' }]
+      },
+      tempTotal: this.formData.sportTotal.toString().replace(/\B(?=(\d{3})+$)/g, ' , ')
+    }
+  },
+  methods: {
+    // 合计
+    handleSum () {
+      let total = this.sportData.sportSalary + this.sportData.sportTraining + this.sportData.sportEntertain +
+        this.sportData.sportOperating + this.sportData.sportRent + this.sportData.sportHydropower +
+        this.sportData.sportMeal + this.sportData.sportAdministrative + this.sportData.sportFinance +
+        this.sportData.sportTaxes + this.sportData.sportOther + this.sportData.sportPropaganda
+      console.log(total)
+      this.sportData.sportTotal = total
+      this.tempTotal = total.toString().replace(/\B(?=(\d{3})+$)/g, ' , ')
+    },
+    // 取消修改
+    handleCancel () {
+      this.$emit('cancel')
+    },
+    // 确定修改
+    handleConfirm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // 将验证后的buildingData数据增减字段为sportData后提交
+          console.log(JSON.stringify(this.sportData))
+          this.$emit('confirm', this.sportData)
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    }
   }
+}
 </script>
 
-<style scoped>
-
+<style>
 </style>

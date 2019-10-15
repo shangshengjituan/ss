@@ -14,11 +14,13 @@
           type="year"
           format="yyyy"
           value-format="yyyy"
+          :editable="false"
+          :clearable="false"
           placeholder="请选择年份">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="searchList"> 查询 </el-button>
+        <el-button type="primary" @click="getList"> 查询 </el-button>
       </el-form-item>
     </el-form>
     <div v-show="role === 'superLeader'">
@@ -32,7 +34,13 @@
       header-cell-class-name="header-row"
       :tree-props="{children: 'quarterCostList'}">
       <el-table-column prop="departmentName" label="部门" width="160"></el-table-column>
-      <el-table-column prop="buildingEOA" label="类型" width="60"></el-table-column>
+      <el-table-column prop="buildingEOA" label="类型" width="68">
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.buildingEstimatedOrActual === '1' ? 'primary' : 'warning'"
+            disable-transitions>{{ scope.row.buildingEOA }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="buildingQ" label="季度" width="80"></el-table-column>
       <el-table-column prop="buildingSalary" label="工资"></el-table-column>
       <el-table-column prop="buildingAdministrative" label="行政费用"></el-table-column>
@@ -51,17 +59,19 @@
       <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="60">
         <template slot-scope="scope">
           <el-button
-            v-show="scope.row.groupQ !== '全年'" @click="clickUpdate(scope.row)"
+            v-show="scope.row.buildingQuarter !== '0' || scope.row.buildingEstimatedOrActual !== '2'"
+            @click="clickUpdate(scope.row)"
             type="text" size="small">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div v-show="role === 'superLeader'">
-      <el-divider content-position="left"><span class="txt-brand">实际纵向综合</span></el-divider>
+      <el-divider content-position="left"><span class="txt-brand">实际 合计</span></el-divider>
       <el-table
         :data="ActualTotal"
         border
         row-key="id"
+        header-cell-class-name="header-row"
         :indent="0">
         <el-table-column prop="buildingSalary" label="工资"></el-table-column>
         <el-table-column prop="buildingAdministrative" label="行政费用"></el-table-column>
@@ -75,11 +85,12 @@
         <el-table-column prop="buildingOther" label="其他费用"></el-table-column>
         <el-table-column prop="buildingTotal" label="费用合计"></el-table-column>
       </el-table>
-      <el-divider content-position="left"><span class="txt-brand">预估纵向综合</span></el-divider>
+      <el-divider content-position="left"><span class="txt-brand">预估 合计</span></el-divider>
       <el-table
         :data="EstimateTotal"
         border
         row-key="id"
+        header-cell-class-name="header-row"
         :indent="0">
         <el-table-column prop="buildingSalary" label="工资"></el-table-column>
         <el-table-column prop="buildingAdministrative" label="行政费用"></el-table-column>
@@ -123,11 +134,7 @@ export default {
     }
   },
   created () {
-    this.getList(this.searchData, data => {
-      this.buildingLists = data.buildingLists
-      this.ActualTotal = data.ActualTotal
-      this.EstimateTotal = data.EstimateTotal
-    })
+    this.getList()
   },
   computed: {
     tableData: {
@@ -140,16 +147,13 @@ export default {
     }
   },
   methods: {
-    getList (searchData, callback) {
-      this.$api.operation.getBuilding({
-        'buildingYear': searchData.buildingYear,
-        'buildingEstimatedOrActual': searchData.buildingEstimatedOrActual,
-        'departmentId': searchData.departmentId,
-        'plateId': searchData.plateId
-      })
+    getList () {
+      this.$api.operation.getBuilding(this.searchData)
         .then(rsp => {
           console.log('getBuilding Success')
-          callback(rsp.data)
+          this.buildingLists = rsp.data.buildingLists
+          this.ActualTotal = rsp.data.ActualTotal
+          this.EstimateTotal = rsp.data.EstimateTotal
         })
         .catch(error => {
           console.log(error)
@@ -187,13 +191,6 @@ export default {
       })
       return list
     },
-    searchList () {
-      this.getList(this.searchData, data => {
-        this.buildingLists = data.buildingLists
-        this.ActualTotal = data.ActualTotal
-        this.EstimateTotal = data.EstimateTotal
-      })
-    },
     // 点击编辑，跳出修改框
     clickUpdate (data) {
       // console.log(data)
@@ -209,11 +206,7 @@ export default {
           let data = rsp.data
           if (data.result === '200') {
             this.$message.success('修改成功！')
-            this.getList(this.searchData, data => {
-              this.buildingLists = data.buildingLists
-              this.ActualTotal = data.ActualTotal
-              this.EstimateTotal = data.EstimateTotal
-            })
+            this.getList()
           } else {
             this.$message.error('修改失败：' + data.resultText)
           }
@@ -226,29 +219,4 @@ export default {
 </script>
 
 <style>
-  .o-container .el-table {
-    margin-bottom: 10px;
-  }
-  .o-container .el-form-item {
-    margin: 10px;
-  }
-  .o-container .search-form {
-    padding: 10px;
-    border: 1px solid #F2F2F2;
-    margin: 20px 0;
-  }
-  .o-container .el-divider {
-    background-color: #409EFF;
-  }
-  .o-container .txt-brand {
-    color: #409EFF;
-    font-weight: bold;
-  }
-  .o-container .header-row {
-    background: #F2F2F2;
-    text-align: center;
-  }
-  .o-container .el-dialog {
-    width: 80%;
-  }
 </style>

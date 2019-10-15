@@ -113,7 +113,7 @@
     </el-form-item>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="费用合计" prop="groupTotal">
+        <el-form-item label="费用合计">
           <span>{{tempTotal}} 元</span>
         </el-form-item>
       </el-col>
@@ -138,6 +138,14 @@ export default {
       type: Object
     }
   },
+  watch: {
+    formData: {
+      handler (newValue, oldValue) {
+        this.groupData = newValue
+      },
+      deep: true
+    }
+  },
   data () {
     return {
       groupData: this.formData,
@@ -159,8 +167,6 @@ export default {
         groupRent: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupOther: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
-      value: [],
-      options: this.$store.getters.addType, // 预估实际季度选择
       tempTotal: this.formData.groupTotal.toString().replace(/\B(?=(\d{3})+$)/g, ' , ')
     }
   },
@@ -172,7 +178,6 @@ export default {
         this.groupData.groupOperating + this.groupData.groupFinance + this.groupData.groupTaxes +
         this.groupData.groupAudit + this.groupData.groupLawyer + this.groupData.groupCertificate +
         this.groupData.groupMeal + this.groupData.groupOther + this.groupData.groupRent
-      console.log(total)
       this.groupData.groupTotal = total
       this.tempTotal = total.toString().replace(/\B(?=(\d{3})+$)/g, ' , ')
     },
@@ -198,11 +203,4 @@ export default {
 </script>
 
 <style>
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-  input[type="number"] {
-    -moz-appearance: textfield;
-  }
 </style>

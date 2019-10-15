@@ -44,6 +44,9 @@ const operation = {
   },
   updateSport (data) {
     return axios.post('/updateSportForm', data)
+  },
+  updateActivity (data) {
+    return axios.post('/updateActivityForm', data)
   }
 }
 

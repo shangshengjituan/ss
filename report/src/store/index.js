@@ -3,9 +3,7 @@ import Vuex from 'vuex'
 import $api from '@/api'
 import { asyncRoutes, constantRoutes } from '@/router'
 import router from '../router'
-// import user from './user'
-// import permission from './permission'
-// import getters from './getters'
+// import createVuexAlong from 'vuex-along'
 
 Vue.use(Vuex)
 
@@ -48,11 +46,7 @@ let store = new Vuex.Store({
         value: '4',
         label: '第四季度'
       }]
-    }],
-    // operation
-    tempGroup: {},
-    tempBuilding: {},
-    tempSport: {}
+    }]
   },
   getters: {
     token: state => state.token,
@@ -79,11 +73,7 @@ let store = new Vuex.Store({
     },
     routers: state => state.routers,
     addRouters: state => state.addRouters,
-    addType: state => state.addType, // 预估实际季度选择
-    // operation
-    tempGroup: state => state.tempGroup,
-    tempBuilding: state => state.tempBuilding,
-    tempSport: state => state.tempSport
+    addType: state => state.addType // 预估实际季度选择
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -92,19 +82,9 @@ let store = new Vuex.Store({
     SET_USER: (state, user) => {
       state.user = user
     },
-    SET_ROUTERS: (state, routers) => {
-      state.addRouters = routers
-      state.routers = constantRoutes.concat(routers)
-    },
-    // operation中转
-    updateGroup: (state, data) => {
-      state.tempGroup = data
-    },
-    updateBuilding: (state, data) => {
-      state.tempBuilding = data
-    },
-    updateSport: (state, data) => {
-      state.tempSport = data
+    SET_ROUTERS: (state, r) => {
+      state.addRouters = r
+      state.routers = constantRoutes.concat(r)
     }
   },
   actions: {
@@ -121,6 +101,11 @@ let store = new Vuex.Store({
             let userNum = getters.userNum
             dispatch('generateRoutes', { roles, userNum }).then(() => { // 生成可访问的路由表
               // console.log(JSON.stringify(getters.routers))
+              // let children = getters.addRouters
+              // let layout = layoutRoutes
+              // layout[0].children = children
+              // console.log(JSON.stringify(layout))
+              // router.addRoutes(layout)
               router.addRoutes(getters.addRouters) // 动态添加可访问路由表
             })
           }
@@ -132,7 +117,6 @@ let store = new Vuex.Store({
     },
     generateRoutes ({ commit }, data) {
       return new Promise(resolve => {
-        console.log(data)
         const roles = data.roles
         let num = data.userNum
         const accessedRouters = asyncRoutes.filter(v => {
@@ -156,10 +140,8 @@ let store = new Vuex.Store({
                 }
                 return false
               })
-              return v
-            } else {
-              return v
             }
+            return v
           }
           return false
         })
@@ -168,6 +150,7 @@ let store = new Vuex.Store({
       })
     }
   }
+  // plugins: [createVuexAlong()]
 })
 
 export default store

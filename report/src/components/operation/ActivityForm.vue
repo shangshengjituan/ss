@@ -78,11 +78,55 @@
 </template>
 
 <script>
-  export default {
-    name: 'ActivityForm'
+export default {
+  name: 'ActivityForm',
+  props: {
+    formData: {
+      type: Object
+    }
+  },
+  watch: {
+    formData: {
+      handler (newValue, oldValue) {
+        this.activityData = newValue
+      },
+      deep: true
+    }
+  },
+  data () {
+    return {
+      activityData: this.formData,
+      rules: {
+        activityName: [{ required: true, message: '请输入赛事活动名称', trigger: 'change' }],
+        activityTime: [{ required: true, message: '请输入赛事活动时间', trigger: 'change' }],
+        activityLocation: [{ required: true, message: '请输入赛事活动地点', trigger: 'change' }],
+        activityOperatingUnit: [{ required: true, message: '请输入赛事运营单位', trigger: 'change' }],
+        activityEstimatedCost: [{ required: true, message: '请输入金额', trigger: 'change' }],
+        activityActualCost: [{ required: true, message: '请输入金额', trigger: 'change' }]
+      }
+    }
+  },
+  methods: {
+    // 取消修改
+    handleCancel () {
+      this.$emit('cancel')
+    },
+    // 确定修改
+    handleConfirm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // 将验证后的buildingData数据增减字段为groupData后提交
+          console.log(JSON.stringify(this.activityData))
+          this.$emit('confirm', this.activityData)
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    }
   }
+}
 </script>
 
-<style scoped>
-
+<style>
 </style>

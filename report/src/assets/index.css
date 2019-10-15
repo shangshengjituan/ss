@@ -1,0 +1,40 @@
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.o-container .el-table__expand-icon {
+  float: right;
+}
+/*.o-container .expanded {*/
+  /*background: #F2F2F2;*/
+/*}*/
+.o-container .el-table {
+  margin-bottom: 10px;
+}
+.o-container .el-form-item {
+  margin: 10px;
+}
+.o-container .search-form {
+  padding: 10px;
+  border: 1px solid #F2F2F2;
+  margin: 20px 0;
+}
+.o-container .el-divider {
+  background-color: #409EFF;
+}
+.o-container .txt-brand {
+  color: #409EFF;
+  font-weight: bold;
+}
+.o-container .header-row {
+  background: #F0F9EB;
+  text-align: center;
+}
+.o-container .el-dialog {
+  width: 80%;
+}

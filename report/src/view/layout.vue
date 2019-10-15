@@ -35,7 +35,7 @@ export default {
     FooterMsg
   },
   data () {
-    console.log(this.$store.getters.routers)
+    // console.log(this.$store.getters.routers)
     return {
       routes: this.$store.getters.routers
     }

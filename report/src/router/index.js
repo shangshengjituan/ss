@@ -78,7 +78,7 @@ Vue.use(Router)
 export const constantRoutes = [
   {
     path: '/', // 项目第一个页面路径为/ ，将它重定向到/login
-    redirect: '/login',
+    redirect: '/admin',
     component: Layout,
     children: [{
       path: '/admin',
@@ -93,13 +93,29 @@ export const constantRoutes = [
   }
 ]
 
+// export const constantRoutes = [
+//   {
+//     path: '/login',
+//     name: 'Login',
+//     component: Login
+//   }
+// ]
+
+// export const layoutRoutes = [
+//   {
+//     path: '/', // 项目第一个页面路径为/ ，将它重定向到/login
+//     component: Layout,
+//     redirect: '/login'
+//   }
+// ]
+
 // 异步挂载的路由
 export const asyncRoutes = [
   {
     path: '/operation',
     name: 'Operation',
     component: Layout,
-    meta: {title: '运营成本统计'},
+    meta: {title: '运营成本'},
     children: [{
       path: 'add',
       name: 'Add',
@@ -144,6 +160,35 @@ export const asyncRoutes = [
           component: () => import('@/view/operation/all/all-sport')
         }
       ]
+    }]
+  },
+  {
+    path: '/program',
+    name: 'Program',
+    component: Layout,
+    meta: {title: '项目明细'},
+    children: [{
+      path: 'add',
+      name: 'ProgramAdd',
+      component: () => import('@/view/program/add/index'),
+      meta: {title: '新增表单', roles: ['1', '2', '3']},
+      children: [{
+        path: 'costlabor',
+        name: 'AddCostLabor',
+        meta: {title: '人工费明细统计', roles: ['1']},
+        component: () => import('@/view/program/add/cost-labor')
+      }]
+    }, {
+      path: 'all',
+      name: 'ProgramAll',
+      component: () => import('@/view/program/all/index'),
+      meta: {title: '表单汇总', roles: ['1', '2', '3']},
+      children: [{
+        path: 'costlabor',
+        name: 'AllCostLabor',
+        meta: {title: '人工费明细统计', roles: ['1']},
+        component: () => import('@/view/program/all/cost-labor')
+      }]
     }]
   },
   {

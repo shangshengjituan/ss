@@ -6,11 +6,8 @@
       <el-form :model="sportData" :rules="rules" ref="sportData" label-width="110px" label-position="right" >
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="单位名称" prop="departmentId">
-              <el-select v-model="sportData.departmentId" placeholder="请选择部门">
-                <el-option label="健和公司" value="22"></el-option>
-                <el-option label="泉湖圣竟公司" value="23"></el-option>
-              </el-select>
+            <el-form-item label="单位名称">
+              <el-input v-model="departmentName" :readonly="true"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -234,7 +231,6 @@ export default {
         value: [] // 暂存类型季度
       },
       rules: {
-        departmentId: [{ required: true, message: '请选择部门', trigger: 'change' }],
         sportYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
         value: [{ type: 'array', required: true, message: '请选择类型', trigger: 'change' }],
         sportSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],
@@ -248,10 +244,8 @@ export default {
         sportFinance: [{ required: true, message: '请输入金额', trigger: 'change' }],
         sportTaxes: [{ required: true, message: '请输入金额', trigger: 'change' }],
         sportOther: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        sportEditor: [{ required: true, message: '请输入金额', trigger: 'change' }],
         sportPropaganda: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
-      value: [],
       options: this.$store.getters.addType, // 预估实际季度选择
       tempTotal: 0,
       activityData: {
@@ -386,13 +380,6 @@ export default {
 </script>
 
 <style>
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-  input[type="number"] {
-    -moz-appearance: textfield;
-  }
   .el-breadcrumb {
     margin-bottom: 20px;
   }

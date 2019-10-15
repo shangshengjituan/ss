@@ -113,6 +113,14 @@ export default {
       type: Object
     }
   },
+  watch: {
+    formData: {
+      handler (newValue, oldValue) {
+        this.buildingData = newValue
+      },
+      deep: true
+    }
+  },
   data () {
     return {
       buildingData: this.formData,
@@ -129,8 +137,6 @@ export default {
         buildingTaxes: [{ required: true, message: '请输入金额', trigger: 'change' }],
         buildingOther: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
-      value: [],
-      options: this.$store.getters.addType, // 预估实际季度选择
       tempTotal: this.formData.buildingTotal.toString().replace(/\B(?=(\d{3})+$)/g, ' , ')
     }
   },
@@ -167,11 +173,4 @@ export default {
 </script>
 
 <style>
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-  input[type="number"] {
-    -moz-appearance: textfield;
-  }
 </style>

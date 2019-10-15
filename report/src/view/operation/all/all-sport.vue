@@ -3,9 +3,9 @@
     <el-tabs type="border-card">
       <!-- 文体板块单位 -->
       <el-tab-pane label="文体板块单位">
-        <el-form :inline="true" :model="searchData">
+        <el-form class="search-form" :inline="true" :model="searchData">
           <el-form-item label="类型：">
-            <el-select v-model="searchData.sportEstimatedOrActual" placeholder="类型">
+            <el-select v-model="searchData.sportEstimatedOrActual" placeholder="类型" value="">
               <el-option label="全部" value="0"></el-option>
               <el-option label="预估" value="1"></el-option>
               <el-option label="实际" value="2"></el-option>
@@ -17,11 +17,13 @@
               type="year"
               format="yyyy"
               value-format="yyyy"
+              :editable="false"
+              :clearable="false"
               placeholder="请选择年份">
             </el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="searchList"> 查询 </el-button>
+            <el-button type="primary" @click="getSportList"> 查询 </el-button>
           </el-form-item>
         </el-form>
         <div v-show="role === 'superLeader'">
@@ -29,14 +31,21 @@
         </div>
         <el-table
           :data="tableData"
-          style="width: 100%;margin-bottom: 20px;"
           border
           row-key="id"
           :indent="0"
+          :default-expand-all="role === 'leader'"
+          header-cell-class-name="header-row"
           :tree-props="{children: 'sportQuarterList'}">
           <el-table-column prop="departmentName" label="部门" width="160"></el-table-column>
-          <el-table-column prop="sportEstimatedOrActual" label="类型" width="60"></el-table-column>
-          <el-table-column prop="sportQuarter" label="季度" width="80"></el-table-column>
+          <el-table-column prop="sportEOA" label="类型" width="68">
+            <template slot-scope="scope">
+              <el-tag
+                :type="scope.row.sportEstimatedOrActual === '1' ? 'primary' : 'warning'"
+                disable-transitions>{{ scope.row.sportEOA }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="sportQ" label="季度" width="80"></el-table-column>
           <el-table-column prop="sportSalary" label="工资"></el-table-column>
           <el-table-column prop="sportTraining" label="培训费"></el-table-column>
           <el-table-column prop="sportEntertain" label="招待费"></el-table-column>
@@ -53,13 +62,21 @@
           <el-table-column prop="sportRemark" label="备注"></el-table-column>
           <el-table-column prop="sportEditor" label="编制人"></el-table-column>
           <el-table-column prop="sportEditorDate" label="编制时间" width="120"></el-table-column>
-        </el-table>
+          <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="60">
+            <template slot-scope="scope">
+              <el-button
+                v-show="scope.row.sportQuarter !== '0' || scope.row.sportEstimatedOrActual !== '2'"
+                @click="clickUpdate(scope.row)"
+                type="text" size="small">编辑</el-button>
+            </template>
+          </el-table-column></el-table>
         <div v-show="role === 'superLeader'">
-          <el-divider content-position="left"><span class="txt-brand">实际纵向综合</span></el-divider>
+          <el-divider content-position="left"><span class="txt-brand">实际 合计</span></el-divider>
           <el-table
             :data="ActualTotal"
             border
             row-key="id"
+            header-cell-class-name="header-row"
             :indent="0">
             <el-table-column prop="sportSalary" label="工资"></el-table-column>
             <el-table-column prop="sportTraining" label="培训费"></el-table-column>
@@ -75,11 +92,12 @@
             <el-table-column prop="sportOther" label="其他费用"></el-table-column>
             <el-table-column prop="sportTotal" label="费用合计"></el-table-column>
           </el-table>
-          <el-divider content-position="left"><span class="txt-brand">预估纵向综合</span></el-divider>
+          <el-divider content-position="left"><span class="txt-brand">预估 合计</span></el-divider>
           <el-table
             :data="EstimateTotal"
             border
             row-key="id"
+            header-cell-class-name="header-row"
             :indent="0">
             <el-table-column prop="sportSalary" label="工资"></el-table-column>
             <el-table-column prop="sportTraining" label="培训费"></el-table-column>
@@ -96,6 +114,10 @@
             <el-table-column prop="sportTotal" label="费用合计"></el-table-column>
           </el-table>
         </div>
+        <!-- 修改页面 -->
+        <el-dialog title="修改" :visible.sync="dialogVisible">
+          <sport-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog"></sport-form>
+        </el-dialog>
       </el-tab-pane>
       <!-- 赛事活动 -->
       <el-tab-pane label="赛事活动">
@@ -106,19 +128,21 @@
               type="year"
               format="yyyy"
               value-format="yyyy"
+              :editable="false"
+              :clearable="false"
               placeholder="请选择年份">
             </el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="searchList1"> 查询 </el-button>
+            <el-button type="primary" @click="getActivityList"> 查询 </el-button>
           </el-form-item>
         </el-form>
         <el-table
           :data="tableData1"
-          style="width: 100%;margin-bottom: 20px;"
           border
           row-key="id"
-          :indent="0">
+          :indent="0"
+          header-cell-class-name="header-row">
           <el-table-column prop="activityName" label="赛事活动名称"></el-table-column>
           <el-table-column prop="activityTime" label="赛事活动时间"></el-table-column>
           <el-table-column prop="activityLocation" label="赛事活动地点"></el-table-column>
@@ -128,53 +152,106 @@
           <el-table-column prop="activityRemark" label="备注"></el-table-column>
           <el-table-column prop="activityEditor" label="编制人"></el-table-column>
           <el-table-column prop="activityEditorDate" label="编制日期"></el-table-column>
+          <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="60">
+            <template slot-scope="scope">
+              <el-button
+                v-show="scope.row.sportQuarter !== '0' || scope.row.sportEstimatedOrActual !== '2'"
+                @click="clickUpdate1(scope.row)"
+                type="text" size="small">编辑</el-button>
+            </template>
+          </el-table-column>
         </el-table>
+        <!-- 修改页面 -->
+        <el-dialog title="修改" :visible.sync="dialogVisible1">
+          <activity-form :form-data="dialogData1" @confirm="confirmUpdate1" @cancel="cancelDialog1"></activity-form>
+        </el-dialog>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
+import SportForm from '../../../components/operation/SportForm'
+import ActivityForm from '../../../components/operation/ActivityForm'
 export default {
   name: 'AllSport',
+  components: {ActivityForm, SportForm},
   data () {
     return {
+      // sport
       searchData: {
-        sportYear: '2019',
+        sportYear: new Date().getFullYear().toString(),
         sportEstimatedOrActual: '0', // 类型
         departmentId: this.$store.getters.departmentId, // store 所属部门，权限
         plateId: this.$store.getters.plateId // store 所属板块
       },
-      tableData: [],
+      sportLists: [],
       ActualTotal: [],
       EstimateTotal: [],
       role: this.$store.getters.role,
+      // activity
       searchData1: {
-        activityYear: '2019'
-        // sportEstimatedOrActual: '0', // 类型
-        // departmentId: 0, // session，所属部门，权限
-        // plateId: '3' // session，所属板块
+        activityYear: new Date().getFullYear().toString()
       },
-      tableData1: []
+      activityList: [],
+      // 对话框 修改
+      dialogData: {}, // 对话框的表单值
+      dialogVisible: false, // 对话框是否显示
+      dialogData1: {},
+      dialogVisible1: false
     }
   },
   created () {
-    this.$api.operation.getSport(this.searchData).then(rsp => {
-      this.tableData = this.changeData(rsp.data).sportLists
-      this.ActualTotal = rsp.data.ActualTotal
-      this.EstimateTotal = rsp.data.EstimateTotal
-    })
-    this.$api.operation.getActivity(this.searchData1).then(rsp => {
-      this.tableData1 = this.changeData1(rsp.data).activityList
-    })
+    this.getSportList()
+    this.getActivityList()
+  },
+  computed: {
+    tableData: {
+      get () {
+        return this.formatList(this.sportLists)
+      },
+      set () {
+        return this.formatList(this.sportLists)
+      }
+    },
+    tableData1: {
+      get () {
+        return this.formatList1(this.activityList)
+      },
+      set () {
+        return this.formatList1(this.activityList)
+      }
+    }
   },
   methods: {
+    getSportList () {
+      this.$api.operation.getSport(this.searchData)
+        .then(rsp => {
+          console.log('getSport Success')
+          this.sportLists = rsp.data.sportLists
+          this.ActualTotal = rsp.data.ActualTotal
+          this.EstimateTotal = rsp.data.EstimateTotal
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    getActivityList () {
+      this.$api.operation.getActivity(this.searchData1)
+        .then(rsp => {
+          console.log('getActivity Success')
+          this.activityList = rsp.data.activityList
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     // 修改 /selectsportform 响应的数据
-    changeData (data) {
-      console.log(JSON.stringify(data))
-      data.sportLists.forEach(function (item, index, arr) {
-        item.sportEstimatedOrActual = item.sportEstimatedOrActual === '1' ? '预估' : '实际'
-        item.sportQuarter = (item.sportQuarter === '0' || item.sportQuarter === '') ? '全年' : '不明'
+    formatList (list) {
+      list.forEach(function (item, index, arr) {
+        item.sportEOA = item.sportEstimatedOrActual === '1' ? '预估' : '实际'
+        item.sportQ = (item.sportQuarter === '0' || item.sportQuarter === '') ? '全年' : '不明'
+        item.sportType = item.sportEOA // 新增的字段,用于修改页面的类型展示
         if (item.sportEditorDate) {
           item.sportEditorDate = item.sportEditorDate.slice(0, 10)
         } else {
@@ -182,78 +259,84 @@ export default {
         }
         if (item.sportQuarterList) {
           item.sportQuarterList.forEach(function (item, index, arr) {
-            item.sportEstimatedOrActual = item.sportEstimatedOrActual === '1' ? '预估' : '实际'
+            item.sportEOA = item.sportEstimatedOrActual === '1' ? '预估' : '实际'
             item.sportEditorDate = item.sportEditorDate.slice(0, 10)
             switch (item.sportQuarter) {
-              case '1': item.sportQuarter = '第一季度'
+              case '1': item.sportQ = '第一季度'
                 break
-              case '2': item.sportQuarter = '第二季度'
+              case '2': item.sportQ = '第二季度'
                 break
-              case '3': item.sportQuarter = '第三季度'
+              case '3': item.sportQ = '第三季度'
                 break
-              case '4': item.sportQuarter = '第四季度'
+              case '4': item.sportQ = '第四季度'
                 break
-              default: item.sportQuarter = '不明'
+              default: item.sportQ = '不明'
                 break
             }
+            item.sportType = item.sportEOA + ' / ' + item.sportQ
           })
         }
       })
-      return data
+      return list
     },
-    changeData1 (data) {
-      console.log(JSON.stringify(data))
-      data.activityList.forEach(function (item, index, arr) {
+    formatList1 (list) {
+      list.forEach(function (item, index, arr) {
         if (item.activityEditorDate) {
           item.activityEditorDate = item.activityEditorDate.slice(0, 10)
         } else {
           item.activityEditorDate = ''
         }
       })
-      return data
+      return list
     },
-    searchList () {
-      this.$api.operation.getSport(this.searchData).then(rsp => {
-        this.tableData = this.changeData(rsp.data).sportLists
-        this.ActualTotal = rsp.data.ActualTotal
-        this.EstimateTotal = rsp.data.EstimateTotal
-      })
+    // 点击编辑，跳出修改框
+    clickUpdate (data) {
+      // console.log(data)
+      this.dialogData = data
+      this.dialogVisible = true
     },
-    searchList1 () {
-      this.$api.operation.getActivity(this.searchData1).then(rsp => {
-        this.tableData1 = this.changeData1(rsp.data).activityList
-      })
+    cancelDialog () {
+      this.dialogVisible = false
     },
-    handleClick (id) {
-      console.log(id)
+    confirmUpdate (data) {
+      this.$api.operation.updateSport(data)
+        .then(rsp => {
+          let data = rsp.data
+          if (data.result === '200') {
+            this.$message.success('修改成功！')
+            this.getSportList()
+          } else {
+            this.$message.error('修改失败：' + data.resultText)
+          }
+          console.log(rsp)
+          this.dialogVisible = false
+        })
+    },
+    clickUpdate1 (data) {
+      // console.log(data)
+      this.dialogData1 = data
+      this.dialogVisible1 = true
+    },
+    cancelDialog1 () {
+      this.dialogVisible1 = false
+    },
+    confirmUpdate1 (data) {
+      this.$api.operation.updateActivity(data)
+        .then(rsp => {
+          let data = rsp.data
+          if (data.result === '200') {
+            this.$message.success('修改成功！')
+            this.getActivityList()
+          } else {
+            this.$message.error('修改失败：' + data.resultText)
+          }
+          console.log(rsp)
+          this.dialogVisible = false
+        })
     }
   }
 }
 </script>
 
 <style>
-  .o-container .el-table {
-    margin-bottom: 10px;
-  }
-  .o-container .el-form-item {
-    margin: 10px;
-  }
-  .o-container .el-form {
-    padding: 10px;
-    background: #F2F2F2;
-    margin: 20px 0;
-  }
-  .o-container .el-table__expand-icon {
-    float: right;
-  }
-  .o-container .expanded {
-    background: #000;
-  }
-  .el-divider {
-    background-color: #409EFF;
-  }
-  .txt-brand {
-    color: #409EFF;
-    font-weight: bold;
-  }
 </style>
