@@ -25,7 +25,7 @@
           placeholder="密码"
         ></el-input>
       </el-form-item>
-      <el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox>
+      <!--<el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox>-->
       <el-form-item style="width:100%;">
         <el-button
           type="primary"
@@ -44,7 +44,7 @@ export default {
     return {
       logining: false,
       loginForm: {
-        userNum: '00224',
+        userNum: '00059',
         userPwd: '12345'
       },
       rules: {
@@ -93,11 +93,14 @@ export default {
   .login-container {
     width: 100%;
     height: 100%;
+    /*background: #2d3a4b;*/
+    background: #F2F2F2;
+    padding-top: 180px;
   }
   .login-page {
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    margin: 180px auto;
+    margin: 0 auto;
     width: 350px;
     padding: 35px 35px 15px;
     background: #fff;

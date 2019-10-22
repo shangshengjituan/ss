@@ -125,11 +125,8 @@
           <el-form-item label="年份：">
             <el-date-picker
               v-model="searchData1.activityYear"
-              type="year"
-              format="yyyy"
-              value-format="yyyy"
-              :editable="false"
-              :clearable="false"
+              type="year" format="yyyy" value-format="yyyy"
+              :editable="false" :clearable="false"
               placeholder="请选择年份">
             </el-date-picker>
           </el-form-item>
@@ -137,11 +134,7 @@
             <el-button type="primary" @click="getActivityList"> 查询 </el-button>
           </el-form-item>
         </el-form>
-        <el-table
-          :data="tableData1"
-          border
-          row-key="id"
-          :indent="0"
+        <el-table :data="tableData1" border row-key="id" :indent="0"
           header-cell-class-name="header-row">
           <el-table-column prop="activityName" label="赛事活动名称"></el-table-column>
           <el-table-column prop="activityTime" label="赛事活动时间"></el-table-column>
@@ -154,10 +147,9 @@
           <el-table-column prop="activityEditorDate" label="编制日期"></el-table-column>
           <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="60">
             <template slot-scope="scope">
-              <el-button
+              <el-button type="text" size="small"
                 v-show="scope.row.sportQuarter !== '0' || scope.row.sportEstimatedOrActual !== '2'"
-                @click="clickUpdate1(scope.row)"
-                type="text" size="small">编辑</el-button>
+                @click="clickUpdate1(scope.row)">编辑</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -166,6 +158,23 @@
           <activity-form :form-data="dialogData1" @confirm="confirmUpdate1" @cancel="cancelDialog1"></activity-form>
         </el-dialog>
       </el-tab-pane>
+      <!-- 成本汇总总表 -->
+      <el-tab-pane label="成本汇总总表">
+        <el-form class="search-form" :inline="true" :model="searchSummaryData">
+          <el-form-item label="年份：">
+            <el-date-picker
+              v-model="searchSummaryData.sportYear"
+              type="year" format="yyyy" value-format="yyyy"
+              :editable="false" :clearable="false"
+              placeholder="请选择年份">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="getSummaryList"> 查询 </el-button>
+          </el-form-item>
+        </el-form>
+        <total-form :table-data="summaryLists"></total-form>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -173,9 +182,10 @@
 <script>
 import SportForm from '../../../components/operation/SportForm'
 import ActivityForm from '../../../components/operation/ActivityForm'
+import TotalForm from '../../../components/operation/TotalForm'
 export default {
   name: 'AllSport',
-  components: {ActivityForm, SportForm},
+  components: {TotalForm, ActivityForm, SportForm},
   data () {
     return {
       // sport
@@ -198,12 +208,19 @@ export default {
       dialogData: {}, // 对话框的表单值
       dialogVisible: false, // 对话框是否显示
       dialogData1: {},
-      dialogVisible1: false
+      dialogVisible1: false,
+      searchSummaryData: {
+        sportYear: new Date().getFullYear().toString(),
+        departmentId: this.$store.getters.departmentId, // store 所属部门，权限
+        plateId: this.$store.getters.plateId // store 所属板块
+      },
+      summaryLists: []
     }
   },
   created () {
     this.getSportList()
     this.getActivityList()
+    this.getSummaryList()
   },
   computed: {
     tableData: {
@@ -288,6 +305,15 @@ export default {
         }
       })
       return list
+    },
+    getSummaryList () {
+      this.$api.operation.getSportSummary(this.searchSummaryData)
+        .then(rsp => {
+          this.summaryLists = rsp.data.sportSummaryLists
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     // 点击编辑，跳出修改框
     clickUpdate (data) {

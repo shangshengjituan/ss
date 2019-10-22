@@ -14,6 +14,7 @@ instance.interceptors.request.use(
   config => {
     // 在发送请求之前做些什么
     console.log('request config:', config)
+    // console.log(JSON.stringify(config.data))
     // console.log(store.state)
     let token = store.getters.token
     if (token) {

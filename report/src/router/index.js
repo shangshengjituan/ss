@@ -163,31 +163,41 @@ export const asyncRoutes = [
     }]
   },
   {
-    path: '/program',
+    path: '/project',
     name: 'Program',
     component: Layout,
     meta: {title: '项目明细'},
     children: [{
+      path: 'tool',
+      name: 'Tool',
+      component: () => import('@/view/project/tool/index'),
+      meta: {title: '表单工具', roles: ['2', '4']}
+    }, {
       path: 'add',
       name: 'ProgramAdd',
-      component: () => import('@/view/program/add/index'),
-      meta: {title: '新增表单', roles: ['1', '2', '3']},
+      component: () => import('@/view/project/add/index'),
+      meta: {title: '新增表单', roles: ['2', '4']},
       children: [{
         path: 'costlabor',
         name: 'AddCostLabor',
-        meta: {title: '人工费明细统计', roles: ['1']},
-        component: () => import('@/view/program/add/cost-labor')
+        meta: {title: '人工费统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-labor')
+      }, {
+        path: 'costlabordetail',
+        name: 'AddCostLaborDetail',
+        meta: {title: '人工费明细统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-labor-detail')
       }]
     }, {
       path: 'all',
       name: 'ProgramAll',
-      component: () => import('@/view/program/all/index'),
-      meta: {title: '表单汇总', roles: ['1', '2', '3']},
+      component: () => import('@/view/project/all/index'),
+      meta: {title: '表单汇总', roles: ['2', '4']},
       children: [{
         path: 'costlabor',
         name: 'AllCostLabor',
-        meta: {title: '人工费明细统计', roles: ['1']},
-        component: () => import('@/view/program/all/cost-labor')
+        meta: {title: '人工费统计', roles: ['2']},
+        component: () => import('@/view/project/all/cost-labor')
       }]
     }]
   },

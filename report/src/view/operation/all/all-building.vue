@@ -1,122 +1,139 @@
 <template>
   <div class="o-container">
-    <el-form class="search-form" :inline="true" :model="searchData">
-      <el-form-item label="类型：">
-        <el-select v-model="searchData.buildingEstimatedOrActual" placeholder="类型" value="">
-          <el-option label="全部" value="0"></el-option>
-          <el-option label="预估" value="1"></el-option>
-          <el-option label="实际" value="2"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="年份：">
-        <el-date-picker
-          v-model="searchData.buildingYear"
-          type="year"
-          format="yyyy"
-          value-format="yyyy"
-          :editable="false"
-          :clearable="false"
-          placeholder="请选择年份">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="getList"> 查询 </el-button>
-      </el-form-item>
-    </el-form>
-    <div v-show="role === 'superLeader'">
-      <el-divider content-position="left"><span class="txt-brand">汇总数据</span></el-divider>
-    </div>
-    <el-table
-      :data="tableData"
-      border
-      row-key="id"
-      :indent="0"
-      header-cell-class-name="header-row"
-      :tree-props="{children: 'quarterCostList'}">
-      <el-table-column prop="departmentName" label="部门" width="160"></el-table-column>
-      <el-table-column prop="buildingEOA" label="类型" width="68">
-        <template slot-scope="scope">
-          <el-tag
-            :type="scope.row.buildingEstimatedOrActual === '1' ? 'primary' : 'warning'"
-            disable-transitions>{{ scope.row.buildingEOA }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="buildingQ" label="季度" width="80"></el-table-column>
-      <el-table-column prop="buildingSalary" label="工资"></el-table-column>
-      <el-table-column prop="buildingAdministrative" label="行政费用"></el-table-column>
-      <el-table-column prop="buildingFixedAssets" label="固定资产投资"></el-table-column>
-      <el-table-column prop="buildingTraining" label="培训费"></el-table-column>
-      <el-table-column prop="buildingTechnology" label="科技创新费"></el-table-column>
-      <el-table-column prop="buildingEntertain" label="招待费"></el-table-column>
-      <el-table-column prop="buildingOperating" label="经营费"></el-table-column>
-      <el-table-column prop="buildingFinance" label="财务费用"></el-table-column>
-      <el-table-column prop="buildingTaxes" label="各类税费"></el-table-column>
-      <el-table-column prop="buildingOther" label="其他费用"></el-table-column>
-      <el-table-column prop="buildingTotal" label="费用合计"></el-table-column>
-      <el-table-column prop="buildingRemark" label="备注"></el-table-column>
-      <el-table-column prop="buildingEditor" label="编制人"></el-table-column>
-      <el-table-column prop="buildingEditorDate" label="编制时间" width="120"></el-table-column>
-      <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="60">
-        <template slot-scope="scope">
-          <el-button
-            v-show="scope.row.buildingQuarter !== '0' || scope.row.buildingEstimatedOrActual !== '2'"
-            @click="clickUpdate(scope.row)"
-            type="text" size="small">编辑</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div v-show="role === 'superLeader'">
-      <el-divider content-position="left"><span class="txt-brand">实际 合计</span></el-divider>
-      <el-table
-        :data="ActualTotal"
-        border
-        row-key="id"
-        header-cell-class-name="header-row"
-        :indent="0">
-        <el-table-column prop="buildingSalary" label="工资"></el-table-column>
-        <el-table-column prop="buildingAdministrative" label="行政费用"></el-table-column>
-        <el-table-column prop="buildingFixedAssets" label="固定资产投资"></el-table-column>
-        <el-table-column prop="buildingTraining" label="培训费"></el-table-column>
-        <el-table-column prop="buildingTechnology" label="科技创新费"></el-table-column>
-        <el-table-column prop="buildingEntertain" label="招待费"></el-table-column>
-        <el-table-column prop="buildingOperating" label="经营费"></el-table-column>
-        <el-table-column prop="buildingFinance" label="财务费用"></el-table-column>
-        <el-table-column prop="buildingTaxes" label="各类税费"></el-table-column>
-        <el-table-column prop="buildingOther" label="其他费用"></el-table-column>
-        <el-table-column prop="buildingTotal" label="费用合计"></el-table-column>
-      </el-table>
-      <el-divider content-position="left"><span class="txt-brand">预估 合计</span></el-divider>
-      <el-table
-        :data="EstimateTotal"
-        border
-        row-key="id"
-        header-cell-class-name="header-row"
-        :indent="0">
-        <el-table-column prop="buildingSalary" label="工资"></el-table-column>
-        <el-table-column prop="buildingAdministrative" label="行政费用"></el-table-column>
-        <el-table-column prop="buildingFixedAssets" label="固定资产投资"></el-table-column>
-        <el-table-column prop="buildingTraining" label="培训费"></el-table-column>
-        <el-table-column prop="buildingTechnology" label="科技创新费"></el-table-column>
-        <el-table-column prop="buildingEntertain" label="招待费"></el-table-column>
-        <el-table-column prop="buildingOperating" label="经营费"></el-table-column>
-        <el-table-column prop="buildingFinance" label="财务费用"></el-table-column>
-        <el-table-column prop="buildingTaxes" label="各类税费"></el-table-column>
-        <el-table-column prop="buildingOther" label="其他费用"></el-table-column>
-        <el-table-column prop="buildingTotal" label="费用合计"></el-table-column>
-      </el-table>
-    </div>
-    <!-- 修改页面 -->
-    <el-dialog title="修改" :visible.sync="dialogVisible">
-      <building-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog"></building-form>
-    </el-dialog>
+    <el-tabs type="border-card">
+      <!-- 成本汇总明细 -->
+      <el-tab-pane label="成本汇总明细">
+        <el-form class="search-form" :inline="true" :model="searchData">
+          <el-form-item label="类型：">
+            <el-select v-model="searchData.buildingEstimatedOrActual" placeholder="类型" value="">
+              <el-option label="全部" value="0"></el-option>
+              <el-option label="预估" value="1"></el-option>
+              <el-option label="实际" value="2"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="年份：">
+            <el-date-picker
+              v-model="searchData.buildingYear"
+              type="year"
+              format="yyyy"
+              value-format="yyyy"
+              :editable="false"
+              :clearable="false"
+              placeholder="请选择年份">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="getList"> 查询 </el-button>
+          </el-form-item>
+        </el-form>
+        <div v-show="role === 'superLeader'">
+          <el-divider content-position="left"><span class="txt-brand">汇总数据</span></el-divider>
+        </div>
+        <el-table
+          :data="tableData"
+          border row-key="id" :indent="0"
+          header-cell-class-name="header-row"
+          :tree-props="{children: 'quarterCostList'}">
+          <el-table-column prop="departmentName" label="部门" width="160"></el-table-column>
+          <el-table-column prop="buildingEOA" label="类型" width="68">
+            <template slot-scope="scope">
+              <el-tag
+                :type="scope.row.buildingEstimatedOrActual === '1' ? 'primary' : 'warning'"
+                disable-transitions>{{ scope.row.buildingEOA }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="buildingQ" label="季度" width="80"></el-table-column>
+          <el-table-column prop="buildingSalary" label="工资"></el-table-column>
+          <el-table-column prop="buildingAdministrative" label="行政费用"></el-table-column>
+          <el-table-column prop="buildingFixedAssets" label="固定资产投资"></el-table-column>
+          <el-table-column prop="buildingTraining" label="培训费"></el-table-column>
+          <el-table-column prop="buildingTechnology" label="科技创新费"></el-table-column>
+          <el-table-column prop="buildingEntertain" label="招待费"></el-table-column>
+          <el-table-column prop="buildingOperating" label="经营费"></el-table-column>
+          <el-table-column prop="buildingFinance" label="财务费用"></el-table-column>
+          <el-table-column prop="buildingTaxes" label="各类税费"></el-table-column>
+          <el-table-column prop="buildingOther" label="其他费用"></el-table-column>
+          <el-table-column prop="buildingTotal" label="费用合计"></el-table-column>
+          <el-table-column prop="buildingRemark" label="备注"></el-table-column>
+          <el-table-column prop="buildingEditor" label="编制人"></el-table-column>
+          <el-table-column prop="buildingEditorDate" label="编制时间" width="120"></el-table-column>
+          <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="60">
+            <template slot-scope="scope">
+              <el-button
+                v-show="scope.row.buildingQuarter !== '0' || scope.row.buildingEstimatedOrActual !== '2'"
+                @click="clickUpdate(scope.row)"
+                type="text" size="small">编辑</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div v-show="role === 'superLeader'">
+          <el-divider content-position="left"><span class="txt-brand">实际 合计</span></el-divider>
+          <el-table
+            :data="ActualTotal"
+            border row-key="id" :indent="0"
+            header-cell-class-name="header-row">
+            <el-table-column prop="buildingSalary" label="工资"></el-table-column>
+            <el-table-column prop="buildingAdministrative" label="行政费用"></el-table-column>
+            <el-table-column prop="buildingFixedAssets" label="固定资产投资"></el-table-column>
+            <el-table-column prop="buildingTraining" label="培训费"></el-table-column>
+            <el-table-column prop="buildingTechnology" label="科技创新费"></el-table-column>
+            <el-table-column prop="buildingEntertain" label="招待费"></el-table-column>
+            <el-table-column prop="buildingOperating" label="经营费"></el-table-column>
+            <el-table-column prop="buildingFinance" label="财务费用"></el-table-column>
+            <el-table-column prop="buildingTaxes" label="各类税费"></el-table-column>
+            <el-table-column prop="buildingOther" label="其他费用"></el-table-column>
+            <el-table-column prop="buildingTotal" label="费用合计"></el-table-column>
+          </el-table>
+          <el-divider content-position="left"><span class="txt-brand">预估 合计</span></el-divider>
+          <el-table
+            :data="EstimateTotal"
+            border row-key="id" :indent="0"
+            header-cell-class-name="header-row">
+            <el-table-column prop="buildingSalary" label="工资"></el-table-column>
+            <el-table-column prop="buildingAdministrative" label="行政费用"></el-table-column>
+            <el-table-column prop="buildingFixedAssets" label="固定资产投资"></el-table-column>
+            <el-table-column prop="buildingTraining" label="培训费"></el-table-column>
+            <el-table-column prop="buildingTechnology" label="科技创新费"></el-table-column>
+            <el-table-column prop="buildingEntertain" label="招待费"></el-table-column>
+            <el-table-column prop="buildingOperating" label="经营费"></el-table-column>
+            <el-table-column prop="buildingFinance" label="财务费用"></el-table-column>
+            <el-table-column prop="buildingTaxes" label="各类税费"></el-table-column>
+            <el-table-column prop="buildingOther" label="其他费用"></el-table-column>
+            <el-table-column prop="buildingTotal" label="费用合计"></el-table-column>
+          </el-table>
+        </div>
+        <!-- 修改页面 -->
+        <el-dialog title="修改" :visible.sync="dialogVisible">
+          <building-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog"></building-form>
+        </el-dialog>
+      </el-tab-pane>
+      <!-- 成本汇总总表 -->
+      <el-tab-pane label="成本汇总总表">
+        <el-form class="search-form" :inline="true" :model="searchSummaryData">
+          <el-form-item label="年份：">
+            <el-date-picker
+              v-model="searchSummaryData.buildingYear"
+              type="year" format="yyyy" value-format="yyyy"
+              :editable="false" :clearable="false"
+              placeholder="请选择年份">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="getSummaryList"> 查询 </el-button>
+          </el-form-item>
+        </el-form>
+        <total-form :table-data="summaryLists"></total-form>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script>
 import BuildingForm from '../../../components/operation/BuildingForm'
+import TotalForm from '../../../components/operation/TotalForm'
 export default {
   name: 'AllBuilding',
-  components: {BuildingForm},
+  components: {TotalForm, BuildingForm},
   data () {
     return {
       searchData: {
@@ -130,11 +147,18 @@ export default {
       EstimateTotal: [],
       role: this.$store.getters.role,
       dialogData: {}, // 对话框的表单值
-      dialogVisible: false // 对话框是否显示
+      dialogVisible: false, // 对话框是否显示
+      searchSummaryData: {
+        buildingYear: new Date().getFullYear().toString(),
+        departmentId: this.$store.getters.departmentId, // store 所属部门，权限
+        plateId: this.$store.getters.plateId // store 所属板块
+      },
+      summaryLists: []
     }
   },
   created () {
     this.getList()
+    this.getSummaryList()
   },
   computed: {
     tableData: {
@@ -190,6 +214,15 @@ export default {
         }
       })
       return list
+    },
+    getSummaryList () {
+      this.$api.operation.getBuildingSummary(this.searchSummaryData)
+        .then(rsp => {
+          this.summaryLists = rsp.data.buildingSummaryLists
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     // 点击编辑，跳出修改框
     clickUpdate (data) {

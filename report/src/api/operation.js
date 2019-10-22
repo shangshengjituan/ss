@@ -13,6 +13,11 @@ const operation = {
   updateGroup (data) {
     return axios.post('/updateGroupForm', data)
   },
+  getGroupSummary (data) {
+    return axios.get('/selectGroupSummary', {
+      params: data
+    })
+  },
   // 建筑
   addBuilding (data) {
     return axios.post('/insertBuildingForm', data)
@@ -24,6 +29,11 @@ const operation = {
   },
   updateBuilding (data) {
     return axios.post('/updateBuildingForm', data)
+  },
+  getBuildingSummary (data) {
+    return axios.get('/selectBuildingSummary', {
+      params: data
+    })
   },
   // 文体
   addSport (data) {
@@ -47,6 +57,11 @@ const operation = {
   },
   updateActivity (data) {
     return axios.post('/updateActivityForm', data)
+  },
+  getSportSummary (data) {
+    return axios.get('/selectSportSummary', {
+      params: data
+    })
   }
 }
 

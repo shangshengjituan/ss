@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import api from './api'
+// 引入全局css
 import './assets/index.css'
 
 Vue.config.productionTip = false
@@ -14,7 +15,7 @@ Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
   if (store.getters.token) { // 判断是否有token
     console.log('router:', from.name, '-->', to.name)
-    console.log('path:', from.path, '-->', to.path)
+    // console.log('path:', from.path, '-->', to.path)
     next()
   } else {
     if (to.name === 'Login') {
@@ -52,21 +53,3 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
-
-/*
-this.$axios.get('/selectAll', {
-      params: {
-        page: 1,
-        size: 10
-      }
-    })
-      .then(rsp => { console.log(rsp) })
-      .catch(error => { console.log(error) })
-this.$axios.post('/25-3', {
-  id: '13030300'
-})
-  .then(rsp => {
-    console.log('success:')
-    console.log(rsp)
-  })
- */

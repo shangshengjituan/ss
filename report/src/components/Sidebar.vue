@@ -2,6 +2,9 @@
   <el-menu
     :default-active="$route.path"
     router
+    class="el-menu-dark"
+    background-color="#343E4B"
+    text-color="#bfcbd9"
     active-text-color="#409EFF">
     <sidebar-item
       v-for="(item, idx) in routes"
@@ -33,5 +36,7 @@ export default {
 </script>
 
 <style scoped>
-
+.el-menu-dark {
+  background: #343E4B;
+}
 </style>

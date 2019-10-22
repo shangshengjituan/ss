@@ -17,6 +17,7 @@
                 type="year"
                 format="yyyy"
                 value-format="yyyy"
+                :clearable="false" :editable="false"
                 placeholder="请选择年份">
               </el-date-picker>
             </el-form-item>
