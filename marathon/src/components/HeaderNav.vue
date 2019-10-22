@@ -1,7 +1,8 @@
 <template>
-  <div style="overflow: hidden;">
-    <div>健和体育<span>人心健康 和合文化</span></div>
-    <span style="float: left">江苏健和文化体育产业发展有限公司</span>
+  <div class="zhz-header">
+    <div style="float: left">
+      <span style="font-weight: bold">江苏健和文化体育产业发展有限公司</span>
+    </div>
     <div style="float: right">
       管理员：<span>test</span>
     </div>
@@ -26,5 +27,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .zhz-header {
+    padding: 0 20px;
+    overflow: hidden;
+    color: #ffffff;
+    line-height: 60px;
+  }
 </style>

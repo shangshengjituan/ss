@@ -58,7 +58,12 @@ export default {
 </script>
 
 <style scoped>
+  .el-header {
+    border-bottom: 1px solid #DCDFE6;
+    background: #409EFF;
+    padding: 0;
+  }
 .zhz-container {
-  min-heigh: 1000px;
+  min-height: 1000px;
 }
 </style>
