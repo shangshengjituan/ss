@@ -44,3 +44,11 @@ input[type="number"] {
 .el-breadcrumb {
   margin-bottom: 20px;
 }
+
+.el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width: 100%;
+}
+
+.el-cascader, .el-select {
+  display: block !important;
+}

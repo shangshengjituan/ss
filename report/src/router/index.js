@@ -176,7 +176,7 @@ export const asyncRoutes = [
       path: 'add',
       name: 'ProgramAdd',
       component: () => import('@/view/project/add/index'),
-      meta: {title: '新增表单', roles: ['2', '4']},
+      meta: {title: '新增表单', roles: ['2']},
       children: [{
         path: 'costlabor',
         name: 'AddCostLabor',
@@ -187,6 +187,16 @@ export const asyncRoutes = [
         name: 'AddCostLaborDetail',
         meta: {title: '人工费明细统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-labor-detail')
+      }, {
+        path: 'spotwork',
+        name: 'AddSpotWork',
+        meta: {title: '使用点工统计', roles: ['2']},
+        component: () => import('@/view/project/add/spot-work')
+      }, {
+        path: 'costmaterial',
+        name: 'AddCostMaterial',
+        meta: {title: '调入调出材料费用统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-material')
       }]
     }, {
       path: 'all',
@@ -196,8 +206,23 @@ export const asyncRoutes = [
       children: [{
         path: 'costlabor',
         name: 'AllCostLabor',
-        meta: {title: '人工费统计', roles: ['2']},
+        meta: {title: '人工费统计', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-labor')
+      }, {
+        path: 'costlabordetail',
+        name: 'AllCostLaborDetail',
+        meta: {title: '人工费明细统计', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-labor-detail')
+      }, {
+        path: 'spotwork',
+        name: 'AllSpotWork',
+        meta: {title: '使用点工统计', roles: ['2', '4']},
+        component: () => import('@/view/project/all/spot-work')
+      }, {
+        path: 'costmaterial',
+        name: 'AllCostMaterial',
+        meta: {title: '调入调出材料费用统计', roles: ['2', '4']},
+        component: () => import('@/view/project/add/cost-material')
       }]
     }]
   },

@@ -2,12 +2,12 @@
   <el-card shadow="hover">
     <h4>项目人工费统计表</h4>
     <el-divider></el-divider>
-    <el-form :model="laborfeeschedule1" :rules="rules" ref="laborfeeschedule1" label-width="110px" label-position="right" >
+    <el-form :model="table3" :rules="rules" ref="table3" label-width="110px" label-position="right" >
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称" prop="table3ProjectId">
-            <!--<el-input v-model="laborfeeschedule1.table3ProjectId" :readonly="true"></el-input>-->
-            <el-select v-model="laborfeeschedule1.table3ProjectId" placeholder="请选择项目名称" value="">
+            <!--<el-input v-model="table3.table3ProjectId" :readonly="true"></el-input>-->
+            <el-select v-model="table3.table3ProjectId" placeholder="请选择项目名称" value="">
               <el-option
                 v-for="item in projectList"
                 :label="item.projectName" :key="item.id" :value="item.id">
@@ -18,7 +18,7 @@
         <el-col :span="8">
           <el-form-item label="年份" prop="table3Year">
             <el-date-picker
-              v-model="laborfeeschedule1.table3Year"
+              v-model="table3.table3Year"
               type="year" format="yyyy" value-format="yyyy"
               :clearable="false" :editable="false"
               placeholder="请选择年份">
@@ -27,7 +27,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="季度" prop="table3Quarter">
-            <el-select v-model="laborfeeschedule1.table3Quarter" placeholder="请选择季度" value="">
+            <el-select v-model="table3.table3Quarter" placeholder="请选择季度" value="">
               <el-option
                 v-for="item in options"
                 :label="item.label" :key="item.value" :value="item.value">
@@ -39,7 +39,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="工作内容明细" prop="table3WorkTypeId">
-            <el-select v-model="laborfeeschedule1.table3WorkTypeId" placeholder="请选择工作内容明细" value="">
+            <el-select v-model="table3.table3WorkTypeId" placeholder="请选择工作内容明细" value="">
               <el-option
                 v-for="item in workList"
                 :key="item.id" :label="item.bricklayer" :value="item.id">
@@ -49,48 +49,56 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="班组" prop="table3Team">
-            <el-input v-model="laborfeeschedule1.table3Team" clearable />
+            <el-input v-model="table3.table3Team" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="单位" prop="table3Unit">
-            <el-input v-model="laborfeeschedule1.table3Unit" placeholder="m^2 个" clearable />
+            <el-select
+              filterable allow-create default-first-option
+              v-model="table3.table3Unit" placeholder="请选择单位" value="">
+              <el-option value="m^2">m<sup>2</sup></el-option>
+              <el-option value="m^3">m<sup>3</sup></el-option>
+              <el-option value="个">个</el-option>
+              <el-option value="t">t</el-option>
+              <el-option value="根">根</el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="合同工程量" prop="table3ContractQuantity">
-            <el-input v-model="laborfeeschedule1.table3ContractQuantity" clearable />
+            <el-input v-model="table3.table3ContractQuantity" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="实际工程量" prop="table3ActualEngineeringQuantity">
-            <el-input v-model="laborfeeschedule1.table3ActualEngineeringQuantity" clearable />
+            <el-input v-model="table3.table3ActualEngineeringQuantity" clearable />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="责任人工单价" prop="table3ResponsibleLaborUnitPrice">
-            <el-input v-model.number="laborfeeschedule1.table3ResponsibleLaborUnitPrice" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="table3.table3ResponsibleLaborUnitPrice" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="责任人工费" prop="table3ResponsibleLaborFee">
-            <el-input v-model.number="laborfeeschedule1.table3ResponsibleLaborFee" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="table3.table3ResponsibleLaborFee" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="实际人工单价" prop="table3ActualLaborUnitPrice">
-            <el-input v-model.number="laborfeeschedule1.table3ActualLaborUnitPrice" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="table3.table3ActualLaborUnitPrice" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="实际人工费" prop="table3ActualLaborCost">
-            <el-input v-model.number="laborfeeschedule1.table3ActualLaborCost" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="table3.table3ActualLaborCost" type='number' clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -98,24 +106,24 @@
         <el-col :span="8">
           <el-form-item label="人工费差额" prop="table3LaborCostDifference">
             <span> {{ costDifference }} 元</span>
-            <!--<el-input v-model.number="laborfeeschedule1.table3LaborCostDifference" type='number' clearable><template slot="append">元</template></el-input>-->
+            <!--<el-input v-model.number="table3.table3LaborCostDifference" type='number' clearable><template slot="append">元</template></el-input>-->
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="16">
           <el-form-item label="备注">
-            <el-input v-model="laborfeeschedule1.table3Remark" clearable></el-input>
+            <el-input v-model="table3.table3Remark" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="编制人">
-            <span>{{laborfeeschedule1.table3Editor}}</span>
+            <span>{{table3.table3Editor}}</span>
           </el-form-item>
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" @click="validateData('laborfeeschedule1')"> 立即创建 </el-button>
+        <el-button type="primary" @click="validateData('table3')"> 立即创建 </el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -129,7 +137,7 @@ export default {
       departmentId: this.$store.getters.departmentId,
       departmentName: this.$store.getters.departmentName,
       plateId: this.$store.getters.plateId,
-      laborfeeschedule1: {
+      table3: {
         table3ProjectId: '',
         table3Year: '',
         table3Quarter: '',
@@ -169,7 +177,7 @@ export default {
   },
   computed: {
     costDifference () {
-      return this.laborfeeschedule1.table3ResponsibleLaborFee - this.laborfeeschedule1.table3ActualLaborCost
+      return this.table3.table3ResponsibleLaborFee - this.table3.table3ActualLaborCost
     }
   },
   methods: {
@@ -191,8 +199,8 @@ export default {
         })
     },
     addTable3 () {
-      this.laborfeeschedule1.table3LaborCostDifference = this.costDifference
-      this.$api.project.addTable3(this.laborfeeschedule1)
+      this.table3.table3LaborCostDifference = this.costDifference
+      this.$api.project.addTable3(this.table3)
         .then(rsp => {
           if (rsp.data.result === 200) {
             this.$message.success('新增表单成功！')
