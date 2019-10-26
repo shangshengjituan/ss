@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="单位名称">
-          <el-input v-model="groupData.departmentName" :readonly="true"></el-input>
+          <el-input v-model="groupData.departmentName" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -19,7 +19,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="明细类型">
-          <el-input v-model="groupData.groupType" :readonly="true"></el-input>
+          <el-input v-model="groupData.groupType" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
     </el-row>

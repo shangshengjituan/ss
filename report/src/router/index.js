@@ -115,7 +115,7 @@ export const asyncRoutes = [
     path: '/operation',
     name: 'Operation',
     component: Layout,
-    meta: {title: '运营成本'},
+    meta: {title: '运营成本', roles: ['1', '2', '3', '4']},
     children: [{
       path: 'add',
       name: 'Add',
@@ -166,7 +166,7 @@ export const asyncRoutes = [
     path: '/project',
     name: 'Program',
     component: Layout,
-    meta: {title: '项目明细'},
+    meta: {title: '项目明细', roles: ['2', '4']},
     children: [{
       path: 'tool',
       name: 'Tool',
@@ -222,7 +222,7 @@ export const asyncRoutes = [
         path: 'costmaterial',
         name: 'AllCostMaterial',
         meta: {title: '调入调出材料费用统计', roles: ['2', '4']},
-        component: () => import('@/view/project/add/cost-material')
+        component: () => import('@/view/project/all/cost-material')
       }]
     }]
   },

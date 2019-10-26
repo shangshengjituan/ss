@@ -45,10 +45,10 @@ input[type="number"] {
   margin-bottom: 20px;
 }
 
-.el-date-editor.el-input, .el-date-editor.el-input__inner {
-  width: 100%;
-}
+/*.el-date-editor.el-input, .el-date-editor.el-input__inner {*/
+  /*width: 100%;*/
+/*}*/
 
-.el-cascader, .el-select {
-  display: block !important;
-}
+/*.el-cascader, .el-select {*/
+  /*display: block !important;*/
+/*}*/

@@ -3,8 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="单位名称">
-          <span>{{sportData.departmentName}}</span>
-          <!--<el-input v-model="sportData.departmentName" :readonly="true"></el-input>-->
+          <el-input v-model="sportData.departmentName" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -20,8 +19,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="明细类型" prop="value">
-          <span>{{sportData.sportType}}</span>
-          <!--<el-input v-model="sportData.sportType" :readonly="true"></el-input>-->
+          <el-input v-model="sportData.sportType" :disabled="true"></el-input>
         </el-form-item>
       </el-col>
     </el-row>

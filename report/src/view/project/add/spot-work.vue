@@ -94,7 +94,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="平均人数" prop="table5AveragePeople">
-            <el-input v-model.number="table5.table5AveragePeople" type='number' clearable />
+            <el-input v-model.number="table5.table5AveragePeople" type='number' clearable ><template slot="append">人</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -199,7 +199,7 @@ export default {
           console.log(this.workList)
         })
     },
-    addtable5 () {
+    addTable5 () {
       this.table5.table5TotalPrice = this.totalPrice
       console.log(this.table5)
       this.$api.project.addTable5(this.table5)
@@ -234,7 +234,7 @@ export default {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.addtable5()
+            this.addTable5()
           }).catch(err => {
             console.log(err)
           })
