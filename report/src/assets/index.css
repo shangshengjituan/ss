@@ -35,7 +35,7 @@ input[type="number"] {
   font-weight: bold;
 }
 .o-container .header-row {
-  background: #F0F9EB;
+  background: #F0F9EB !important;
   text-align: center;
 }
 .o-container .el-dialog {
