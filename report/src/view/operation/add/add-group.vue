@@ -33,85 +33,85 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="工资" prop="groupSalary">
-            <el-input v-model.number="groupData.groupSalary" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupSalary" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="行政收入" prop="groupAdministrative">
-            <el-input v-model.number="groupData.groupAdministrative" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupAdministrative" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="固定资产投资" prop="groupFixedAssets">
-            <el-input v-model.number="groupData.groupFixedAssets" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupFixedAssets" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="培训费" prop="groupTraining">
-            <el-input v-model.number="groupData.groupTraining" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupTraining" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="科技创新费" prop="groupTechnology">
-            <el-input v-model.number="groupData.groupTechnology" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupTechnology" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="招待费" prop="groupEntertain">
-            <el-input v-model.number="groupData.groupEntertain" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupEntertain" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="经营费" prop="groupOperating">
-            <el-input v-model.number="groupData.groupOperating" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupOperating" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="财务费用" prop="groupFinance">
-            <el-input v-model.number="groupData.groupFinance" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupFinance" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="各类税费" prop="groupTaxes">
-            <el-input v-model.number="groupData.groupTaxes" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupTaxes" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="审计费" prop="groupAudit">
-            <el-input v-model.number="groupData.groupAudit" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupAudit" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="律师费用" prop="groupLawyer">
-            <el-input v-model.number="groupData.groupLawyer" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupLawyer" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="证书费用" prop="groupCertificate">
-            <el-input v-model.number="groupData.groupCertificate" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupCertificate" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="伙食费用" prop="groupMeal">
-            <el-input v-model.number="groupData.groupMeal" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupMeal" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="房租费用" prop="groupRent">
-            <el-input v-model.number="groupData.groupRent" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupRent" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="其他费用" prop="groupOther">
-            <el-input v-model.number="groupData.groupOther" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="groupData.groupOther" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>

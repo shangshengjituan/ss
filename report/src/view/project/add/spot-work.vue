@@ -1,6 +1,6 @@
 <template>
   <el-card shadow="hover">
-    <h4>项目使用点工统计表</h4>
+    <h4>项目使用点工统计</h4>
     <el-divider></el-divider>
     <el-form :model="table5" :rules="rules" ref="table5" label-width="110px" label-position="right" >
       <el-row :gutter="20">
@@ -94,17 +94,17 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="平均人数" prop="table5AveragePeople">
-            <el-input v-model.number="table5.table5AveragePeople" type='number' clearable ><template slot="append">人</template></el-input>
+            <el-input v-model.number="table5.table5AveragePeople" type="number" clearable ><template slot="append">人</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="单价" prop="table5UnitPrice">
-            <el-input v-model.number="table5.table5UnitPrice" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="table5.table5UnitPrice" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合价" prop="table5TotalPrice">
-            <span>{{totalPrice}} 元</span>
+            <el-input v-model="totalPrice" :readonly="true" ><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -116,7 +116,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="编制人">
-            <span>{{table5.table5Editor}}</span>
+            <el-input v-model="table5.table5Editor" :disabled="true" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -130,6 +130,7 @@
 <script>
 export default {
   name: 'spot-work',
+  inject: ['reload'],
   data () {
     return {
       departmentId: this.$store.getters.departmentId,
@@ -206,6 +207,7 @@ export default {
         .then(rsp => {
           if (rsp.data.result === 200) {
             this.$message.success('新增表单成功！')
+            this.reload() // 刷新
           } else if (rsp.data.result === 500) {
             this.$message.error(rsp.data.resultText)
           } else {
@@ -229,7 +231,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 提交确认框
-          this.$confirm('提交后将无法修改或删除，确认提交吗？', '提示', {
+          this.$confirm('确认提交吗？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'

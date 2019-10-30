@@ -72,6 +72,23 @@ const project = {
       params: data
     })
   },
+  // 表6 材料费明细统计表
+  addTable6 (data) {
+    return axios.post('/insertTable6', data)
+  },
+  getTable6 (data) {
+    return axios.get('/selectTable6', {
+      params: data
+    })
+  },
+  updateTable6 (data) {
+    return axios.post('/updateTable6', data)
+  },
+  deleteTable6 (data) {
+    return axios.get('/delTable6', {
+      params: data
+    })
+  },
   // 表7 调入调出材料费用统计表
   addTable7 (data) {
     return axios.post('/insertTable7', data)
@@ -86,6 +103,40 @@ const project = {
   },
   deleteTable7 (data) {
     return axios.get('/delTable7', {
+      params: data
+    })
+  },
+  // 表8 水电费所用情况统计
+  addTable8 (data) {
+    return axios.post('/insertTable8', data)
+  },
+  getTable8 (data) {
+    return axios.get('/selectTable8', {
+      params: data
+    })
+  },
+  updateTable8 (data) {
+    return axios.post('/updateTable8', data)
+  },
+  deleteTable8 (data) {
+    return axios.get('/delTable8', {
+      params: data
+    })
+  },
+  // 表9 机械设备费用明细表
+  addTable9 (data) {
+    return axios.post('/insertTable9', data)
+  },
+  getTable9 (data) {
+    return axios.get('/selectTable9', {
+      params: data
+    })
+  },
+  updateTable9 (data) {
+    return axios.post('/updateTable9', data)
+  },
+  deleteTable9 (data) {
+    return axios.get('/delTable9', {
       params: data
     })
   }

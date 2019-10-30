@@ -1,28 +1,35 @@
 <template>
   <div class="o-container">
-    <el-form class="search-form" :inline="true" :model="searchData" :rules="rules" ref="searchData">
-      <el-form-item label="项目：" prop="table3ProjectId">
-        <el-select v-model="searchData.table3ProjectId" placeholder="请选择项目" value="">
+    <el-form class="search-form" :inline="true" :model="searchData" :rules="rules" :hide-required-asterisk="true" ref="searchData">
+      <el-form-item label="项目：" prop="table8ProjectId">
+        <el-select v-model="searchData.table8ProjectId" placeholder="请选择项目" value="">
           <el-option
             v-for="item in projectList"
             :label="item.projectName" :key="item.id" :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年份：" prop="table3ProjectYear">
+      <el-form-item label="年份：" prop="table8ProjectYear">
         <el-date-picker
-          v-model="searchData.table3ProjectYear"
+          v-model="searchData.table8ProjectYear"
           type="year" format="yyyy" value-format="yyyy"
           :editable="false" :clearable="false"
           placeholder="请选择年份">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="季度：" prop="table3Quarter">
-        <el-select v-model="searchData.table3Quarter" placeholder="请选择季度" value="">
+      <el-form-item label="季度：" prop="table8Quarter">
+        <el-select v-model="searchData.table8Quarter" placeholder="请选择季度" value="">
           <el-option
             v-for="item in options"
             :label="item.label" :key="item.value" :value="item.value">
           </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="类型：" prop="table8Type">
+        <el-select v-model="searchData.table8Type" value="">
+          <el-option value="全部" key="0" label="全部"/>
+          <el-option value="水费" key="1" label="水费"/>
+          <el-option value="电费" key="2" label="电费"/>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -33,18 +40,22 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column prop="jobDetail" label="工作内容明细" />
-      <el-table-column prop="table3Unit" label="单位" />
-      <el-table-column prop="table3ContractQuantity" label="合同工程量" />
-      <el-table-column prop="table3ActualEngineeringQuantity" label="实际工程量" />
-      <el-table-column prop="table3ResponsibleLaborUnitPrice" label="责任人工单价（元）" />
-      <el-table-column prop="table3ResponsibleLaborFee" label="责任人工费（元）" />
-      <el-table-column prop="table3ActualLaborUnitPrice" label="实际人工单价（元）" />
-      <el-table-column prop="table3ActualLaborCost" label="实际人工费（元）" />
-      <el-table-column prop="table3LaborCostDifference" label="人工费差额（元）" />
-      <el-table-column prop="table3Remark" label="备注" />
-      <el-table-column prop="table3Editor" label="编制人" />
-      <el-table-column prop="table3EditorDate" label="编制时间" />
+      <el-table-column prop="table8UserUnitName" label="用户单位名称" />
+      <el-table-column prop="table8Type" label="类型" width="68">
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.table8Type === '水费' ? 'primary' : 'warning'"
+            disable-transitions>{{ scope.row.table8Type }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="table8Unit" label="单位" />
+      <el-table-column prop="table8Dosage" label="用量" />
+      <el-table-column prop="table8UserWorkCategory" label="用户工作类型" />
+      <el-table-column prop="table8Price" label="水/电费单价（元）" />
+      <el-table-column prop="table8TotalPrice" label="水/电费合价（元）" />
+      <el-table-column prop="table8Remark" label="备注" />
+      <el-table-column prop="table8Editor" label="编制人" />
+      <el-table-column prop="table8EditorDate" label="编制时间" />
       <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="148">
         <template slot-scope="scope">
           <el-button @click="clickUpdate(scope.row)" size="small">编辑</el-button>
@@ -54,27 +65,28 @@
     </el-table>
     <!-- 修改页面 -->
     <el-dialog title="修改" :visible.sync="dialogVisible">
-      <cost-labor-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog" />
+      <cost-living-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog"/>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import CostLaborForm from '../../../components/project/CostLaborForm'
+import CostLivingForm from '../../../components/project/CostLivingForm'
 export default {
-  name: 'cost-labor',
-  components: {CostLaborForm},
+  name: 'cost-living',
+  components: {CostLivingForm},
   data () {
     return {
       searchData: {
-        table3ProjectYear: new Date().getFullYear().toString(),
-        table3ProjectId: '',
-        table3Quarter: ''
+        table8ProjectYear: new Date().getFullYear().toString(),
+        table8ProjectId: '',
+        table8Quarter: '',
+        table8Type: '全部'
       },
       rules: {
-        table3ProjectYear: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table3ProjectId: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table3Quarter: [{ required: true, message: '不可为空', trigger: 'change' }]
+        table8ProjectYear: [{ required: true, message: '不可为空', trigger: 'change' }],
+        table8ProjectId: [{ required: true, message: '不可为空', trigger: 'change' }],
+        table8Quarter: [{ required: true, message: '不可为空', trigger: 'change' }]
       },
       departmentId: this.$store.getters.departmentId,
       plateId: this.$store.getters.plateId,
@@ -104,7 +116,6 @@ export default {
       this.$api.project.getProjectList({
         departmentId: this.departmentId,
         plateId: this.plateId
-
       })
         .then(rsp => {
           console.log(rsp.data)
@@ -112,9 +123,9 @@ export default {
         })
     },
     getList () {
-      this.$api.project.getTable3(this.searchData)
+      this.$api.project.getTable8(this.searchData)
         .then(rsp => {
-          console.log('getTable3 Success')
+          console.log('gettable8 Success')
           if (rsp.data.result === 200) {
             this.list = rsp.data.list
           } else if (rsp.data.result === 404) {
@@ -139,12 +150,17 @@ export default {
       })
     },
     formatList (list) {
-      if (!list) return []
+      if (!list) {
+        return []
+      }
       list.forEach(function (item, index, arr) {
-        if (item.table3EditorDate) {
-          item.table3EditorDate = item.table3EditorDate.slice(0, 10)
+        if (item.table8EditorDate) {
+          item.table8EditorDate = item.table8EditorDate.slice(0, 10)
         } else {
-          item.table3EditorDate = ''
+          item.table8EditorDate = ''
+        }
+        if (item.table8Price === 0.0) {
+          item.table8Price = ''
         }
       })
       return list
@@ -152,29 +168,23 @@ export default {
     getSummaries (params) {
       const { columns, data } = params
       let sums = []
-      let [demo, demo1, demo2] = [0, 0, 0]
+      let demo = 0
       data.forEach((columns) => {
-        demo += columns.table3ResponsibleLaborFee
-        demo1 += columns.table3ActualLaborCost
-        demo2 += columns.table3LaborCostDifference
+        demo += columns.table8TotalPrice
       })
       columns.forEach((columns, index) => {
         if (index === 0) {
           sums[index] = '累计'
         }
-        switch (columns.property) {
-          case 'table3ResponsibleLaborFee': sums[index] = demo
-            break
-          case 'table3ActualLaborCost': sums[index] = demo1
-            break
-          case 'table3LaborCostDifference': sums[index] = demo2
-            break
+        if (columns.property === 'table8TotalPrice') {
+          sums[index] = demo
         }
       })
       return sums
     },
     // 点击编辑，跳出修改框
     clickUpdate (data) {
+      console.log(data)
       this.dialogData = data
       this.dialogVisible = true
     },
@@ -186,8 +196,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.project.deleteTable3({
-          'table3Id': data.table3Id
+        this.$api.project.deleteTable8({
+          'table8Id': data.table8Id
         }).then(rsp => {
           if (rsp.data.result === 200) {
             this.$message.success('删除成功')
@@ -207,7 +217,7 @@ export default {
       this.dialogVisible = false
     },
     confirmUpdate (data) {
-      this.$api.project.updateTable3(data)
+      this.$api.project.updateTable8(data)
         .then(rsp => {
           let data = rsp.data
           if (data.result === 200) {
@@ -225,7 +235,5 @@ export default {
 </script>
 
 <style scoped>
-.el-dialog {
-  width: 50%;
-}
+
 </style>

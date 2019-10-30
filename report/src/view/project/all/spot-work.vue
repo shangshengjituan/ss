@@ -30,6 +30,7 @@
       </el-form-item>
     </el-form>
     <el-table
+      show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
       <el-table-column prop="table5WorkContent" label="工作内容" />
@@ -148,6 +149,23 @@ export default {
         }
       })
       return list
+    },
+    getSummaries (params) {
+      const { columns, data } = params
+      let sums = []
+      let demo = 0
+      data.forEach((columns) => {
+        demo += columns.table5TotalPrice
+      })
+      columns.forEach((columns, index) => {
+        if (index === 0) {
+          sums[index] = '累计'
+        }
+        if (columns.property === 'table5TotalPrice') {
+          sums[index] = demo
+        }
+      })
+      return sums
     },
     // 点击编辑，跳出修改框
     clickUpdate (data) {

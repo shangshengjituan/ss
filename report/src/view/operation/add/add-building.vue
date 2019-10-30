@@ -33,58 +33,58 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="工资" prop="buildingSalary">
-            <el-input v-model.number="buildingData.buildingSalary" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingSalary" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="行政费用" prop="buildingAdministrative">
-            <el-input v-model.number="buildingData.buildingAdministrative" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingAdministrative" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="固定资产投资" prop="buildingFixedAssets">
-            <el-input v-model.number="buildingData.buildingFixedAssets" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingFixedAssets" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="培训费" prop="buildingTraining">
-            <el-input v-model.number="buildingData.buildingTraining" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingTraining" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="科技创新费" prop="buildingTechnology">
-            <el-input v-model.number="buildingData.buildingTechnology" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingTechnology" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="招待费" prop="buildingEntertain">
-            <el-input v-model.number="buildingData.buildingEntertain" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingEntertain" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="经营费" prop="buildingOperating">
-            <el-input v-model.number="buildingData.buildingOperating" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingOperating" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="财务费用" prop="buildingFinance">
-            <el-input v-model.number="buildingData.buildingFinance" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingFinance" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="各类税费" prop="buildingTaxes">
-            <el-input v-model.number="buildingData.buildingTaxes" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingTaxes" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="其他费用" prop="buildingOther">
-            <el-input v-model.number="buildingData.buildingOther" type='number' clearable><template slot="append">元</template></el-input>
+            <el-input v-model.number="buildingData.buildingOther" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="16">

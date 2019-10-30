@@ -37,6 +37,7 @@
       </el-form-item>
     </el-form>
     <el-table
+      show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
       <el-table-column prop="table7MaterialName" label="材料名称" />
@@ -161,6 +162,23 @@ export default {
         }
       })
       return list
+    },
+    getSummaries (params) {
+      const { columns, data } = params
+      let sums = []
+      let demo = 0
+      data.forEach((columns) => {
+        demo += columns.table7TotalPrice
+      })
+      columns.forEach((columns, index) => {
+        if (index === 0) {
+          sums[index] = '累计'
+        }
+        if (columns.property === 'table7TotalPrice') {
+          sums[index] = demo
+        }
+      })
+      return sums
     },
     // 点击编辑，跳出修改框
     clickUpdate (data) {

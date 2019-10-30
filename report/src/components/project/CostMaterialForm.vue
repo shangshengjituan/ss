@@ -34,7 +34,6 @@
             <el-option label="根" key="3" value="根" />
             <el-option label="张" key="4" value="张" />
           </el-select>
-          <!--<el-input v-model="table7.table7Unit" placeholder="请输入工程量单位" clearable />-->
         </el-form-item>
       </el-col>
     </el-row>
@@ -95,7 +94,6 @@ export default {
       table7: this.formData,
       editor: this.$store.getters.userName,
       totalPrice: this.formData.table7TotalPrice,
-      pickerOptions: {},
       rules: {
         table7MaterialName: [{ required: true, message: '不可为空', trigger: 'change' }],
         table7RecallUnit: [{ required: true, message: '不可为空', trigger: 'change' }],

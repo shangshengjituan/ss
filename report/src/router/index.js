@@ -178,13 +178,13 @@ export const asyncRoutes = [
       component: () => import('@/view/project/add/index'),
       meta: {title: '新增表单', roles: ['2']},
       children: [{
-        path: 'costlabor',
-        name: 'AddCostLabor',
+        path: 'labor',
+        name: 'AddLabor',
         meta: {title: '人工费统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-labor')
       }, {
-        path: 'costlabordetail',
-        name: 'AddCostLaborDetail',
+        path: 'labordetail',
+        name: 'AddLaborDetail',
         meta: {title: '人工费明细统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-labor-detail')
       }, {
@@ -193,10 +193,25 @@ export const asyncRoutes = [
         meta: {title: '使用点工统计', roles: ['2']},
         component: () => import('@/view/project/add/spot-work')
       }, {
-        path: 'costmaterial',
-        name: 'AddCostMaterial',
+        path: 'materialdetail',
+        name: 'AddMaterialDetail',
+        meta: {title: '材料费明细统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-material-detail')
+      }, {
+        path: 'material',
+        name: 'AddMaterial',
         meta: {title: '调入调出材料费用统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-material')
+      }, {
+        path: 'living',
+        name: 'AddLiving',
+        meta: {title: '水电费使用情况统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-living')
+      }, {
+        path: 'machine',
+        name: 'AddMachine',
+        meta: {title: '机械设备费用统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-machine')
       }]
     }, {
       path: 'all',
@@ -204,25 +219,40 @@ export const asyncRoutes = [
       component: () => import('@/view/project/all/index'),
       meta: {title: '表单汇总', roles: ['2', '4']},
       children: [{
-        path: 'costlabor',
-        name: 'AllCostLabor',
-        meta: {title: '人工费统计', roles: ['2', '4']},
+        path: 'labor',
+        name: 'AllLabor',
+        meta: {title: '人工费汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-labor')
       }, {
-        path: 'costlabordetail',
-        name: 'AllCostLaborDetail',
-        meta: {title: '人工费明细统计', roles: ['2', '4']},
+        path: 'labordetail',
+        name: 'AllLaborDetail',
+        meta: {title: '人工费明细汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-labor-detail')
       }, {
         path: 'spotwork',
         name: 'AllSpotWork',
-        meta: {title: '使用点工统计', roles: ['2', '4']},
+        meta: {title: '使用点工汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/spot-work')
       }, {
-        path: 'costmaterial',
-        name: 'AllCostMaterial',
-        meta: {title: '调入调出材料费用统计', roles: ['2', '4']},
+        path: 'materialdetail',
+        name: 'AllMaterialDetail',
+        meta: {title: '材料费明细汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-material-detail')
+      }, {
+        path: 'material',
+        name: 'AllMaterial',
+        meta: {title: '调入调出材料费用汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-material')
+      }, {
+        path: 'living',
+        name: 'AllLiving',
+        meta: {title: '水电费使用情况汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-living')
+      }, {
+        path: 'machine',
+        name: 'AllMachine',
+        meta: {title: '机械设备费用明细汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-machine')
       }]
     }]
   },

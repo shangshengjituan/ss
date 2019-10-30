@@ -1,6 +1,6 @@
 <template>
   <el-card shadow="hover">
-    <h4>项目人工费明细统计表</h4>
+    <h4>项目人工费明细统计</h4>
     <el-divider></el-divider>
     <el-form :model="table4" :rules="rules" ref="table4" label-width="180px" label-position="right" >
       <el-row :gutter="20">
@@ -126,7 +126,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="编制人">
-            <span>{{table4.table4Editor}}</span>
+            <el-input v-model="table4.table4Editor" :disabled="true" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -140,6 +140,7 @@
 <script>
 export default {
   name: 'cost-labor-detail',
+  inject: ['reload'],
   data () {
     return {
       departmentId: this.$store.getters.departmentId,
@@ -213,6 +214,7 @@ export default {
         .then(rsp => {
           if (rsp.data.result === 200) {
             this.$message.success('新增表单成功！')
+            this.reload() // 刷新
           } else if (rsp.data.result === 500) {
             this.$message.error(rsp.data.resultText)
           } else {
@@ -225,7 +227,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 提交确认框
-          this.$confirm('提交后将无法修改或删除，确认提交吗？', '提示', {
+          this.$confirm('确认提交吗？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
