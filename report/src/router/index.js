@@ -217,6 +217,11 @@ export const asyncRoutes = [
         name: 'AddManage',
         meta: {title: '收取管理费分包工程成本统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-manage')
+      }, {
+        path: 'managevalue',
+        name: 'AddManageValue',
+        meta: {title: '收取管理费分包工程产值统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-manage-value')
       }]
     }, {
       path: 'all',
@@ -263,6 +268,11 @@ export const asyncRoutes = [
         name: 'AllManage',
         meta: {title: '收取管理费分包工程成本汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-manage')
+      }, {
+        path: 'managevalue',
+        name: 'AllManageValue',
+        meta: {title: '收取管理费分包工程产值汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-manage-value')
       }]
     }]
   },
