@@ -40,6 +40,7 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
+      <el-table-column type="index" width="50" />
       <el-table-column prop="table7MaterialName" label="材料名称" />
       <el-table-column prop="table7Type" label="类型" width="68">
         <template slot-scope="scope">

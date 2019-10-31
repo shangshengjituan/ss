@@ -33,6 +33,7 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
+      <el-table-column type="index" width="50" />
       <el-table-column prop="jobDetail" label="工作内容明细" />
       <el-table-column prop="table3Unit" label="单位" />
       <el-table-column prop="table3ContractQuantity" label="合同工程量" />

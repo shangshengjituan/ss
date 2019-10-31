@@ -139,6 +139,23 @@ const project = {
     return axios.get('/delTable9', {
       params: data
     })
+  },
+  // 表10 收取管理费分包工程成本统计表
+  addTable10 (data) {
+    return axios.post('/insertTable10', data)
+  },
+  getTable10 (data) {
+    return axios.get('/selectTable10', {
+      params: data
+    })
+  },
+  updateTable10 (data) {
+    return axios.post('/updateTable10', data)
+  },
+  deleteTable10 (data) {
+    return axios.get('/delTable10', {
+      params: data
+    })
   }
 }
 

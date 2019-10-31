@@ -4,7 +4,7 @@
       <header-nav></header-nav>
     </el-header>
     <el-container class="zhz-container">
-      <el-aside width="200px">
+      <el-aside width="250px">
         <sidebar :routes="routes"></sidebar>
         <!--<aside-nav></aside-nav>-->
       </el-aside>

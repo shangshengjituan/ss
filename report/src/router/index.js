@@ -212,6 +212,11 @@ export const asyncRoutes = [
         name: 'AddMachine',
         meta: {title: '机械设备费用统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-machine')
+      }, {
+        path: 'manage',
+        name: 'AddManage',
+        meta: {title: '收取管理费分包工程成本统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-manage')
       }]
     }, {
       path: 'all',
@@ -253,6 +258,11 @@ export const asyncRoutes = [
         name: 'AllMachine',
         meta: {title: '机械设备费用明细汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-machine')
+      }, {
+        path: 'manage',
+        name: 'AllManage',
+        meta: {title: '收取管理费分包工程成本汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-manage')
       }]
     }]
   },

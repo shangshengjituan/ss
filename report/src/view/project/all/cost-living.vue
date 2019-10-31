@@ -40,6 +40,7 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
+      <el-table-column type="index" width="50" />
       <el-table-column prop="table8UserUnitName" label="用户单位名称" />
       <el-table-column prop="table8Type" label="类型" width="68">
         <template slot-scope="scope">
