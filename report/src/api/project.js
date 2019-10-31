@@ -173,6 +173,23 @@ const project = {
     return axios.get('/delTable11', {
       params: data
     })
+  },
+  // 表12 单价分包工程成本统计表
+  addTable12 (data) {
+    return axios.post('/insertTable12', data)
+  },
+  getTable12 (data) {
+    return axios.get('/selectTable12', {
+      params: data
+    })
+  },
+  updateTable12 (data) {
+    return axios.post('/updateTable12', data)
+  },
+  deleteTable12 (data) {
+    return axios.get('/delTable12', {
+      params: data
+    })
   }
 }
 
