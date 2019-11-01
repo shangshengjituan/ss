@@ -46,8 +46,8 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="责任成本与分包合价差额">
-          <el-input v-model="table12.table12Spread" :readonly="true"><template slot="append">元</template></el-input>
+        <el-form-item label="差额">
+          <el-input v-model="table12.table12Spread" placeholder="责任成本与分包合价差额" :readonly="true"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>

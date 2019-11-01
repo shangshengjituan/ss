@@ -209,7 +209,7 @@ export default {
           console.log(this.workList)
         })
     },
-    addTable3 () {
+    addTable4 () {
       this.$api.project.addTable4(this.table4)
         .then(rsp => {
           if (rsp.data.result === 200) {
@@ -232,7 +232,7 @@ export default {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.addTable3()
+            this.addTable4()
           }).catch(() => {
             console.log('cancel submit.')
           })

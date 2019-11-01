@@ -190,6 +190,40 @@ const project = {
     return axios.get('/delTable12', {
       params: data
     })
+  },
+  // 表13 单价分包工程成本统计明细表
+  addTable13 (data) {
+    return axios.post('/insertTable13', data)
+  },
+  getTable13 (data) {
+    return axios.get('/selectTable13', {
+      params: data
+    })
+  },
+  updateTable13 (data) {
+    return axios.post('/updateTable13', data)
+  },
+  deleteTable13 (data) {
+    return axios.get('/delTable13', {
+      params: data
+    })
+  },
+  // 表14 单价分包工程成本统计明细表
+  addTable14 (data) {
+    return axios.post('/insertTable14', data)
+  },
+  getTable14 (data) {
+    return axios.get('/selectTable14', {
+      params: data
+    })
+  },
+  updateTable14 (data) {
+    return axios.post('/updateTable14', data)
+  },
+  deleteTable14 (data) {
+    return axios.get('/delTable14', {
+      params: data
+    })
   }
 }
 

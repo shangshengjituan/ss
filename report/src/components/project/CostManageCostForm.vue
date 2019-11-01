@@ -57,7 +57,7 @@
 
 <script>
 export default {
-  name: 'CostManageForm',
+  name: 'CostManageCostForm',
   props: {
     formData: {
       type: Object

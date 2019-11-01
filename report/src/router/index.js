@@ -213,10 +213,10 @@ export const asyncRoutes = [
         meta: {title: '机械设备费用统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-machine')
       }, {
-        path: 'manage',
-        name: 'AddManage',
+        path: 'managecost',
+        name: 'AddManageCost',
         meta: {title: '收取管理费分包工程成本统计', roles: ['2']},
-        component: () => import('@/view/project/add/cost-manage')
+        component: () => import('@/view/project/add/cost-manage-cost')
       }, {
         path: 'managevalue',
         name: 'AddManageValue',
@@ -226,8 +226,17 @@ export const asyncRoutes = [
         path: 'projectcost',
         name: 'AddProjectCost',
         meta: {title: '单价分包工程成本统计', roles: ['2']},
-        // component: () => import('@/view/project/add/cost-manage-value')
         component: () => import('@/view/project/add/cost-project')
+      }, {
+        path: 'projectdetail',
+        name: 'AddProjectDetail',
+        meta: {title: '单价分包工程成本明细统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-project-detail')
+      }, {
+        path: 'projectproduct',
+        name: 'AddProjectProduct',
+        meta: {title: '项目分包工程生产情况统计', roles: ['2']},
+        component: () => import('@/view/project/add/project-product')
       }]
     }, {
       path: 'all',
@@ -270,10 +279,10 @@ export const asyncRoutes = [
         meta: {title: '机械设备费用明细汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-machine')
       }, {
-        path: 'manage',
-        name: 'AllManage',
+        path: 'managecost',
+        name: 'AllManageCost',
         meta: {title: '收取管理费分包工程成本汇总', roles: ['2', '4']},
-        component: () => import('@/view/project/all/cost-manage')
+        component: () => import('@/view/project/all/cost-manage-cost')
       }, {
         path: 'managevalue',
         name: 'AllManageValue',
@@ -284,6 +293,16 @@ export const asyncRoutes = [
         name: 'AllProjectCost',
         meta: {title: '单价分包工程成本汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-project')
+      }, {
+        path: 'projectdetail',
+        name: 'AllProjectDetail',
+        meta: {title: '单价分包工程成本明细汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-project-detail')
+      }, {
+        path: 'projectproduct',
+        name: 'AllProjectProduct',
+        meta: {title: '项目分包工程生产情况统计', roles: ['2', '4']},
+        component: () => import('@/view/project/all/project-product')
       }]
     }]
   },

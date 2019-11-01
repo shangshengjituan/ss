@@ -92,7 +92,7 @@
 
 <script>
 export default {
-  name: 'cost-manage',
+  name: 'cost-manage-cost',
   inject: ['reload'],
   data () {
     return {

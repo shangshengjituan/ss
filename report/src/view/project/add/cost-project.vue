@@ -2,7 +2,7 @@
   <el-card shadow="hover">
     <h4>单价分包工程成本统计</h4>
     <el-divider></el-divider>
-    <el-form :model="table12" :rules="rules" ref="table12" label-width="180px" label-position="right" >
+    <el-form :model="table12" :rules="rules" ref="table12" label-width="110px" label-position="right" >
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称" prop="table12ProjectId">
@@ -81,8 +81,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="责任成本与分包合价差额">
-            <el-input v-model="table12.table12Spread" :readonly="true"><template slot="append">元</template></el-input>
+          <el-form-item label="差额">
+            <el-input v-model="table12.table12Spread" placeholder="责任成本与分包合价差额" :readonly="true"><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
