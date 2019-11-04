@@ -241,6 +241,23 @@ const project = {
     return axios.get('/delTable15', {
       params: data
     })
+  },
+  // 表16 项目检测实验费用统计表
+  addTable16 (data) {
+    return axios.post('/insertTable16', data)
+  },
+  getTable16 (data) {
+    return axios.get('/selectTable16', {
+      params: data
+    })
+  },
+  updateTable16 (data) {
+    return axios.post('/updateTable16', data)
+  },
+  deleteTable16 (data) {
+    return axios.get('/delTable16', {
+      params: data
+    })
   }
 }
 

@@ -240,8 +240,13 @@ export const asyncRoutes = [
       }, {
         path: 'manage',
         name: 'AddManage',
-        meta: {title: '项目管理费用统计', roles: ['2']},
+        meta: {title: '管理费用统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-manage')
+      }, {
+        path: 'test',
+        name: 'AddTest',
+        meta: {title: '检测实验费用统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-test')
       }]
     }, {
       path: 'all',
@@ -311,8 +316,13 @@ export const asyncRoutes = [
       }, {
         path: 'manage',
         name: 'AllManage',
-        meta: {title: '项目管理费用汇总', roles: ['2', '4']},
+        meta: {title: '管理费用汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-manage')
+      }, {
+        path: 'test',
+        name: 'AllTest',
+        meta: {title: '检测实验费用汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-test')
       }]
     }]
   },

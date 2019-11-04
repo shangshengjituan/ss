@@ -46,7 +46,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="数量" prop="table15Quantity">
-          <el-input v-model="table15.table15Quantity" clearable />
+          <el-input v-model.number="table15.table15Quantity" type="number" clearable />
         </el-form-item>
       </el-col>
       <el-col :span="8">
