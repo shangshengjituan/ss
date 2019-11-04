@@ -237,6 +237,11 @@ export const asyncRoutes = [
         name: 'AddProjectProduct',
         meta: {title: '项目分包工程生产情况统计', roles: ['2']},
         component: () => import('@/view/project/add/project-product')
+      }, {
+        path: 'manage',
+        name: 'AddManage',
+        meta: {title: '项目管理费用统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-manage')
       }]
     }, {
       path: 'all',
@@ -303,6 +308,11 @@ export const asyncRoutes = [
         name: 'AllProjectProduct',
         meta: {title: '项目分包工程生产情况统计', roles: ['2', '4']},
         component: () => import('@/view/project/all/project-product')
+      }, {
+        path: 'manage',
+        name: 'AllManage',
+        meta: {title: '项目管理费用汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-manage')
       }]
     }]
   },

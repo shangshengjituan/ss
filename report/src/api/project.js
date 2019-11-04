@@ -224,6 +224,23 @@ const project = {
     return axios.get('/delTable14', {
       params: data
     })
+  },
+  // 表15 项目管理费用统计表
+  addTable15 (data) {
+    return axios.post('/insertTable15', data)
+  },
+  getTable15 (data) {
+    return axios.get('/selectTable15', {
+      params: data
+    })
+  },
+  updateTable15 (data) {
+    return axios.post('/updateTable15', data)
+  },
+  deleteTable15 (data) {
+    return axios.get('/delTable15', {
+      params: data
+    })
   }
 }
 
