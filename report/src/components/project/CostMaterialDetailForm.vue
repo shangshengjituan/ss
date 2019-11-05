@@ -107,9 +107,6 @@ export default {
     }
   },
   methods: {
-    handleCalculate () {
-      this.costDifference = this.table6.table6LiabilityCostTotalPrice - this.table6.table6ActualTotalPrice
-    },
     // 取消修改
     handleCancel () {
       this.$emit('cancel')

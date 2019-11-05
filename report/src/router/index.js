@@ -247,6 +247,11 @@ export const asyncRoutes = [
         name: 'AddTest',
         meta: {title: '检测实验费用统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-test')
+      }, {
+        path: 'wage',
+        name: 'AddWage',
+        meta: {title: '管理人员工资统计', roles: ['2']},
+        component: () => import('@/view/project/add/staff-wage')
       }]
     }, {
       path: 'all',
@@ -323,6 +328,11 @@ export const asyncRoutes = [
         name: 'AllTest',
         meta: {title: '检测实验费用汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-test')
+      }, {
+        path: 'wage',
+        name: 'AllWage',
+        meta: {title: '管理人员工资汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/staff-wage')
       }]
     }]
   },

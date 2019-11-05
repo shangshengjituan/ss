@@ -258,6 +258,23 @@ const project = {
     return axios.get('/delTable16', {
       params: data
     })
+  },
+  // 表17 项目管理人员工资统计表
+  addTable17 (data) {
+    return axios.post('/insertTable17', data)
+  },
+  getTable17 (data) {
+    return axios.get('/selectTable17', {
+      params: data
+    })
+  },
+  updateTable17 (data) {
+    return axios.post('/updateTable17', data)
+  },
+  deleteTable17 (data) {
+    return axios.get('/delTable17', {
+      params: data
+    })
   }
 }
 
