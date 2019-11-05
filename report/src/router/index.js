@@ -252,6 +252,11 @@ export const asyncRoutes = [
         name: 'AddWage',
         meta: {title: '管理人员工资统计', roles: ['2']},
         component: () => import('@/view/project/add/staff-wage')
+      }, {
+        path: 'run',
+        name: 'AddRun',
+        meta: {title: '经营费用统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-run')
       }]
     }, {
       path: 'all',
@@ -333,6 +338,11 @@ export const asyncRoutes = [
         name: 'AllWage',
         meta: {title: '管理人员工资汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/staff-wage')
+      }, {
+        path: 'run',
+        name: 'AllRun',
+        meta: {title: '经营费用汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-run')
       }]
     }]
   },

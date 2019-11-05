@@ -1,24 +1,24 @@
 <template>
   <div class="o-container">
     <el-form class="search-form" :inline="true" :model="searchData" :rules="rules" ref="searchData">
-      <el-form-item label="项目：" prop="table15ProjectId">
-        <el-select v-model="searchData.table15ProjectId" placeholder="请选择项目" value="">
+      <el-form-item label="项目：" prop="table18ProjectId">
+        <el-select v-model="searchData.table18ProjectId" placeholder="请选择项目" value="">
           <el-option
             v-for="item in projectList"
             :label="item.projectName" :key="item.id" :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年份：" prop="table15ProjectYear">
+      <el-form-item label="年份：" prop="table18ProjectYear">
         <el-date-picker
-          v-model="searchData.table15ProjectYear"
+          v-model="searchData.table18ProjectYear"
           type="year" format="yyyy" value-format="yyyy"
           :editable="false" :clearable="false"
           placeholder="请选择年份">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="季度：" prop="table15Quarter">
-        <el-select v-model="searchData.table15Quarter" placeholder="请选择季度" value="">
+      <el-form-item label="季度：" prop="table18Quarter">
+        <el-select v-model="searchData.table18Quarter" placeholder="请选择季度" value="">
           <el-option
             v-for="item in options"
             :label="item.label" :key="item.value" :value="item.value">
@@ -34,14 +34,14 @@
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
       <el-table-column type="index" width="50" />
-      <el-table-column prop="table15SuppliesName" label="事由" />
-      <el-table-column prop="table15Use" label="时间" />
-      <el-table-column prop="table15Manager" label="经办人" />
-      <el-table-column prop="table15Billing" label="开票情况" />
-      <el-table-column prop="table15Amount" label="金额（元）" />
-      <el-table-column prop="table15Remark" label="备注" />
-      <el-table-column prop="table15Editor" label="编制人" />
-      <el-table-column prop="table15EditorDate" label="编制时间" />
+      <el-table-column prop="table18Cause" label="事由" />
+      <el-table-column prop="table18Time" label="时间" />
+      <el-table-column prop="table18Principal" label="经办人" />
+      <el-table-column prop="table18Billing" label="开票情况" />
+      <el-table-column prop="table18Amount" label="金额（元）" />
+      <el-table-column prop="table18Remark" label="备注" />
+      <el-table-column prop="table18Editor" label="编制人" />
+      <el-table-column prop="table18EditorDate" label="编制时间" />
       <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="148">
         <template slot-scope="scope">
           <el-button @click="clickUpdate(scope.row)" size="small">编辑</el-button>
@@ -51,27 +51,27 @@
     </el-table>
     <!-- 修改页面 -->
     <el-dialog title="修改" :visible.sync="dialogVisible">
-      <cost-manage-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog"/>
+      <cost-run-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog"/>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import CostManageForm from '../../../components/project/CostManageForm'
+import CostRunForm from '../../../components/project/CostRunForm'
 export default {
-  name: 'cost-manage',
-  components: {CostManageForm},
+  name: 'cost-run',
+  components: {CostRunForm},
   data () {
     return {
       searchData: {
-        table15ProjectYear: new Date().getFullYear().toString(),
-        table15ProjectId: '',
-        table15Quarter: ''
+        table18ProjectYear: new Date().getFullYear().toString(),
+        table18ProjectId: '',
+        table18Quarter: ''
       },
       rules: {
-        table15ProjectYear: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table15ProjectId: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table15Quarter: [{ required: true, message: '不可为空', trigger: 'change' }]
+        table18ProjectYear: [{ required: true, message: '不可为空', trigger: 'change' }],
+        table18ProjectId: [{ required: true, message: '不可为空', trigger: 'change' }],
+        table18Quarter: [{ required: true, message: '不可为空', trigger: 'change' }]
       },
       departmentId: this.$store.getters.departmentId,
       plateId: this.$store.getters.plateId,
@@ -108,9 +108,9 @@ export default {
         })
     },
     getList () {
-      this.$api.project.getTable15(this.searchData)
+      this.$api.project.getTable18(this.searchData)
         .then(rsp => {
-          console.log('gettable15 Success')
+          console.log('gettable18 Success')
           if (rsp.data.result === 200) {
             this.list = rsp.data.list
           } else if (rsp.data.result === 404) {
@@ -139,10 +139,10 @@ export default {
         return []
       }
       list.forEach(function (item, index, arr) {
-        if (item.table15EditorDate) {
-          item.table15EditorDate = item.table15EditorDate.slice(0, 10)
+        if (item.table18EditorDate) {
+          item.table18EditorDate = item.table18EditorDate.slice(0, 10)
         } else {
-          item.table15EditorDate = ''
+          item.table18EditorDate = ''
         }
       })
       return list
@@ -152,13 +152,13 @@ export default {
       let sums = []
       let demo = 0
       data.forEach((columns) => {
-        demo += columns.table15TotalAmount
+        demo += columns.table18Amount
       })
       columns.forEach((columns, index) => {
         if (index === 0) {
           sums[index] = '累计'
         }
-        if (columns.property === 'table15TotalAmount') {
+        if (columns.property === 'table18Amount') {
           sums[index] = demo
         }
       })
@@ -178,8 +178,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.project.deleteTable15({
-          'table15Id': data.table15Id
+        this.$api.project.deleteTable18({
+          'table18Id': data.table18Id
         }).then(rsp => {
           if (rsp.data.result === 200) {
             this.$message.success('删除成功')
@@ -199,7 +199,7 @@ export default {
       this.dialogVisible = false
     },
     confirmUpdate (data) {
-      this.$api.project.updateTable15(data)
+      this.$api.project.updateTable18(data)
         .then(rsp => {
           let data = rsp.data
           if (data.result === 200) {

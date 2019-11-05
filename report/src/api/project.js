@@ -275,6 +275,23 @@ const project = {
     return axios.get('/delTable17', {
       params: data
     })
+  },
+  // 表18 项目经营费用统计表
+  addTable18 (data) {
+    return axios.post('/insertTable18', data)
+  },
+  getTable18 (data) {
+    return axios.get('/selectTable18', {
+      params: data
+    })
+  },
+  updateTable18 (data) {
+    return axios.post('/updateTable18', data)
+  },
+  deleteTable18 (data) {
+    return axios.get('/delTable18', {
+      params: data
+    })
   }
 }
 
