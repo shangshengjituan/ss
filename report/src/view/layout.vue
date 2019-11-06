@@ -5,7 +5,9 @@
     </el-header>
     <el-container class="zhz-container">
       <el-aside width="250px">
-        <sidebar :routes="routes"></sidebar>
+        <el-scrollbar class="scrollbar-wrapper">
+          <sidebar :routes="routes" />
+        </el-scrollbar>
         <!--<aside-nav></aside-nav>-->
       </el-aside>
       <el-main>
@@ -55,5 +57,8 @@ export default {
   }
   .el-main {
     background: #F2F2F2;
+  }
+  .scrollbar-wrapper {
+    height: 100%;
   }
 </style>

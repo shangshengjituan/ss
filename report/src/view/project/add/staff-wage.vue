@@ -2,7 +2,7 @@
   <el-card shadow="hover">
     <h4>项目管理人员工资统计</h4>
     <el-divider></el-divider>
-    <el-form :model="table17" label-width="180px" label-position="right" >
+    <el-form :model="table17" :rules="rules" ref="table17"  label-width="180px" label-position="right" >
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称" prop="table17ProjectId">
@@ -94,7 +94,7 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" @click="validateData"> 立即创建 </el-button>
+        <el-button type="primary" @click="validateData('table17')"> 立即创建 </el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -121,6 +121,11 @@ export default {
         table17Allowance: '',
         table17Remark: '',
         table17Editor: this.$store.getters.userName
+      },
+      rules: {
+        table17ProjectId: [{ required: true, message: '请选择项目', trigger: 'change' }],
+        table17ProjectYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
+        table17Quarter: [{ required: true, message: '请选择季度', trigger: 'change' }]
       },
       options: this.$store.getters.addType[1].children,
       projectList: [],
@@ -167,16 +172,23 @@ export default {
     disabledDate (time) {
       return time.getTime() > new Date(this.table17.table17OutTime).getTime()
     },
-    validateData () {
-      // 提交确认框
-      this.$confirm('确认提交吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.addTable17()
-      }).catch(err => {
-        console.log(err)
+    validateData (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // 提交确认框
+          this.$confirm('确认提交吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.addTable17()
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
       })
     }
   }

@@ -292,6 +292,23 @@ const project = {
     return axios.get('/delTable18', {
       params: data
     })
+  },
+  // 表19 项目临时设施成本统计表
+  addTable19 (data) {
+    return axios.post('/insertTable19', data)
+  },
+  getTable19 (data) {
+    return axios.get('/selectTable19', {
+      params: data
+    })
+  },
+  updateTable19 (data) {
+    return axios.post('/updateTable19', data)
+  },
+  deleteTable19 (data) {
+    return axios.get('/delTable19', {
+      params: data
+    })
   }
 }
 

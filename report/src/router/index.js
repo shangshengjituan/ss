@@ -257,6 +257,11 @@ export const asyncRoutes = [
         name: 'AddRun',
         meta: {title: '经营费用统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-run')
+      }, {
+        path: 'temp',
+        name: 'AddTemp',
+        meta: {title: '临时设施成本统计', roles: ['2']},
+        component: () => import('@/view/project/add/temp-cost')
       }]
     }, {
       path: 'all',
@@ -343,6 +348,11 @@ export const asyncRoutes = [
         name: 'AllRun',
         meta: {title: '经营费用汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-run')
+      }, {
+        path: 'temp',
+        name: 'AllTemp',
+        meta: {title: '临时设施成本汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/temp-cost')
       }]
     }]
   },
