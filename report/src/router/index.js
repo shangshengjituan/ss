@@ -262,6 +262,11 @@ export const asyncRoutes = [
         name: 'AddTemp',
         meta: {title: '临时设施成本统计', roles: ['2']},
         component: () => import('@/view/project/add/temp-cost')
+      }, {
+        path: 'templabor',
+        name: 'AddTempLabor',
+        meta: {title: '临时设施人工费明细统计', roles: ['2']},
+        component: () => import('@/view/project/add/temp-labor')
       }]
     }, {
       path: 'all',
@@ -353,6 +358,11 @@ export const asyncRoutes = [
         name: 'AllTemp',
         meta: {title: '临时设施成本汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/temp-cost')
+      }, {
+        path: 'templabor',
+        name: 'AllTempLabor',
+        meta: {title: '临时设施人工费明细汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/temp-labor')
       }]
     }]
   },

@@ -1,32 +1,49 @@
 <template>
-  <el-form :model="table17" label-width="180px" label-position="right">
+  <el-form :model="table20" label-width="180px" label-position="right">
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="姓名">
-          <el-input v-model="table17.table17Name" clearable />
+        <el-form-item label="工作内容明细" prop="table20WorkType">
+          <el-input v-model="table20.table20WorkType" clearable />
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="岗位与职务">
-          <el-input v-model="table17.table17PostPosition" clearable />
+        <el-form-item label="单位">
+          <el-input v-model="table20.table20Unit" clearable />
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="实际工程量">
+          <el-input v-model.number="table20.table20ActualQuantity" type="number" clearable />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="进项目时间">
+        <el-form-item label="单价">
+          <el-input v-model.number="table20.table20Price" type="number" clearable><template slot="append">元</template></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="实际人工费"  prop="table20ActualLaborCost">
+          <el-input v-model.number="table20.table20ActualLaborCost" type="number" clearable><template slot="append">元</template></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="8">
+        <el-form-item label="起始日期">
           <el-date-picker
-            v-model="table17.table17EnterTime" :clearable="false" :editable="false"
+            v-model="table20.table20StartDate" :clearable="false" :editable="false"
             type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
             placeholder="请选择起始日期">
           </el-date-picker>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="出项目时间">
+        <el-form-item label="终止日期">
           <el-date-picker
             @focus="handleEndTime"
-            v-model="table17.table17OutTime" :clearable="false" :editable="false"
+            v-model="table20.table20EndDate" :clearable="false" :editable="false"
             type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
             :picker-options="pickerOptions"
             placeholder="请选择终止日期">
@@ -35,21 +52,9 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="8">
-        <el-form-item label="工资标准">
-          <el-input v-model.number="table17.table17FeeStandard" type="number" clearable><template slot="append">元</template></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="证件津贴">
-          <el-input v-model.number="table17.table17Allowance" type="number" clearable />
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
       <el-col :span="16">
         <el-form-item label="备注">
-          <el-input v-model="table17.table17Remark" clearable></el-input>
+          <el-input v-model="table20.table20Remark" clearable></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -67,7 +72,7 @@
 
 <script>
 export default {
-  name: 'StaffWageForm',
+  name: 'TempLaborForm',
   props: {
     formData: {
       type: Object
@@ -76,13 +81,13 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table17 = newValue
+        this.table20 = newValue
       }
     }
   },
   data () {
     return {
-      table17: this.formData,
+      table20: this.formData,
       editor: this.$store.getters.userName,
       pickerOptions: {}
     }
@@ -94,13 +99,11 @@ export default {
     },
     // 确定修改
     handleConfirm () {
-      // 将验证后的table17数据增减字段为buildingData后提交
-      this.table17.table17Editor = this.editor
-      console.log(JSON.stringify(this.table17))
-      this.$emit('confirm', this.table17)
+      this.table20.table20Editor = this.editor
+      this.$emit('confirm', this.table20)
     },
     handleEndTime () {
-      let demo = new Date(this.table17.table17EnterTime).getTime()
+      let demo = new Date(this.table20.table20StartDate).getTime()
       this.pickerOptions = {
         disabledDate (time) {
           return time.getTime() < demo
@@ -108,7 +111,7 @@ export default {
       }
     },
     disabledDate (time) {
-      return time.getTime() > new Date(this.table17.table17EnterTime).getTime()
+      return time.getTime() > new Date(this.table20.table20StartDate).getTime()
     }
   }
 }

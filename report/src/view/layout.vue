@@ -50,7 +50,7 @@ export default {
     padding: 0;
   }
   .container {
-    min-height: 100%;
+    height: 100%;
   }
   .el-aside {
     background: #343E4B;

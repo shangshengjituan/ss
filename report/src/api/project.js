@@ -309,6 +309,23 @@ const project = {
     return axios.get('/delTable19', {
       params: data
     })
+  },
+  // 表20 项目临时设施人工费明细统计表
+  addTable20 (data) {
+    return axios.post('/insertTable20', data)
+  },
+  getTable20 (data) {
+    return axios.get('/selectTable20', {
+      params: data
+    })
+  },
+  updateTable20 (data) {
+    return axios.post('/updateTable20', data)
+  },
+  deleteTable20 (data) {
+    return axios.get('/delTable20', {
+      params: data
+    })
   }
 }
 

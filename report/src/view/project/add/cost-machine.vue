@@ -201,7 +201,7 @@ export default {
       }
     },
     disabledDate (time) {
-      return time.getTime() > new Date(this.table9.table9EndDate).getTime()
+      return time.getTime() > new Date(this.table9.table9StartDate).getTime()
     },
     validateData (formName) {
       this.$refs[formName].validate((valid) => {
