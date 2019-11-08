@@ -326,6 +326,23 @@ const project = {
     return axios.get('/delTable20', {
       params: data
     })
+  },
+  // 表21 项目临时设施、场地等材料费明细统计表
+  addTable21 (data) {
+    return axios.post('/insertTable21', data)
+  },
+  getTable21 (data) {
+    return axios.get('/selectTable21', {
+      params: data
+    })
+  },
+  updateTable21 (data) {
+    return axios.post('/updateTable21', data)
+  },
+  deleteTable21 (data) {
+    return axios.get('/delTable21', {
+      params: data
+    })
   }
 }
 

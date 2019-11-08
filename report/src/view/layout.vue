@@ -3,7 +3,7 @@
     <el-header>
       <header-nav></header-nav>
     </el-header>
-    <el-container class="zhz-container">
+    <el-container style="height: calc(100% - 60px)">
       <el-aside width="250px">
         <el-scrollbar class="scrollbar-wrapper">
           <sidebar :routes="routes" />
