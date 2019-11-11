@@ -272,6 +272,11 @@ export const asyncRoutes = [
         name: 'AddTempMaterial',
         meta: {title: '临时设施、场地等材料费明细统计', roles: ['2']},
         component: () => import('@/view/project/add/temp-material')
+      }, {
+        path: 'totalcompare',
+        name: 'AddTotalCompare',
+        meta: {title: '总产值与相应成本对比统计', roles: ['2']},
+        component: () => import('@/view/project/add/total-compare')
       }]
     }, {
       path: 'all',
@@ -373,6 +378,11 @@ export const asyncRoutes = [
         name: 'AllTempMaterial',
         meta: {title: '临时设施、场地等材料费明细汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/temp-material')
+      }, {
+        path: 'totalcompare',
+        name: 'AllTotalCompare',
+        meta: {title: '总产值与相应成本对比汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/total-compare')
       }]
     }]
   },

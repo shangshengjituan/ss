@@ -343,6 +343,23 @@ const project = {
     return axios.get('/delTable21', {
       params: data
     })
+  },
+  // 表22 项目自行完成总产值与相应的成本对比统计表
+  addTable22 (data) {
+    return axios.post('/insertTable22', data)
+  },
+  getTable22 (data) {
+    return axios.get('/selectTable22', {
+      params: data
+    })
+  },
+  updateTable22 (data) {
+    return axios.post('/updateTable22', data)
+  },
+  deleteTable22 (data) {
+    return axios.get('/delTable22', {
+      params: data
+    })
   }
 }
 

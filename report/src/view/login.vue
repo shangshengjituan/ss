@@ -79,6 +79,9 @@ export default {
                 }
               })
             }
+          }).catch(() => {
+            console.log('....')
+            this.logining = true
           })
         } else {
           return false
