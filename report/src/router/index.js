@@ -277,6 +277,11 @@ export const asyncRoutes = [
         name: 'AddTotalCompare',
         meta: {title: '总产值与相应成本对比统计', roles: ['2']},
         component: () => import('@/view/project/add/total-compare')
+      }, {
+        path: 'worktype',
+        name: 'AddWorkType',
+        meta: {title: '各工种每平方米单价统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-work-type')
       }]
     }, {
       path: 'all',
@@ -379,10 +384,10 @@ export const asyncRoutes = [
         meta: {title: '临时设施、场地等材料费明细汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/temp-material')
       }, {
-        path: 'totalcompare',
-        name: 'AllTotalCompare',
-        meta: {title: '总产值与相应成本对比汇总', roles: ['2', '4']},
-        component: () => import('@/view/project/all/total-compare')
+        path: 'worktype',
+        name: 'AllWorkType',
+        meta: {title: '各工种每平方米单价汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-work-type')
       }]
     }]
   },

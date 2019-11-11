@@ -360,6 +360,23 @@ const project = {
     return axios.get('/delTable22', {
       params: data
     })
+  },
+  // 表23 项目各工种每平方米单价统计表
+  addTable23 (data) {
+    return axios.post('/insertTable23', data)
+  },
+  getTable23 (data) {
+    return axios.get('/selectTable23', {
+      params: data
+    })
+  },
+  updateTable23 (data) {
+    return axios.post('/updateTable23', data)
+  },
+  deleteTable23 (data) {
+    return axios.get('/delTable23', {
+      params: data
+    })
   }
 }
 
