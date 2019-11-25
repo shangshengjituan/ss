@@ -282,6 +282,11 @@ export const asyncRoutes = [
         name: 'AddWorkType',
         meta: {title: '各工种每平方米单价统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-work-type')
+      }, {
+        path: 'summary',
+        name: 'AddSummary',
+        meta: {title: '项目成本统计', roles: ['2']},
+        component: () => import('@/view/project/add/cost-summary')
       }]
     }, {
       path: 'all',
@@ -388,6 +393,11 @@ export const asyncRoutes = [
         name: 'AllWorkType',
         meta: {title: '各工种每平方米单价汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-work-type')
+      }, {
+        path: 'summary',
+        name: 'AllSummary',
+        meta: {title: '项目成本统计汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-summary')
       }]
     }]
   },
