@@ -2,10 +2,7 @@
 <div>
   <span>当前用户：{{username}}</span>
   <el-divider></el-divider>
-      <el-card style="width: 600px;height: 600px">
-        <el-calendar>
-        </el-calendar>
-      </el-card>
+  <span>当前日期：{{new Date().getFullYear()}}年{{new Date().getMonth() + 1}}月{{new Date().getDay()}}日</span>
 </div>
 </template>
 

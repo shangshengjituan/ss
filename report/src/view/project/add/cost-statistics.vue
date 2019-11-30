@@ -3,10 +3,10 @@
     <h4>成本统计表</h4>
     <el-divider></el-divider>
     <el-form :model="selectData" label-width="110px" label-position="right" >
-      <el-row :gutter="10">
+      <el-row >
         <el-col :span="6">
           <el-form-item label="项目名称">
-            <el-select v-model="selectData.table2ProjectId" placeholder="请选择项目名称" value="">
+            <el-select v-model="selectData.table1ProjectId" placeholder="请选择项目名称" value="">
               <el-option
                 v-for="item in projectList"
                 :label="item.projectName" :key="item.id" :value="item.id">
@@ -17,7 +17,7 @@
         <el-col :span="6">
           <el-form-item label="年份">
             <el-date-picker
-              v-model="selectData.table2ProjectYear"
+              v-model="selectData.table1ProjectYear"
               type="year" format="yyyy" value-format="yyyy"
               :clearable="false" :editable="false"
               placeholder="请选择年份">
@@ -26,7 +26,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="季度">
-            <el-select v-model="selectData.table2Quarter" placeholder="请选择季度" value="">
+            <el-select v-model="selectData.table1Quarter" placeholder="请选择季度" value="">
               <el-option
                 v-for="item in options"
                 :label="item.label" :key="item.value" :value="item.value">
@@ -36,23 +36,33 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="汇总类型">
-            <el-cascader
-              placeholder="请选择类型"
-              v-model="selectData.optionId"
-              :options="items"/>
+            <el-select v-model="selectData.optionId" placeholder="请选择类型" value="">
+              <el-option
+                v-for="item in items"
+                :label="item.optionName" :key="item.optionId" :value="item.optionId">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
-    <add-summary v-show="isShow" :basisData="selectData" :summaryData="currentSummary" @fresh="handleFresh" />
+    <div v-show="isShowUp" class="o-container">
+      <el-divider />
+      <get-statistics :basisData="selectData" :summaryData="currentSummaryUp"/>
+    </div>
+    <div v-show="isShow" class="o-container">
+      <el-divider />
+      <add-statistics :basisData="selectData" :summaryData="currentSummary" @fresh="handleFresh" />
+    </div>
   </el-card>
 </template>
 
 <script>
-import AddSummary from '../../../components/project/AddSummary'
+import GetStatistics from '../../../components/project/GetStatistics'
+import AddStatistics from '../../../components/project/AddStatistics'
 export default {
-  name: 'cost-summary',
-  components: {AddSummary},
+  name: 'cost-statistics',
+  components: {AddStatistics, GetStatistics},
   inject: ['reload'],
   data () {
     return {
@@ -60,15 +70,16 @@ export default {
       departmentName: this.$store.getters.departmentName,
       plateId: this.$store.getters.plateId,
       selectData: {
-        table2ProjectId: '',
-        table2ProjectYear: '',
-        table2Quarter: '',
-        specificOptionId: '',
+        table1ProjectId: '',
+        table1ProjectYear: '',
+        table1Quarter: '',
         optionId: '' // 类型
       },
       options: this.$store.getters.addType[1].children, // 季度
       projectList: [],
       items: [], // 存放项目成本统计汇总表的类型名称
+      isShowUp: false, // 上半部分子组件
+      currentSummaryUp: {},
       isShow: false, // 当前子组件是否显示
       currentSummary: {} // 当前子组件数据
     }
@@ -80,14 +91,8 @@ export default {
   watch: {
     selectData: {
       handler (newVal, oldVal) {
-        if (newVal.table2ProjectId && newVal.table2ProjectYear && newVal.table2Quarter && newVal.optionId) {
-          newVal.specificOptionId = newVal.optionId[1]
-          this.getSummary({
-            table2ProjectId: newVal.table2ProjectId,
-            table2ProjectYear: newVal.table2ProjectYear,
-            table2Quarter: newVal.table2Quarter,
-            specificOptionId: newVal.optionId[1]
-          })
+        if (newVal.table1ProjectId && newVal.table1ProjectYear && newVal.table1Quarter && newVal.optionId) {
+          this.getSummary(this.selectData)
         }
       },
       deep: true
@@ -103,36 +108,22 @@ export default {
       })
     },
     getItems () {
-      this.$api.project.getOptions().then(rsp => {
-        rsp.data.options.forEach((item, index, arr) => {
-          let keyMap = {'optionId': 'value', 'optionName': 'label'}
-          let obj = Object.keys(item).reduce((newData, key) => {
-            let newKey = keyMap[key] || key
-            newData[newKey] = item[key]
-            return newData
-          }, {})
-          obj.children = []
-          this.items.push(obj)
-          if (item.children) {
-            item.children.forEach((it, i, arr) => {
-              let keyMap = {'specificOptionId': 'value', 'specificOptionName': 'label'}
-              let obj = Object.keys(it).reduce((newData, key) => {
-                let newKey = keyMap[key] || key
-                newData[newKey] = it[key]
-                return newData
-              }, {})
-              this.items[index].children.push(obj)
-            })
-          }
-        })
+      this.$api.project.getWorkName().then(rsp => {
+        this.items = rsp.data.options
         console.log(this.items)
       })
     },
-    getSummary (data) {
-      this.$api.project.getSummary(data).then(rsp => {
-        this.currentSummary = rsp.data
-        this.isShow = true
+    getSummary () {
+      this.$api.project.getSummary1(this.selectData).then(rsp => {
+        if (rsp.data.checkRepeat === 200) {
+          this.currentSummaryUp = rsp.data.projectIntroduction
+        } else if (rsp.data.checkRepeat === 404) {
+          this.currentSummaryUp = {}
+        }
+        this.isShowUp = true
         console.log(rsp.data)
+        this.currentSummary = rsp.data.table1Summary
+        this.isShow = true
       })
     },
     handleFresh () {

@@ -52,3 +52,7 @@ input[type="number"] {
 /*.el-cascader, .el-select {*/
   /*display: block !important;*/
 /*}*/
+
+.el-menu-item.is-active {
+  background: #255e98 !important;
+}

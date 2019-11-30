@@ -389,45 +389,52 @@ const project = {
       params: data
     })
   },
-  // 新增人工费
-  addTable2option1 (data) {
-    return axios.post('/insertTable2Option1', data)
+  // 表2
+  addTable2 (data) {
+    return axios.post('/insertTable2', data)
   },
-  // 新增材料费
-  addTable2option2 (data) {
-    return axios.post('/insertTable2Option2', data)
+  getTable2 (data) {
+    return axios.get('/selectTable2', {
+      params: data
+    })
   },
-  // 新增水电费
-  addTable2option3 (data) {
-    return axios.post('/insertTable2Option3', data)
+  deleteTable2 (data) {
+    return axios.get('/delTable2', {
+      params: data
+    })
   },
-  // 新增机械费
-  addTable2option4 (data) {
-    return axios.post('/insertTable2Option4', data)
+  // 表1
+  // 获取项目汇总的类型名称
+  getWorkName () {
+    return axios.get('/selectWorkName')
   },
-  // 新增分包工程
-  addTable2option5 (data) {
-    return axios.post('/insertTable2Option5', data)
+  // 获取汇总部分统计值
+  getSummary1 (data) {
+    return axios.get('/returnSummary', {
+      params: data
+    })
   },
-  // 新增管理费
-  addTable2option6 (data) {
-    return axios.post('/insertTable2Option6', data)
+  // 表1
+  addTable1Up (data) {
+    return axios.post('/insertTable1Introduction', data)
   },
-  // 新增规费
-  addTable2option7 (data) {
-    return axios.post('/insertTable2Option7', data)
+  addTable1 (data) {
+    return axios.post('/insertTable1', data)
   },
-  // 新增安全文明费
-  addTable2option8 (data) {
-    return axios.post('/insertTable2Option8', data)
+  getTable1 (data) {
+    return axios.get('/selectTable1', {
+      params: data
+    })
   },
-  // 新增临时设施费
-  addTable2option9 (data) {
-    return axios.post('/insertTable2Option9', data)
+  deleteTable1Up (data) {
+    return axios.get('/delTable1Introduction', {
+      params: data
+    })
   },
-  // 新增税费
-  addTable2option10 (data) {
-    return axios.post('/insertTable2Option10', data)
+  deleteTable1 (data) {
+    return axios.get('/delTable1', {
+      params: data
+    })
   }
 }
 

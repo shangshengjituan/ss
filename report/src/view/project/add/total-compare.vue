@@ -2,7 +2,7 @@
   <el-card shadow="hover">
     <h4>项目自行完成总产值与相应的责任成本、实际成本人、材、机对比统计</h4>
     <el-divider></el-divider>
-    <el-form :model="table22" :rules="rules" ref="table22" label-width="110px" label-position="right" >
+    <el-form :model="table22" :rules="rules" ref="table22" label-position="right" >
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称" prop="table22ProjectId">
@@ -35,57 +35,53 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="工种">
+      <el-row :gutter="40">
+        <el-col :span="6">
+          <el-form-item label="工种：">
             <el-input v-model="table22.table22WorkType" clearable />
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="责任成本人工费占总产值百分比">
+        <el-col :span="6">
+          <el-form-item label="责任成本人工费占总产值百分比：">
             <el-input v-model="table22.table22LiabilityLabor" clearable />
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="实际成本人工费占总产值百分比">
+        <el-col :span="6">
+          <el-form-item label="实际成本人工费占总产值百分比：">
             <el-input v-model="table22.table22ActualLabor" clearable />
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="责任成本材料费占总产值百分比">
+      <el-row :gutter="40">
+        <el-col :span="6">
+          <el-form-item label="责任成本材料费占总产值百分比：">
             <el-input v-model="table22.table22LiabilityMaterial" clearable />
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="实际成本材料费占总产值百分比">
+        <el-col :span="6">
+          <el-form-item label="实际成本材料费占总产值百分比：">
             <el-input v-model="table22.table22ActualMaterial" clearable />
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="责任成本机械费占总产值百分比">
+        <el-col :span="6">
+          <el-form-item label="责任成本机械费占总产值百分比：">
             <el-input v-model="table22.table22LiabilityMechanical" clearable />
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="实际成本机械费占总产值百分比">
+        <el-col :span="6">
+          <el-form-item label="实际成本机械费占总产值百分比：">
             <el-input v-model="table22.table22ActualMechanical" clearable />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="16">
-          <el-form-item label="备注">
+        <el-col :span="18">
+          <el-form-item label="备注：">
             <el-input v-model="table22.table22Remark" clearable></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="编制人">
+        <el-col :span="6">
+          <el-form-item label="编制人：">
             <el-input v-model="table22.table22Editor" :disabled="true" />
           </el-form-item>
         </el-col>

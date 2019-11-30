@@ -1,37 +1,36 @@
 <template>
-  <el-form :model="table2option3" label-width="110px" label-position="right" >
-    <el-divider class="z-divider" content-position="left">水电费</el-divider>
+  <el-form :model="table2option2" label-width="110px" label-position="right" >
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="产值">
-          <el-input v-model.number="table2option3.actualLaborOutput" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2Output" type="number" clearable><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="责任指标">
-          <el-input v-model="table2option3.actualLaborTarget" clearable />
+          <el-input v-model="table2option2.table2Target" clearable />
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="责任成本">
-          <el-input v-model.number="table2option3.actualLaborLiabilityCost" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2LiabilityCost" type="number" clearable><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="实际成本">
-          <el-input v-model.number="table2option3.actualLaborActualCost" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2ActualCost" type="number" clearable><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="差额">
-          <span>{{(table2option3.actualLaborLiabilityCost - table2option3.actualLaborActualCost) || 0 }}</span>
+          <span>{{(table2option2.table2LiabilityCost - table2option2.table2ActualCost) || 0 }}</span>
         </el-form-item>
       </el-col>
       <el-col :span="18">
         <el-form-item label="备注">
-          <el-input v-model="table2option3.actualLaborRemark" clearable></el-input>
+          <el-input v-model="table2option2.table2Remark" clearable></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -43,7 +42,7 @@
 
 <script>
 export default {
-  name: 'Living',
+  name: 'AddSummary',
   props: {
     summaryData: {
       type: Object
@@ -54,20 +53,16 @@ export default {
   },
   data () {
     return {
-      table2option3: {
+      table2option2: {
         table2ProjectId: '',
         table2ProjectYear: '',
         table2Quarter: '',
-        actualLaborOutput: '',
-        actualLaborTarget: '',
-        actualLaborLiabilityCost: '',
-        actualLaborActualCost: '',
-        actualLaborRemark: '',
-        pointWorkOutput: '',
-        pointWorkTarget: '',
-        pointWorkLiabilityCost: '',
-        pointWorkActualCost: '',
-        pointWorkRemark: ''
+        specificOptionId: '',
+        table2Output: '',
+        table2Target: '',
+        table2LiabilityCost: '',
+        table2ActualCost: '',
+        table2Remark: ''
       }
     }
   },
@@ -77,6 +72,7 @@ export default {
   watch: {
     summaryData: {
       handler (newValue, oldValue) {
+        console.log('change')
         this.initData()
       },
       deep: true
@@ -85,12 +81,12 @@ export default {
   methods: {
     initData () {
       Object.assign(this.summaryData, this.basisData)
-      Object.keys(this.table2option3).forEach(key => {
-        this.table2option3[key] = this.summaryData[key]
+      Object.keys(this.table2option2).forEach(key => {
+        this.table2option2[key] = this.summaryData[key]
       })
     },
-    addTable2option3 () {
-      this.$api.project.addTable2option3(this.table2option3)
+    addTable2 () {
+      this.$api.project.addTable2(this.table2option2)
         .then(rsp => {
           if (rsp.data.result === 200) {
             this.$message.success('新增表单成功！')
@@ -110,7 +106,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.addTable2option3()
+        this.addTable2()
       }).catch(() => {
         console.log('cancel submit.')
       })
@@ -120,10 +116,5 @@ export default {
 </script>
 
 <style scoped>
-  .z-divider {
-    background-color: rgb(64, 158, 255);
-  }
-  .z-divider div {
-    color: rgb(64, 158, 255);
-  }
+
 </style>

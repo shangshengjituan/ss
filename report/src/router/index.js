@@ -178,6 +178,16 @@ export const asyncRoutes = [
       component: () => import('@/view/project/add/index'),
       meta: {title: '新增表单', roles: ['2']},
       children: [{
+        path: 'statistics',
+        name: 'AddStatistics',
+        meta: {title: '项目成本统计一', roles: ['2']},
+        component: () => import('@/view/project/add/cost-statistics')
+      }, {
+        path: 'summary',
+        name: 'AddSummary',
+        meta: {title: '项目成本统计二', roles: ['2']},
+        component: () => import('@/view/project/add/cost-summary')
+      }, {
         path: 'labor',
         name: 'AddLabor',
         meta: {title: '人工费统计', roles: ['2']},
@@ -282,11 +292,6 @@ export const asyncRoutes = [
         name: 'AddWorkType',
         meta: {title: '各工种每平方米单价统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-work-type')
-      }, {
-        path: 'summary',
-        name: 'AddSummary',
-        meta: {title: '项目成本统计', roles: ['2']},
-        component: () => import('@/view/project/add/cost-summary')
       }]
     }, {
       path: 'all',
@@ -294,6 +299,16 @@ export const asyncRoutes = [
       component: () => import('@/view/project/all/index'),
       meta: {title: '表单汇总', roles: ['2', '4']},
       children: [{
+        path: 'statistics',
+        name: 'AllStatistics',
+        meta: {title: '项目成本统计汇总一', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-statistics')
+      }, {
+        path: 'summary',
+        name: 'AllSummary',
+        meta: {title: '项目成本统计汇总二', roles: ['2', '4']},
+        component: () => import('@/view/project/all/cost-summary')
+      }, {
         path: 'labor',
         name: 'AllLabor',
         meta: {title: '人工费汇总', roles: ['2', '4']},
@@ -393,11 +408,6 @@ export const asyncRoutes = [
         name: 'AllWorkType',
         meta: {title: '各工种每平方米单价汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/cost-work-type')
-      }, {
-        path: 'summary',
-        name: 'AllSummary',
-        meta: {title: '项目成本统计汇总', roles: ['2', '4']},
-        component: () => import('@/view/project/all/cost-summary')
       }]
     }]
   },
