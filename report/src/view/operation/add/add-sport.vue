@@ -210,7 +210,7 @@ export default {
       activeName: 'sportplate',
       departmentName: this.$store.getters.departmentName,
       sportData: {
-        departmentId: this.$store.getters.departmentId,
+        departmentId: this.$store.getters.departmentId.toString(),
         sportYear: '',
         sportQuarter: '', // 季度
         sportEstimatedOrActual: '', // 预估实际

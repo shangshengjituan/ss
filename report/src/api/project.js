@@ -403,6 +403,9 @@ const project = {
       params: data
     })
   },
+  updateTable2 (data) {
+    return axios.post('/updateTable2', data)
+  },
   // 表1
   // 获取项目汇总的类型名称
   getWorkName () {
@@ -435,6 +438,12 @@ const project = {
     return axios.get('/delTable1', {
       params: data
     })
+  },
+  updateTable1Up (data) {
+    return axios.post('/updateTable1Introduction', data)
+  },
+  updateTable1 (data) {
+    return axios.post('/updateTable1', data)
   }
 }
 

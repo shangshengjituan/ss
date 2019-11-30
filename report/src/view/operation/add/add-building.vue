@@ -120,7 +120,7 @@ export default {
     return {
       departmentName: this.$store.getters.departmentName,
       buildingData: {
-        departmentId: this.$store.getters.departmentId,
+        departmentId: this.$store.getters.departmentId.toString(),
         buildingYear: '',
         buildingQuarter: '', // 季度
         buildingEstimatedOrActual: '', // 预估实际
@@ -161,8 +161,10 @@ export default {
   computed: {
     totalCost () {
       // 费用合计
+      // let total = 0 + this.buildingData.buildingSalary + this.buildingData.buildingAdministrative + this.buildingData.buildingFixedAssets + this.buildingData.buildingTraining + this.buildingData.buildingTechnology + this.buildingData.buildingEntertain + this.buildingData.buildingOperating + this.buildingData.buildingFinance + this.buildingData.buildingTaxes + this.buildingData.buildingOther
       let _this = this
       let arr = Object.values(this.buildingData)
+      console.log(arr)
       let total = 0
       let filterArr = arr.filter(function (item, index, arr) {
         return typeof item === 'number' && !isNaN(item)
@@ -171,6 +173,7 @@ export default {
         total = total + item
         return total
       })
+      console.log(total)
       _this.tempTotal = total
       return total.toString().replace(/\B(?=(\d{3})+$)/g, ',')
     }

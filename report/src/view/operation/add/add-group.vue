@@ -147,7 +147,7 @@ export default {
     return {
       departmentName: this.$store.getters.departmentName,
       groupData: {
-        departmentId: this.$store.getters.departmentId,
+        departmentId: this.$store.getters.departmentId.toString(),
         groupYear: '',
         groupQuarter: '', // 季度
         groupEstimatedOrActual: '', // 预估实际
@@ -199,6 +199,9 @@ export default {
   computed: {
     totalCost () {
       // 费用合计
+      // let _this = this
+      // let total = 0 + this.groupData.groupSalary + this.groupData.groupAdministrative + this.groupData.groupFixedAssets + this.groupData.groupTraining + this.groupData.groupTechnology + this.groupData.groupEntertain + this.groupData.groupOperating + this.groupData.groupFinance + this.groupData.groupTaxes + this.groupData.groupAudit + this.groupData.groupLawyer + this.groupData.groupCertificate + this.groupData.groupMeal + this.groupData.groupOther + this.groupData.groupRent
+      // _this.tempTotal = total
       let _this = this
       let arr = Object.values(this.groupData)
       console.log(arr)

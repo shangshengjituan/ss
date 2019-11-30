@@ -48,21 +48,22 @@
       <el-table-column prop="table2Remark" label="备注" />
       <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="148">
         <template slot-scope="scope">
-          <!--<el-button @click="clickUpdate(scope.row)" size="small">编辑</el-button>-->
+          <el-button @click="clickUpdate(scope.row)" size="small">编辑</el-button>
           <el-button @click="clickDelete(scope.row)" type="danger" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- 修改页面 -->
-    <!--<el-dialog title="修改" :visible.sync="dialogVisible">-->
-    <!--&lt;!&ndash;<cost-labor-detail-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog" />&ndash;&gt;-->
-    <!--</el-dialog>-->
+    <el-dialog title="修改" :visible.sync="dialogVisible">
+      <summary-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog"/>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import SummaryForm from '../../../components/project/SummaryForm'
 export default {
   name: 'cost-summary',
+  components: {SummaryForm},
   data () {
     return {
       searchData: {
@@ -112,6 +113,8 @@ export default {
         })
     },
     getList () {
+      this.currentList = []
+      this.pos = ''
       this.$api.project.getTable2(this.searchData)
         .then(rsp => {
           console.log('getTable2 Success')
@@ -188,39 +191,37 @@ export default {
             this.$message.error('未知错误，删除失败')
           }
           this.getList()
-          this.currentList = []
-          this.pos = ''
         }).catch(err => {
           this.$message.error(err)
         })
       }).catch(() => {
         this.$message.info('已取消删除。')
       })
-    }
+    },
     // 点击编辑，跳出修改框
-    // clickUpdate (data) {
-    //   console.log(data)
-    //   this.dialogData = data
-    //   this.dialogVisible = true
-    // },
-    // cancelDialog () {
-    //   this.getList()
-    //   this.dialogVisible = false
-    // },
-    // confirmUpdate (data) {
-    //   this.$api.project.updateTable2(data)
-    //     .then(rsp => {
-    //       let data = rsp.data
-    //       if (data.result === 200) {
-    //         this.$message.success('修改成功！')
-    //       } else {
-    //         this.$message.error('修改失败：' + data.resultText)
-    //       }
-    //       this.getList()
-    //       console.log(rsp)
-    //       this.dialogVisible = false
-    //     })
-    // }
+    clickUpdate (data) {
+      console.log(data)
+      this.dialogData = data
+      this.dialogVisible = true
+    },
+    cancelDialog () {
+      this.getList()
+      this.dialogVisible = false
+    },
+    confirmUpdate (data) {
+      this.$api.project.updateTable2(data)
+        .then(rsp => {
+          let data = rsp.data
+          if (data.result === 200) {
+            this.$message.success('修改成功！')
+          } else {
+            this.$message.error('修改失败：' + data.resultText)
+          }
+          this.getList()
+          console.log(rsp)
+          this.dialogVisible = false
+        })
+    }
   }
 }
 </script>

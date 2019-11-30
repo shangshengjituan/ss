@@ -101,11 +101,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item>
-          <el-button style="float: right" @click="clickDeleteUp" type="danger" size="mini"> 删除 </el-button>
+        <el-form-item v-if="role === 'leader'" style="float: right">
+          <el-button  @click="clickUpdateUp" size="mini">编辑</el-button>
+          <el-button @click="clickDeleteUp" type="danger" size="mini"> 删除 </el-button>
         </el-form-item>
       </el-form>
     </div>
+    <el-dialog title="修改" :visible.sync="dialogVisibleUp">
+      <statistics-up-form :form-data="dialogDataUp" @confirm="confirmUpdateUp" @cancel="cancelDialogUp"/>
+    </el-dialog>
     <el-table
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
@@ -121,21 +125,24 @@
       <el-table-column prop="table1Remark" label="备注" />
       <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="148">
         <template slot-scope="scope">
-          <!--<el-button @click="clickUpdate(scope.row)" size="small">编辑</el-button>-->
+          <el-button @click="clickUpdate(scope.row)" size="small">编辑</el-button>
           <el-button @click="clickDelete(scope.row)" type="danger" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 修改页面 -->
-    <!--<el-dialog title="修改" :visible.sync="dialogVisible">-->
-    <!--&lt;!&ndash;<cost-labor-detail-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog" />&ndash;&gt;-->
-    <!--</el-dialog>-->
+    <el-dialog title="修改" :visible.sync="dialogVisible">
+      <statistics-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog"/>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import StatisticsForm from '../../../components/project/StatisticsForm'
+import StatisticsUpForm from '../../../components/project/StatisticsUpForm'
 export default {
   name: 'cost-statistics',
+  components: {StatisticsUpForm, StatisticsForm},
   data () {
     return {
       searchData: {
@@ -156,6 +163,8 @@ export default {
       table1up: {}, // 接口数据上部分
       list: [], // 接口数据
       isExist: false,
+      dialogDataUp: {},
+      dialogVisibleUp: false,
       dialogData: {}, // 修改框的表单值
       dialogVisible: false // 修改框是否显示
     }
@@ -243,6 +252,28 @@ export default {
         this.$message.info('已取消删除。')
       })
     },
+    clickUpdateUp () {
+      this.dialogDataUp = this.table1up
+      this.dialogVisibleUp = true
+    },
+    confirmUpdateUp (data) {
+      this.$api.project.updateTable1Up(data)
+        .then(rsp => {
+          let data = rsp.data
+          if (data.result === 200) {
+            this.$message.success('修改成功！')
+          } else {
+            this.$message.error('修改失败：' + data.resultText)
+          }
+          this.getList()
+          console.log(rsp)
+          this.dialogVisibleUp = false
+        })
+    },
+    cancelDialogUp () {
+      this.getList()
+      this.dialogVisible = false
+    },
     // 点击删除
     clickDelete (data) {
       console.log(data)
@@ -287,31 +318,31 @@ export default {
         }
       })
       return sums
-    }
+    },
     // 点击编辑，跳出修改框
-    // clickUpdate (data) {
-    //   console.log(data)
-    //   this.dialogData = data
-    //   this.dialogVisible = true
-    // },
-    // cancelDialog () {
-    //   this.getList()
-    //   this.dialogVisible = false
-    // },
-    // confirmUpdate (data) {
-    //   this.$api.project.updateTable1(data)
-    //     .then(rsp => {
-    //       let data = rsp.data
-    //       if (data.result === 200) {
-    //         this.$message.success('修改成功！')
-    //       } else {
-    //         this.$message.error('修改失败：' + data.resultText)
-    //       }
-    //       this.getList()
-    //       console.log(rsp)
-    //       this.dialogVisible = false
-    //     })
-    // }
+    clickUpdate (data) {
+      console.log(data)
+      this.dialogData = data
+      this.dialogVisible = true
+    },
+    cancelDialog () {
+      this.getList()
+      this.dialogVisible = false
+    },
+    confirmUpdate (data) {
+      this.$api.project.updateTable1(data)
+        .then(rsp => {
+          let data = rsp.data
+          if (data.result === 200) {
+            this.$message.success('修改成功！')
+          } else {
+            this.$message.error('修改失败：' + data.resultText)
+          }
+          this.getList()
+          console.log(rsp)
+          this.dialogVisible = false
+        })
+    }
   }
 }
 </script>

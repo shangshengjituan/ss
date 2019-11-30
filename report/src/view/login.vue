@@ -33,6 +33,7 @@
           @click="handleSubmit"
           :loading="logining">登录</el-button>
       </el-form-item>
+      00006拜总，00033花锋，00059许峰，00224王寒
     </el-form>
   </div>
 </template>
@@ -44,7 +45,7 @@ export default {
     return {
       logining: false,
       loginForm: {
-        userNum: '00059',
+        userNum: '',
         userPwd: '12345'
       },
       rules: {
