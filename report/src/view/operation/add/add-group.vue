@@ -37,7 +37,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="行政收入" prop="groupAdministrative">
+          <el-form-item label="行政费用" prop="groupAdministrative">
             <el-input v-model.number="groupData.groupAdministrative" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>

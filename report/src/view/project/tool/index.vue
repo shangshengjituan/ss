@@ -8,7 +8,7 @@
     <div slot="header" class="clearfix">
       <span>项目汇总</span>
       <el-button
-        style="float: right; padding: 3px 0" type="text"
+        style="float: right; padding: 3px 0" type="text" v-if="role === 'leader'"
         @click="dialogProgramVisible = true">新增项目</el-button>
     </div>
     <div v-for="(project, index) in projectList" :key="index" class="text item">
@@ -30,7 +30,7 @@
   <el-card shadow="hover">
     <div slot="header" class="clearfix">
       <span>工种汇总</span>
-      <el-button
+      <el-button v-if="role === 'leader'"
         style="float: right; padding: 3px 0" type="text"
         @click="dialogWorkVisible = true">新增工种</el-button>
     </div>
@@ -59,6 +59,7 @@ export default {
     return {
       departmentId: this.$store.getters.departmentId,
       plateId: this.$store.getters.plateId,
+      role: this.$store.getters.role,
       projectList: [],
       workList: [],
       dialogProgramVisible: false,

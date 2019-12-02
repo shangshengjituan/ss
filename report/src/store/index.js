@@ -64,8 +64,8 @@ let store = new Vuex.Store({
     departmentId: state => state.user.departmentId,
     // 控制个别按钮，小功能
     role: state => {
-      let tem = state.user.plateId
-      if (tem === '1' || tem === '2' || tem === '3') {
+      let tem = state.user.departmentId
+      if (tem !== 0) {
         return 'leader'
       } else {
         return 'superLeader'
