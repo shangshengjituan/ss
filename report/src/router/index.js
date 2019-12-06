@@ -178,16 +178,6 @@ export const asyncRoutes = [
       component: () => import('@/view/project/add/index'),
       meta: {title: '新增表单', roles: ['2']},
       children: [{
-        path: 'statistics',
-        name: 'AddStatistics',
-        meta: {title: '项目成本统计一', roles: ['2']},
-        component: () => import('@/view/project/add/cost-statistics')
-      }, {
-        path: 'summary',
-        name: 'AddSummary',
-        meta: {title: '项目成本统计二', roles: ['2']},
-        component: () => import('@/view/project/add/cost-summary')
-      }, {
         path: 'labor',
         name: 'AddLabor',
         meta: {title: '人工费统计', roles: ['2']},
@@ -292,6 +282,16 @@ export const asyncRoutes = [
         name: 'AddWorkType',
         meta: {title: '各工种每平方米单价统计', roles: ['2']},
         component: () => import('@/view/project/add/cost-work-type')
+      }, {
+        path: 'summary',
+        name: 'AddSummary',
+        meta: {title: '项目成本统计二', roles: ['2']},
+        component: () => import('@/view/project/add/cost-summary')
+      }, {
+        path: 'statistics',
+        name: 'AddStatistics',
+        meta: {title: '项目成本统计一', roles: ['2']},
+        component: () => import('@/view/project/add/cost-statistics')
       }]
     }, {
       path: 'all',
@@ -403,6 +403,11 @@ export const asyncRoutes = [
         name: 'AllTempMaterial',
         meta: {title: '临时设施、场地等材料费明细汇总', roles: ['2', '4']},
         component: () => import('@/view/project/all/temp-material')
+      }, {
+        path: 'totalcompare',
+        name: 'AllTotalCompare',
+        meta: {title: '总产值与相应成本对比统计汇总', roles: ['2', '4']},
+        component: () => import('@/view/project/all/total-compare')
       }, {
         path: 'worktype',
         name: 'AllWorkType',

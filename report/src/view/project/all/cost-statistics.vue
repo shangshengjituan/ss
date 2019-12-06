@@ -114,8 +114,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table1OptionName" label="项目名称" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table1OptionName" label="项目名称" fixed/>
       <el-table-column prop="table1ContractPrice" label="合同价（元）" />
       <el-table-column prop="table1LiabilityCost" label="责任成本（元）" />
       <el-table-column prop="table1ActualCost" label="实际成本（元）" />

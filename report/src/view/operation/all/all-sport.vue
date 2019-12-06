@@ -37,7 +37,7 @@
           :default-expand-all="role === 'leader'"
           header-cell-class-name="header-row"
           :tree-props="{children: 'sportQuarterList'}">
-          <el-table-column prop="departmentName" label="部门" width="160"></el-table-column>
+          <el-table-column prop="departmentName" label="部门" width="160" fixed></el-table-column>
           <el-table-column prop="sportEOA" label="类型" width="68">
             <template slot-scope="scope">
               <el-tag
@@ -136,7 +136,7 @@
         </el-form>
         <el-table :data="tableData1" border row-key="id" :indent="0"
           header-cell-class-name="header-row">
-          <el-table-column prop="activityName" label="赛事活动名称"></el-table-column>
+          <el-table-column prop="activityName" label="赛事活动名称" fixed></el-table-column>
           <el-table-column prop="activityTime" label="赛事活动时间"></el-table-column>
           <el-table-column prop="activityLocation" label="赛事活动地点"></el-table-column>
           <el-table-column prop="activityOperatingUnit" label="赛事运营单位"></el-table-column>

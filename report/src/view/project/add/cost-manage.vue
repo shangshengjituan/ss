@@ -164,7 +164,7 @@ export default {
   watch: {
     table15: {
       handler (newValue, oldValue) {
-        newValue.table15TotalAmount = newValue.table15Quantity * newValue.table15Amount
+        newValue.table15TotalAmount = parseFloat((newValue.table15Quantity * newValue.table15Amount).toFixed(2))
       },
       deep: true
     }

@@ -33,8 +33,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table10SubcontractingName" label="分包项目名称" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table10SubcontractingName" label="分包项目名称" fixed/>
       <el-table-column prop="table10ContractPrice" label="分包工程合同价（元）" />
       <el-table-column prop="table10ManagementFee" label="收管理费%" />
       <el-table-column prop="table10EngineeringPrice" label="分包工程价（元）" />

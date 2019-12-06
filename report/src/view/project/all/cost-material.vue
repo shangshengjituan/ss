@@ -40,8 +40,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table7MaterialName" label="材料名称" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table7MaterialName" label="材料名称" fixed/>
       <el-table-column prop="table7Type" label="类型" width="68">
         <template slot-scope="scope">
           <el-tag
@@ -88,7 +88,8 @@ export default {
       rules: {
         table7ProjectYear: [{ required: true, message: '不可为空', trigger: 'change' }],
         table7ProjectId: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table7Quarter: [{ required: true, message: '不可为空', trigger: 'change' }]
+        table7Quarter: [{ required: true, message: '不可为空', trigger: 'change' }],
+        table7Type: [{ required: true, message: '不可为空', trigger: 'change' }]
       },
       departmentId: this.$store.getters.departmentId,
       plateId: this.$store.getters.plateId,

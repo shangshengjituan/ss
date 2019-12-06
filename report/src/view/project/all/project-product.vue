@@ -32,8 +32,8 @@
     <el-table
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table14WorkContent" label="工作内容明细" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table14WorkContent" label="工作内容明细" fixed/>
       <el-table-column prop="table14Unit" label="单位" />
       <el-table-column prop="table14ActualOutputValue" label="实际完成产值（元）" />
       <el-table-column prop="table14ActualDayNumber" label="实际施工日历天数" />

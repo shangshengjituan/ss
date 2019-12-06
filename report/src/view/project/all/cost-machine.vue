@@ -33,8 +33,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table9MechanicalName" label="名称" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table9MechanicalName" label="名称" fixed/>
       <el-table-column label="实际机械费（元）">
         <el-table-column prop="table9LaborFee" label="人工费" />
         <el-table-column prop="table9StartDate" label="起始时间" />

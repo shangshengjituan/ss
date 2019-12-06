@@ -33,8 +33,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table17Name" label="姓名" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table17Name" label="姓名" fixed/>
       <el-table-column prop="table17PostPosition" label="岗位与职务" />
       <el-table-column prop="table17EnterTime" label="进项目时间" />
       <el-table-column prop="table17OutTime" label="出项目时间" />

@@ -37,7 +37,7 @@
           :indent="0"
           header-cell-class-name="header-row"
           :tree-props="{children: 'groupQuarterList'}">
-          <el-table-column prop="departmentName" label="部门" width="160"></el-table-column>
+          <el-table-column prop="departmentName" label="部门" width="160" fixed></el-table-column>
           <el-table-column prop="groupEOA" label="类型" width="68">
             <template slot-scope="scope">
               <el-tag

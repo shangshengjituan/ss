@@ -286,8 +286,8 @@ export default {
         return total
       })
       console.log(total)
-      _this.tempTotal = total
-      return total.toString().replace(/\B(?=(\d{3})+$)/g, ',')
+      _this.tempTotal = parseFloat(total.toFixed(2))
+      return total.toFixed(2)
     }
   },
   methods: {
@@ -305,7 +305,7 @@ export default {
           formData.sportTotal = this.tempTotal
           console.log(formData)
           // 提交确认框
-          this.$confirm('提交后将无法修改，确认提交吗？', '提示', {
+          this.$confirm('确认提交吗？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'

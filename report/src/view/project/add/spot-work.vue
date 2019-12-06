@@ -179,7 +179,7 @@ export default {
   },
   computed: {
     totalPrice () {
-      return this.table5.table5AveragePeople * this.table5.table5UnitPrice
+      return parseFloat((this.table5.table5AveragePeople * this.table5.table5UnitPrice).toFixed(2))
     }
   },
   methods: {

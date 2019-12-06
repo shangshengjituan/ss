@@ -32,8 +32,8 @@
     <el-table
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table23WorkType" label="工种" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table23WorkType" label="工种" fixed/>
       <el-table-column prop="table23Unit" label="单位" />
       <el-table-column prop="table23ConstructionSite" label="施工部位" />
       <el-table-column prop="table23ConstructionArea" label="建筑面积/接触面积" />

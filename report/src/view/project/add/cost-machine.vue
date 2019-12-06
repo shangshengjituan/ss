@@ -162,7 +162,7 @@ export default {
   },
   computed: {
     costDifference () {
-      return this.table9.table9MachineryFee - this.table9.table9TotalPrice
+      return parseFloat((this.table9.table9MachineryFee - this.table9.table9TotalPrice).toFixed(2))
     }
   },
   methods: {

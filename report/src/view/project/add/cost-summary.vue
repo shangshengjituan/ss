@@ -81,6 +81,7 @@ export default {
     selectData: {
       handler (newVal, oldVal) {
         if (newVal.table2ProjectId && newVal.table2ProjectYear && newVal.table2Quarter && newVal.optionId) {
+          console.log('11111')
           newVal.specificOptionId = newVal.optionId[1]
           this.getSummary({
             table2ProjectId: newVal.table2ProjectId,
@@ -130,8 +131,13 @@ export default {
     },
     getSummary (data) {
       this.$api.project.getSummary(data).then(rsp => {
-        this.currentSummary = rsp.data
-        this.isShow = true
+        if (rsp.data.result === 404) {
+          this.$message.warning(rsp.data.resultText)
+          this.isShow = false
+        } else if (rsp.data.result === 200) {
+          this.currentSummary = rsp.data
+          this.isShow = true
+        }
         console.log(rsp.data)
       })
     },

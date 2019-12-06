@@ -126,13 +126,11 @@ export default {
     }
   },
   created () {
-    console.log('created')
     this.initData()
   },
   watch: {
     summaryData: {
       handler (newValue, oldValue) {
-        console.log('up change')
         this.initData()
       },
       deep: true
@@ -140,16 +138,13 @@ export default {
   },
   methods: {
     initData () {
-      console.log('0')
       console.log(Object.keys(this.summaryData).length)
       if (Object.keys(this.summaryData).length) {
-        console.log('1')
         Object.keys(this.table1up).forEach(key => {
           this.table1up[key] = this.summaryData[key]
         })
         this.isExist = true
       } else {
-        console.log('2')
         Object.keys(this.table1up).forEach(key => {
           this.table1up[key] = this.basisData[key]
         })

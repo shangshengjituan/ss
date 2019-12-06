@@ -45,7 +45,7 @@ export default {
     return {
       logining: false,
       loginForm: {
-        userNum: '',
+        userNum: '00224',
         userPwd: '12345'
       },
       rules: {

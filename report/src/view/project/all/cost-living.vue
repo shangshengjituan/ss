@@ -1,6 +1,6 @@
 <template>
   <div class="o-container">
-    <el-form class="search-form" :inline="true" :model="searchData" :rules="rules" :hide-required-asterisk="true" ref="searchData">
+    <el-form class="search-form" :inline="true" :model="searchData" :rules="rules" ref="searchData">
       <el-form-item label="项目：" prop="table8ProjectId">
         <el-select v-model="searchData.table8ProjectId" placeholder="请选择项目" value="">
           <el-option
@@ -40,8 +40,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table8UserUnitName" label="用户单位名称" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table8UserUnitName" label="用户单位名称" fixed/>
       <el-table-column prop="table8Type" label="类型" width="68">
         <template slot-scope="scope">
           <el-tag
@@ -87,7 +87,8 @@ export default {
       rules: {
         table8ProjectYear: [{ required: true, message: '不可为空', trigger: 'change' }],
         table8ProjectId: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table8Quarter: [{ required: true, message: '不可为空', trigger: 'change' }]
+        table8Quarter: [{ required: true, message: '不可为空', trigger: 'change' }],
+        table8Type: [{ required: true, message: '不可为空', trigger: 'change' }]
       },
       departmentId: this.$store.getters.departmentId,
       plateId: this.$store.getters.plateId,

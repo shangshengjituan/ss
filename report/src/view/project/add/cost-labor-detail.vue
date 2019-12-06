@@ -6,7 +6,6 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称" prop="table4ProjectId">
-            <!--<el-input v-model="table4.table3ProjectId" :readonly="true"></el-input>-->
             <el-select v-model="table4.table4ProjectId" placeholder="请选择项目名称" value="">
               <el-option
                 v-for="item in projectList"
@@ -63,7 +62,6 @@
               <el-option value="t">t</el-option>
               <el-option value="根">根</el-option>
             </el-select>
-            <!--<el-input v-model="table4.table3Unit" placeholder="m^2 个" clearable />-->
           </el-form-item>
         </el-col>
       </el-row>

@@ -119,6 +119,7 @@ export default {
           this.currentSummaryUp = rsp.data.projectIntroduction
         } else if (rsp.data.checkRepeat === 404) {
           this.currentSummaryUp = {}
+          this.currentSummaryUp.projectManager = rsp.data.projectManager
         }
         this.isShowUp = true
         console.log(rsp.data)

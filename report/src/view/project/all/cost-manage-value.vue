@@ -33,8 +33,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table11Header" label="分包项目名称" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table11Header" label="分包项目名称" fixed/>
       <el-table-column prop="table11PartialItemName" label="分部分项名称" />
       <el-table-column prop="table11Unit" label="单位" />
       <el-table-column prop="table11WorkQuantity" label="完成工程量" />

@@ -33,8 +33,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table16DetectionName" label="检测名称" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table16DetectionName" label="检测名称" fixed/>
       <el-table-column prop="table16TeamName" label="送检单位名称" />
       <el-table-column prop="table16InspectionTime" label="送检时间" />
       <el-table-column prop="table16ReportTime" label="出报告时间" />

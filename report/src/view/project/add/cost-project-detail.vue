@@ -155,9 +155,9 @@ export default {
   watch: {
     table13: {
       handler (newValue, oldValue) {
-        newValue.table13SubcontractingTotalPrice = newValue.table13ActualQuantity * newValue.table13SubcontractingPrice
-        newValue.table13LiabilityCostTotalPrice = newValue.table13ContractQuantity * newValue.table13LiabilityCostPrice
-        newValue.table13Spread = newValue.table13LiabilityCostTotalPrice - newValue.table13SubcontractingTotalPrice
+        newValue.table13SubcontractingTotalPrice = parseFloat((newValue.table13ActualQuantity * newValue.table13SubcontractingPrice).toFixed(2))
+        newValue.table13LiabilityCostTotalPrice = parseFloat((newValue.table13ContractQuantity * newValue.table13LiabilityCostPrice).toFixed(2))
+        newValue.table13Spread = parseFloat((newValue.table13LiabilityCostTotalPrice - newValue.table13SubcontractingTotalPrice).toFixed(2))
       },
       deep: true
     }

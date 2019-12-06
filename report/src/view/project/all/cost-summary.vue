@@ -33,8 +33,8 @@
       :data="tableData" border row-key="id" :indent="0"
       :span-method="cellMerge"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="optionName" label="名称" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="optionName" label="名称" fixed/>
       <el-table-column prop="specificOptionName" label="详细类别" />
       <el-table-column prop="table2Output" label="产值（元）" />
       <el-table-column prop="table2Target" label="责任指标" />

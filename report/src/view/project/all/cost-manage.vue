@@ -33,8 +33,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table15SuppliesName" label="事由" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table15SuppliesName" label="事由" fixed/>
       <el-table-column prop="table15Use" label="时间" />
       <el-table-column prop="table15Manager" label="经办人" />
       <el-table-column prop="table15Billing" label="开票情况" />

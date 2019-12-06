@@ -32,8 +32,8 @@
     <el-table
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table22WorkType" label="工种" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table22WorkType" label="工种" fixed/>
       <el-table-column prop="table22LiabilityLabor" label="责任成本人工费占总产值百分比" />
       <el-table-column prop="table22ActualLabor" label="实际成本人工费占总产值百分比" />
       <el-table-column prop="table22LiabilityMaterial" label="责任成本材料费占总产值百分比" />

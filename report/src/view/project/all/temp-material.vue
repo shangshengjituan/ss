@@ -33,8 +33,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table21MaterialName" label="材料名称" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table21MaterialName" label="材料名称" fixed/>
       <el-table-column prop="table21SpecificationModal" label="规格型号" />
       <el-table-column prop="table21Unit" label="单位" />
       <el-table-column prop="table21PurchaseTime" label="采购时间" />

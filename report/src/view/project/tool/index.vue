@@ -12,13 +12,16 @@
         @click="dialogProgramVisible = true">新增项目</el-button>
     </div>
     <div v-for="(project, index) in projectList" :key="index" class="text item">
-      {{ index+1 }}、 {{ project.projectName }}
+      {{ index+1 }}、 {{ project.projectName }} （{{project.projectManager}}）
     </div>
   </el-card>
   <el-dialog title="新增项目" :visible.sync="dialogProgramVisible">
     <el-form :model="projectItem" :rules="rulePro" ref="projectItem">
       <el-form-item label="项目名称" prop="projectName" label-width="120">
         <el-input v-model="projectItem.projectName" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="项目经理" prop="projectManager" label-width="120">
+        <el-input v-model="projectItem.projectManager" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -65,10 +68,12 @@ export default {
       dialogProgramVisible: false,
       projectItem: {
         departmentId: this.$store.getters.departmentId,
-        projectName: ''
+        projectName: '',
+        projectManager: this.$store.getters.userName
       },
       rulePro: {
-        projectName: [{ required: true, message: '不可为空', trigger: 'change' }]
+        projectName: [{ required: true, message: '不可为空', trigger: 'change' }],
+        projectManager: [{ required: true, message: '不可为空', trigger: 'change' }]
       },
       dialogWorkVisible: false,
       workItem: {
@@ -88,7 +93,6 @@ export default {
       this.$api.project.getProjectList({
         departmentId: this.departmentId,
         plateId: this.plateId
-
       })
         .then(rsp => {
           console.log(rsp.data)

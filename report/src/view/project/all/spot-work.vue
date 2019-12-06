@@ -33,8 +33,8 @@
       show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="table5WorkContent" label="工作内容" />
+      <el-table-column type="index" width="50" fixed/>
+      <el-table-column prop="table5WorkContent" label="工作内容" fixed/>
       <el-table-column prop="table5Reason" label="发生点工原因" />
       <el-table-column prop="table5StartTime" label="开始时间" />
       <el-table-column prop="table5EndTime" label="结束时间" />
