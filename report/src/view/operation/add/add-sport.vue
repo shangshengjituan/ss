@@ -301,7 +301,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 将验证后的sportData数据增减字段为formDate后提交
-          let formData = this.sportData
+          let formData = Object.assign({}, this.sportData)
           formData.sportTotal = this.tempTotal
           console.log(formData)
           // 提交确认框
@@ -328,7 +328,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 将验证后的activityData数据增减字段为formDate后提交
-          let formData = this.activityData
+          let formData = Object.assign({}, this.activityData)
           console.log(formData)
           // 提交确认框
           this.$confirm('提交后将无法修改，确认提交吗？', '提示', {

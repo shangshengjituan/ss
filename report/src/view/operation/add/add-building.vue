@@ -188,7 +188,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 将验证后的buildingData数据增减字段为formDate后提交
-          let formDate = this.buildingData
+          let formDate = Object.assign({}, this.buildingData)
           formDate.buildingTotal = this.tempTotal
           console.log(formDate)
           // 提交确认框
@@ -199,7 +199,6 @@ export default {
           }).then(() => {
             // 提交
             _this.$api.operation.addBuilding(formDate)
-              // _this.$axios.post('/insertBuildingForm', formDate)
               .then(rsp => {
                 console.log(rsp.data)
                 let data = rsp.data

@@ -120,7 +120,7 @@
       </el-form-item>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="费用合计" prop="groupTotal">
+          <el-form-item label="费用合计">
             <span>{{totalCost}} 元</span>
           </el-form-item>
         </el-col>
@@ -166,7 +166,6 @@ export default {
         groupMeal: '',
         groupOther: '',
         groupRemark: '',
-        // groupTotal: '',
         groupEditor: this.$store.getters.userName,
         groupRent: '',
         value: [] // 暂存类型季度
@@ -188,7 +187,6 @@ export default {
         groupCertificate: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupMeal: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupOther: [{ required: true, message: '请输入金额', trigger: 'change' }],
-        // groupTotal: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupEditor: [{ required: true, message: '请输入金额', trigger: 'change' }],
         groupRent: [{ required: true, message: '请输入金额', trigger: 'change' }]
       },
@@ -229,9 +227,10 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 将验证后的buildingData数据增减字段为formDate后提交
-          let formDate = _this.groupData
+          let formDate = Object.assign({}, _this.groupData)
           formDate.groupTotal = _this.tempTotal
           console.log(JSON.stringify(formDate))
+          console.log(JSON.stringify(this.groupData))
           // 提交确认框
           _this.$confirm('确认提交吗？', '提示', {
             confirmButtonText: '确定',
