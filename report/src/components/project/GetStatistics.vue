@@ -139,14 +139,15 @@ export default {
   methods: {
     initData () {
       console.log(Object.keys(this.summaryData).length)
-      if (Object.keys(this.summaryData).length) {
+      if (Object.keys(this.summaryData).length > 1) {
         Object.keys(this.table1up).forEach(key => {
           this.table1up[key] = this.summaryData[key]
         })
         this.isExist = true
       } else {
         Object.keys(this.table1up).forEach(key => {
-          this.table1up[key] = this.basisData[key]
+          let temp = Object.assign({}, this.basisData, this.summaryData)
+          this.table1up[key] = temp[key]
         })
         this.isExist = false
       }
