@@ -4,7 +4,7 @@
     <el-divider></el-divider>
     <el-form :model="table22" :rules="rules" ref="table22" label-position="right" >
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="项目名称" prop="table22ProjectId">
             <el-select v-model="table22.table22ProjectId" placeholder="请选择项目名称" value="">
               <el-option
@@ -14,7 +14,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="年份" prop="table22ProjectYear">
             <el-date-picker
               v-model="table22.table22ProjectYear"
@@ -24,7 +24,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="季度" prop="table22Quarter">
             <el-select v-model="table22.table22Quarter" placeholder="请选择季度" value="">
               <el-option

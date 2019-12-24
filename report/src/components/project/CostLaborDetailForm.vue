@@ -101,13 +101,13 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table4 = newValue
+        this.table4 = Object.assign({}, newValue)
       }
     }
   },
   data () {
     return {
-      table4: this.formData,
+      table4: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       rules: {
         table4ActualValue: [{ required: true, message: '请输入金额', trigger: 'change' }],

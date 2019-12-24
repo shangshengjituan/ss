@@ -96,13 +96,13 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table16 = newValue
+        this.table16 = Object.assign({}, newValue)
       }
     }
   },
   data () {
     return {
-      table16: this.formData,
+      table16: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       rules: {
         table16DetectionName: [{ required: true, message: '不可为空', trigger: 'change' }],

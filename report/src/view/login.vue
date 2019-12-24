@@ -15,6 +15,7 @@
           v-model="loginForm.userNum"
           auto-complete="off"
           placeholder="工号"
+          @keyup.enter.native="handleSubmit"
         ></el-input>
       </el-form-item>
       <el-form-item prop="userPwd">
@@ -23,6 +24,7 @@
           v-model="loginForm.userPwd"
           auto-complete="off"
           placeholder="密码"
+          @keyup.enter.native="handleSubmit"
         ></el-input>
       </el-form-item>
       <!--<el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox>-->
@@ -45,7 +47,7 @@ export default {
     return {
       logining: false,
       loginForm: {
-        userNum: '00224',
+        userNum: '00059',
         userPwd: '12345'
       },
       rules: {

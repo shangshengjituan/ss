@@ -88,14 +88,14 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.activityData = newValue
+        this.activityData = Object.assign({}, newValue)
       },
       deep: true
     }
   },
   data () {
     return {
-      activityData: this.formData,
+      activityData: Object.assign({}, this.formData),
       rules: {
         activityName: [{ required: true, message: '请输入赛事活动名称', trigger: 'change' }],
         activityTime: [{ required: true, message: '请输入赛事活动时间', trigger: 'change' }],

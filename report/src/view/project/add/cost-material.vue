@@ -63,12 +63,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="单位" prop="table7Unit">
-            <el-select v-model="table7.table7Unit" filterable allow-create default-first-option placeholder="请选择/输入工程量单位" value="">
-              <el-option label="吨" key="1" value="吨" />
-              <el-option label="立方" key="2" value="立方" />
-              <el-option label="根" key="3" value="根" />
-              <el-option label="张" key="4" value="张" />
-            </el-select>
+            <el-input v-model="table7.table7Unit" placeholder="请输入工程量单位" clearable />
           </el-form-item>
         </el-col>
       </el-row>

@@ -81,13 +81,13 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table20 = newValue
+        this.table20 = Object.assign({}, newValue)
       }
     }
   },
   data () {
     return {
-      table20: this.formData,
+      table20: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       pickerOptions: {}
     }

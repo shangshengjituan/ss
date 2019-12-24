@@ -116,14 +116,14 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.buildingData = newValue
+        this.buildingData = Object.assign({}, newValue)
       },
       deep: true
     }
   },
   data () {
     return {
-      buildingData: this.formData,
+      buildingData: Object.assign({}, this.formData),
       rules: {
         buildingYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
         buildingSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],

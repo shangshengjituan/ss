@@ -92,19 +92,19 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table15 = newValue
+        this.table15 = Object.assign({}, newValue)
       }
     },
     table15: {
       handler (newValue, oldValue) {
-        newValue.table15TotalAmount = newValue.table15Quantity * newValue.table15Amount
+        newValue.table15TotalAmount = parseFloat((newValue.table15Quantity * newValue.table15Amount).toFixed(2))
       },
       deep: true
     }
   },
   data () {
     return {
-      table15: this.formData,
+      table15: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       rules: {
         table15SuppliesName: [{ required: true, message: '不可为空', trigger: 'change' }],

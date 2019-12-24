@@ -81,21 +81,21 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table12 = newValue
+        this.table12 = Object.assign({}, newValue)
       }
     },
     table12: {
       handler (newValue, oldValue) {
-        newValue.table12SubcontractingTotalPrice = newValue.table12ContractPrice * newValue.table12SubcontractingPrice
-        newValue.table12LiabilityCostTotalPrice = newValue.table12WorkQuantity * newValue.table12LiabilityCostPrice
-        newValue.table12Spread = newValue.table12LiabilityCostTotalPrice - newValue.table12SubcontractingTotalPrice
+        newValue.table12SubcontractingTotalPrice = parseFloat((newValue.table12ContractPrice * newValue.table12SubcontractingPrice).toFixed(2))
+        newValue.table12LiabilityCostTotalPrice = parseFloat((newValue.table12WorkQuantity * newValue.table12LiabilityCostPrice).toFixed(2))
+        newValue.table12Spread = parseFloat((newValue.table12LiabilityCostTotalPrice - newValue.table12SubcontractingTotalPrice).toFixed(2))
       },
       deep: true
     }
   },
   data () {
     return {
-      table12: this.formData,
+      table12: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       rules: {
         table12SubcontractingName: [{ required: true, message: '不可为空', trigger: 'change' }],

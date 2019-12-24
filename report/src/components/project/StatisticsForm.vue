@@ -59,13 +59,13 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table1 = newValue
+        this.table1 = Object.assign({}, newValue)
       }
     }
   },
   data () {
     return {
-      table1: this.formData
+      table1: Object.assign({}, this.formData)
     }
   },
   methods: {

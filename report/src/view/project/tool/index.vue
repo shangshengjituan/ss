@@ -4,6 +4,7 @@
     <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
     <el-breadcrumb-item>表单工具</el-breadcrumb-item>
   </el-breadcrumb>
+  <!--项目汇总-->
   <el-card shadow="hover">
     <div slot="header" class="clearfix">
       <span>项目汇总</span>
@@ -11,8 +12,16 @@
         style="float: right; padding: 3px 0" type="text" v-if="role === 'leader'"
         @click="dialogProgramVisible = true">新增项目</el-button>
     </div>
-    <div v-for="(project, index) in projectList" :key="index" class="text item">
-      {{ index+1 }}、 {{ project.projectName }} （{{project.projectManager}}）
+    <div style="height: 400px;overflow:scroll;">
+      <el-scrollbar :native="false"  :noresize="false">
+        <div v-for="(project, index) in projectList" :key="index" class="text item">
+          <span>{{ index+1 }}、 {{ project.projectName }} （{{project.projectManager}}）</span>
+          <el-button
+            v-show="project.projectManager === userName"
+            @click="openDialogUpdateProgram(project)"
+            type="text" size="small">编辑</el-button>
+        </div>
+      </el-scrollbar>
     </div>
   </el-card>
   <el-dialog title="新增项目" :visible.sync="dialogProgramVisible">
@@ -25,11 +34,24 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
+      <span style="color: #F56C6C">注：新增后不可删除，请谨慎操作！</span>
       <el-button @click="dialogProgramVisible = false">取 消</el-button>
       <el-button type="primary" @click="validateProData('projectItem')">确 定</el-button>
     </div>
   </el-dialog>
+  <el-dialog title="修改项目" :visible.sync="dialogUpdateProgramVisible">
+    <el-form :model="projectUpdateItem" :rules="rulePro1" ref="projectUpdateItem">
+      <el-form-item label="项目名称" prop="projectName" label-width="120">
+        <el-input v-model="projectUpdateItem.projectName" autocomplete="off"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogUpdateProgramVisible = false">取 消</el-button>
+      <el-button type="primary" @click="validateProData1('projectUpdateItem')">确 定</el-button>
+    </div>
+  </el-dialog>
 
+  <!--工种汇总-->
   <el-card shadow="hover">
     <div slot="header" class="clearfix">
       <span>工种汇总</span>
@@ -63,6 +85,7 @@ export default {
       departmentId: this.$store.getters.departmentId,
       plateId: this.$store.getters.plateId,
       role: this.$store.getters.role,
+      userName: this.$store.getters.userName,
       projectList: [],
       workList: [],
       dialogProgramVisible: false,
@@ -74,6 +97,14 @@ export default {
       rulePro: {
         projectName: [{ required: true, message: '不可为空', trigger: 'change' }],
         projectManager: [{ required: true, message: '不可为空', trigger: 'change' }]
+      },
+      dialogUpdateProgramVisible: false,
+      projectUpdateItem: {
+        id: '',
+        projectName: ''
+      },
+      rulePro1: {
+        projectName: [{ required: true, message: '不可为空', trigger: 'change' }]
       },
       dialogWorkVisible: false,
       workItem: {
@@ -136,10 +167,40 @@ export default {
           this.getWork()
         })
     },
+    updateProject () {
+      this.$api.project.updateProjectItem(this.projectUpdateItem)
+        .then(rsp => {
+          console.log(rsp.data)
+          if (rsp.data.result === 200) {
+            this.$message.success('修改项目成功！')
+          } else if (rsp.data.result === 500) {
+            this.$message.error(rsp.data.resultText)
+          } else {
+            this.$message.error('修改项目失败')
+          }
+          this.dialogUpdateProgramVisible = false
+          this.getProject()
+        })
+    },
     validateProData (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.addProject()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    openDialogUpdateProgram (project) {
+      this.projectUpdateItem.id = project.id
+      this.projectUpdateItem.projectName = project.projectName
+      this.dialogUpdateProgramVisible = true
+    },
+    validateProData1 (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.updateProject()
         } else {
           console.log('error submit!!')
           return false

@@ -63,19 +63,13 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table18 = newValue
+        this.table18 = Object.assign({}, newValue)
       }
-    },
-    table18: {
-      handler (newValue, oldValue) {
-        newValue.table18TotalAmount = newValue.table18Quantity * newValue.table18Amount
-      },
-      deep: true
     }
   },
   data () {
     return {
-      table18: this.formData,
+      table18: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       rules: {
         table18Cause: [{ required: true, message: '不可为空', trigger: 'change' }],

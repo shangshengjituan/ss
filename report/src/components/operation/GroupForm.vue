@@ -141,14 +141,14 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.groupData = newValue
+        this.groupData = Object.assign({}, newValue)
       },
       deep: true
     }
   },
   data () {
     return {
-      groupData: this.formData,
+      groupData: Object.assign({}, this.formData),
       rules: {
         groupYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
         groupSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],

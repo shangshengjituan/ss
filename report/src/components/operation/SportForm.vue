@@ -124,14 +124,14 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.sportData = newValue
+        this.sportData = Object.assign({}, newValue)
       },
       deep: true
     }
   },
   data () {
     return {
-      sportData: this.formData,
+      sportData: Object.assign({}, this.formData),
       rules: {
         sportSalary: [{ required: true, message: '请输入金额', trigger: 'change' }],
         sportTraining: [{ required: true, message: '请输入金额', trigger: 'change' }],

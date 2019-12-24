@@ -75,13 +75,13 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table21 = newValue
+        this.table21 = Object.assign({}, newValue)
       }
     },
     table21: {
       handler (newValue, oldValue) {
         if (newValue.table21ActualPrice && newValue.table21ActualQuantity) {
-          newValue.table21MaterialPrice = newValue.table21ActualPrice * newValue.table21ActualQuantity
+          newValue.table21MaterialPrice = parseFloat((newValue.table21ActualPrice * newValue.table21ActualQuantity).toFixed(2))
         }
       },
       deep: true
@@ -89,7 +89,7 @@ export default {
   },
   data () {
     return {
-      table21: this.formData,
+      table21: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       rules: {
         table21MaterialName: [{ required: true, message: '不可为空', trigger: 'change' }],

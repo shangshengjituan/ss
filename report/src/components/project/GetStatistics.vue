@@ -3,7 +3,7 @@
     <el-row >
       <el-col :span="8">
         <el-form-item label="项目经理">
-          <el-input v-model="table1up.projectManager" clearable :readonly="isExist"/>
+          <el-input v-model="table1up.projectManager" clearable :readonly="true"/>
         </el-form-item>
       </el-col>
       <el-col :span="16">

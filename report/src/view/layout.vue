@@ -4,11 +4,11 @@
       <header-nav></header-nav>
     </el-header>
     <el-container style="height: calc(100% - 60px)">
-      <el-aside width="250px">
+      <el-aside width="280px">
         <el-scrollbar class="scrollbar-wrapper">
-          <sidebar :routes="routes" />
+          <aside-nav />
+          <!--<sidebar :routes="routes" />-->
         </el-scrollbar>
-        <!--<aside-nav></aside-nav>-->
       </el-aside>
       <el-main>
         <router-view/>

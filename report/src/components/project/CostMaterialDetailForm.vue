@@ -88,20 +88,20 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table6 = newValue
+        this.table6 = Object.assign({}, newValue)
         this.costDifference = newValue.table6Spread
       }
     },
     table6: {
       handler (newValue, oldValue) {
-        this.costDifference = newValue.table6LiabilityCostTotalPrice - newValue.table6ActualTotalPrice
+        this.costDifference = parseFloat((newValue.table6LiabilityCostTotalPrice - newValue.table6ActualTotalPrice).toFixed(2))
       },
       deep: true
     }
   },
   data () {
     return {
-      table6: this.formData,
+      table6: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       costDifference: this.formData.table6Spread
     }

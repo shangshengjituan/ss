@@ -103,14 +103,14 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table5 = newValue
+        this.table5 = Object.assign({}, newValue)
         this.totalPrice = newValue.table5TotalPrice
       }
     }
   },
   data () {
     return {
-      table5: this.formData,
+      table5: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       totalPrice: this.formData.table5TotalPrice,
       workList: [],
@@ -143,7 +143,7 @@ export default {
         })
     },
     handleCalculate () {
-      this.totalPrice = this.table5.table5AveragePeople * this.table5.table5UnitPrice
+      this.totalPrice = parseFloat((this.table5.table5AveragePeople * this.table5.table5UnitPrice).toFixed(2))
     },
     // 取消修改
     handleCancel () {

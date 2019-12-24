@@ -83,20 +83,20 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table13 = newValue
+        this.table13 = Object.assign({}, newValue)
       }
     },
     table13: {
       handler (newValue, oldValue) {
-        newValue.table13SubcontractingTotalPrice = newValue.table13ActualQuantity * newValue.table13SubcontractingPrice
-        newValue.table13LiabilityCostTotalPrice = newValue.table13ContractQuantity * newValue.table13LiabilityCostPrice
+        newValue.table13SubcontractingTotalPrice = parseFloat((newValue.table13ActualQuantity * newValue.table13SubcontractingPrice).toFixed(2))
+        newValue.table13LiabilityCostTotalPrice = parseFloat((newValue.table13ContractQuantity * newValue.table13LiabilityCostPrice).toFixed(2))
       },
       deep: true
     }
   },
   data () {
     return {
-      table13: this.formData,
+      table13: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       rules: {
         table13SubcontractingName: [{ required: true, message: '不可为空', trigger: 'change' }],

@@ -272,7 +272,7 @@ export default {
     },
     cancelDialogUp () {
       this.getList()
-      this.dialogVisible = false
+      this.dialogVisibleUp = false
     },
     // 点击删除
     clickDelete (data) {

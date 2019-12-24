@@ -8,15 +8,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="单位" prop="table3Unit">
-          <el-select
-            filterable allow-create default-first-option
-            v-model="table3.table3Unit" placeholder="请选择单位" value="">
-            <el-option value="m^2">m<sup>2</sup></el-option>
-            <el-option value="m^3">m<sup>3</sup></el-option>
-            <el-option value="个">个</el-option>
-            <el-option value="t">t</el-option>
-            <el-option value="根">根</el-option>
-          </el-select>
+          <el-input v-model="table3.table3Unit" clearable />
         </el-form-item>
       </el-col>
     </el-row>
@@ -116,7 +108,7 @@ export default {
   },
   methods: {
     handleCalculate () {
-      this.costDifference = this.table3.table3ResponsibleLaborFee - this.table3.table3ActualLaborCost
+      this.costDifference = parseFloat((this.table3.table3ResponsibleLaborFee - this.table3.table3ActualLaborCost).toFixed(2))
     },
     // 取消修改
     handleCancel () {

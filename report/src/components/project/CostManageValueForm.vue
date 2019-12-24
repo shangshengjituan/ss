@@ -83,13 +83,13 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
-        this.table11 = newValue
+        this.table11 = Object.assign({}, newValue)
       }
     }
   },
   data () {
     return {
-      table11: this.formData,
+      table11: Object.assign({}, this.formData),
       editor: this.$store.getters.userName,
       rules: {
         table11PartialItemName: [{ required: true, message: '不可为空', trigger: 'change' }],

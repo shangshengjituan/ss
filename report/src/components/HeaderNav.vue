@@ -5,7 +5,13 @@
       <span style="font-weight: bold">江苏尚昇建设集团有限公司</span>
     </div>
     <div style="float: right">
-      当前用户：<span>{{userName}}</span>
+      当前用户：
+      <el-dropdown style="color: #ffffff;">
+        <span class="el-dropdown-link">{{userName}}<i class="el-icon-arrow-down el-icon--right"></i></span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item icon="el-icon-switch-button"><span  @click="logout">退出</span></el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -19,8 +25,9 @@ export default {
     }
   },
   methods: {
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
+    logout () {
+      // this.$store.dispatch('logout')
+      this.$router.push('/login')
     }
   }
 }

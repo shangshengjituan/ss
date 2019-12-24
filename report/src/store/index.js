@@ -100,12 +100,6 @@ let store = new Vuex.Store({
             let roles = getters.plateIdArr
             let userNum = getters.userNum
             dispatch('generateRoutes', { roles, userNum }).then(() => { // 生成可访问的路由表
-              // console.log(JSON.stringify(getters.routers))
-              // let children = getters.addRouters
-              // let layout = layoutRoutes
-              // layout[0].children = children
-              // console.log(JSON.stringify(layout))
-              // router.addRoutes(layout)
               router.addRoutes(getters.addRouters) // 动态添加可访问路由表
             })
           }
@@ -147,6 +141,28 @@ let store = new Vuex.Store({
         })
         commit('SET_ROUTERS', accessedRouters)
         resolve()
+      })
+    },
+    // user logout
+    logout ({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        // export function logout() {
+        //   return request({
+        //     url: '/user/logout',
+        //     method: 'post'
+        //   })
+        // }
+
+        // 下面的logout是后端返回的接口
+        // $api.user.logout(state.token).then(() => {
+        //   commit('SET_USER', {})
+        //   commit('SET_TOKEN', '')
+        //   removeToken()
+        //   resetRouter()
+        //   resolve()
+        // }).catch(error => {
+        //   reject(error)
+        // })
       })
     }
   }

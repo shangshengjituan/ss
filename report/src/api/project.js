@@ -1,7 +1,7 @@
 import axios from '@/utils/request'
 
 const project = {
-  // 查询所有项目
+  // 查询所有项目 新增 修改
   getProjectList (data) {
     return axios.get('/selectProject', {
       params: data
@@ -9,6 +9,11 @@ const project = {
   },
   addProjectItem (data) {
     return axios.get('/insertProject', {
+      params: data
+    })
+  },
+  updateProjectItem (data) {
+    return axios.get('/updateProject', {
       params: data
     })
   },
