@@ -12,19 +12,19 @@ import './assets/index.css'
 Vue.config.productionTip = false
 
 // 全局前置守卫
-router.beforeEach((to, from, next) => {
-  if (store.getters.token) { // 判断是否有token
-    console.log('router:', from.name, '-->', to.name)
-    // console.log('path:', from.path, '-->', to.path)
-    next()
-  } else {
-    if (to.name === 'Login') {
-      next()
-    } else {
-      next('/login')
-    }
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (store.getters.token) { // 判断是否有token
+//     console.log('router:', from.name, '-->', to.name)
+//     // console.log('path:', from.path, '-->', to.path)
+//     next()
+//   } else {
+//     if (to.name === 'Login') {
+//       next()
+//     } else {
+//       next('/login')
+//     }
+//   }
+// })
 router.afterEach((to, from, next) => {
   window.scroll(0, 0)
 })

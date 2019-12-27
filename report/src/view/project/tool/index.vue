@@ -17,7 +17,7 @@
         <div v-for="(project, index) in projectList" :key="index" class="text item">
           <span>{{ index+1 }}、 {{ project.projectName }} （{{project.projectManager}}）</span>
           <el-button
-            v-show="project.projectManager === userName"
+            v-show="project.departmentId === departmentId"
             @click="openDialogUpdateProgram(project)"
             type="text" size="small">编辑</el-button>
         </div>
@@ -85,7 +85,6 @@ export default {
       departmentId: this.$store.getters.departmentId,
       plateId: this.$store.getters.plateId,
       role: this.$store.getters.role,
-      userName: this.$store.getters.userName,
       projectList: [],
       workList: [],
       dialogProgramVisible: false,
