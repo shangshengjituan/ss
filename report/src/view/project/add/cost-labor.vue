@@ -49,7 +49,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="班组" prop="table3Team">
-            <el-input v-model="table3.table3Team" clearable />
+            <el-input v-model="table3.table3Team" clearable ><template slot="append">班组</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">

@@ -147,6 +147,7 @@ let store = new Vuex.Store({
     logout ({ commit, state }) {
       commit('SET_USER', {})
       commit('SET_TOKEN', '')
+      sessionStorage.removeItem('store')
       // return new Promise((resolve, reject) => {
       // export function logout() {
       //   return request({

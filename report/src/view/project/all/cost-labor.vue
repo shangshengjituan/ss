@@ -176,7 +176,7 @@ export default {
     },
     // 点击编辑，跳出修改框
     clickUpdate (data) {
-      this.dialogData = data
+      this.dialogData = Object.assign({}, data)
       this.dialogVisible = true
     },
     // 点击删除

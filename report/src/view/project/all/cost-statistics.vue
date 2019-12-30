@@ -253,7 +253,7 @@ export default {
       })
     },
     clickUpdateUp () {
-      this.dialogDataUp = this.table1up
+      this.dialogDataUp = Object.assign({}, this.table1up)
       this.dialogVisibleUp = true
     },
     confirmUpdateUp (data) {
@@ -322,7 +322,7 @@ export default {
     // 点击编辑，跳出修改框
     clickUpdate (data) {
       console.log(data)
-      this.dialogData = data
+      this.dialogData = Object.assign({}, data)
       this.dialogVisible = true
     },
     cancelDialog () {

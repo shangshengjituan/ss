@@ -87,7 +87,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="班组" prop="table5Team">
-            <el-input v-model="table5.table5Team" placeholder="请输入班组" clearable />
+            <el-input v-model="table5.table5Team" placeholder="请输入班组" clearable ><template slot="append">班组</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
