@@ -2,7 +2,7 @@
 <div>
   <span>当前用户：{{username}}</span>
   <el-divider></el-divider>
-  <span>当前日期：{{new Date().getFullYear()}}年{{new Date().getMonth() + 1}}月{{new Date().getDay()}}日</span>
+  <span>当前日期：{{new Date().getFullYear()}}年{{new Date().getMonth() + 1}}月{{new Date().getDate()}}日</span>
 </div>
 </template>
 

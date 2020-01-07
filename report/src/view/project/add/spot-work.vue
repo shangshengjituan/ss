@@ -69,7 +69,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="栋号及部位" prop="table5Position">
+          <el-form-item label="栋号及部位">
             <el-input v-model="table5.table5Position" clearable />
           </el-form-item>
         </el-col>
@@ -161,7 +161,6 @@ export default {
         table5Reason: [{ required: true, message: '不可为空', trigger: 'change' }],
         table5StartTime: [{ required: true, message: '请选择日期', trigger: 'change' }],
         table5EndTime: [{ required: true, message: '请选择日期', trigger: 'change' }],
-        table5Position: [{ required: true, message: '不可为空', trigger: 'change' }],
         table5WorkTypeId: [{ required: true, message: '请选择明细', trigger: 'change' }],
         table5Team: [{ required: true, message: '不可为空', trigger: 'change' }],
         table5AveragePeople: [{ required: true, message: '不可为空', trigger: 'change' }],

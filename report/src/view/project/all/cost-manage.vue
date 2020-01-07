@@ -34,18 +34,23 @@
       :data="tableData" border row-key="id" :indent="0"
       header-cell-class-name="header-row">
       <el-table-column type="index" width="50" fixed/>
-      <el-table-column prop="table15SuppliesName" label="事由" fixed/>
-      <el-table-column prop="table15Use" label="时间" />
+      <el-table-column prop="table15SuppliesName" label="购买用品名称" fixed/>
+      <el-table-column prop="table15Use" label="用途" />
+      <el-table-column prop="table15Numbering" label="固定资产编号" />
+      <el-table-column prop="table15Time" label="时间" />
       <el-table-column prop="table15Manager" label="经办人" />
       <el-table-column prop="table15Billing" label="开票情况" />
+      <el-table-column prop="table15Unit" label="单位" />
+      <el-table-column prop="table15Quantity" label="数量" />
       <el-table-column prop="table15Amount" label="金额（元）" />
+      <el-table-column prop="table15TotalAmount" label="总额（元）" />
       <el-table-column prop="table15Remark" label="备注" />
       <el-table-column prop="table15Editor" label="编制人" />
       <el-table-column prop="table15EditorDate" label="编制时间" />
-      <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="148">
+      <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="116">
         <template slot-scope="scope">
-          <el-button @click="clickUpdate(scope.row)" size="small">编辑</el-button>
-          <el-button @click="clickDelete(scope.row)" type="danger" size="small">删除</el-button>
+          <el-button @click="clickUpdate(scope.row)" size="mini">编辑</el-button>
+          <el-button @click="clickDelete(scope.row)" type="danger" size="mini">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

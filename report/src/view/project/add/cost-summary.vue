@@ -63,7 +63,6 @@ export default {
         table2ProjectId: '',
         table2ProjectYear: '',
         table2Quarter: '',
-        specificOptionId: '',
         optionId: '' // 类型
       },
       options: this.$store.getters.addType[1].children, // 季度
@@ -81,8 +80,7 @@ export default {
     selectData: {
       handler (newVal, oldVal) {
         if (newVal.table2ProjectId && newVal.table2ProjectYear && newVal.table2Quarter && newVal.optionId) {
-          console.log('11111')
-          newVal.specificOptionId = newVal.optionId[1]
+          console.log(oldVal)
           this.getSummary({
             table2ProjectId: newVal.table2ProjectId,
             table2ProjectYear: newVal.table2ProjectYear,

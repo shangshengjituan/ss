@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import $api from '@/api'
 // import { asyncRoutes, constantRoutes } from '@/router'
 // import router from '../router'
-// import createVuexAlong from 'vuex-along'
+import createVuexAlong from 'vuex-along'
 
 Vue.use(Vuex)
 
@@ -145,9 +145,16 @@ let store = new Vuex.Store({
     // },
     // user logout
     logout ({ commit, state }) {
-      commit('SET_USER', {})
-      commit('SET_TOKEN', '')
-      sessionStorage.removeItem('store')
+      return new Promise((resolve, reject) => {
+        $api.user.logout().then(rsp => {
+          commit('SET_USER', {})
+          commit('SET_TOKEN', '')
+          resolve()
+          resolve(rsp.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
       // return new Promise((resolve, reject) => {
       // export function logout() {
       //   return request({
@@ -166,8 +173,14 @@ let store = new Vuex.Store({
       //   })
       // })
     }
-  }
-  // plugins: [createVuexAlong()]
+  },
+  plugins: [createVuexAlong({
+    name: 'state',
+    session: {
+      list: ['user', 'token', 'addType']
+    },
+    justSession: true
+  })]
 })
 
 export default store

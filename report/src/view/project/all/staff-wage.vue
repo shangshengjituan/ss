@@ -43,10 +43,10 @@
       <el-table-column prop="table17Remark" label="备注" />
       <el-table-column prop="table17Editor" label="编制人" />
       <el-table-column prop="table17EditorDate" label="编制时间" />
-      <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="148">
+      <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="116">
         <template slot-scope="scope">
-          <el-button @click="clickUpdate(scope.row)" size="small">编辑</el-button>
-          <el-button @click="clickDelete(scope.row)" type="danger" size="small">删除</el-button>
+          <el-button @click="clickUpdate(scope.row)" size="mini">编辑</el-button>
+          <el-button @click="clickDelete(scope.row)" type="danger" size="mini">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

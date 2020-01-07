@@ -24,13 +24,14 @@
       </el-scrollbar>
     </div>
   </el-card>
+  <!-- 新增项目 -->
   <el-dialog title="新增项目" :visible.sync="dialogProgramVisible">
     <el-form :model="projectItem" :rules="rulePro" ref="projectItem">
       <el-form-item label="项目名称" prop="projectName" label-width="120">
         <el-input v-model="projectItem.projectName" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="项目经理" prop="projectManager" label-width="120">
-        <el-input v-model="projectItem.projectManager" autocomplete="off"></el-input>
+        <el-input v-model="projectItem.projectManager" autocomplete="off" :readonly="true"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -39,6 +40,7 @@
       <el-button type="primary" @click="validateProData('projectItem')">确 定</el-button>
     </div>
   </el-dialog>
+  <!-- 修改项目 -->
   <el-dialog title="修改项目" :visible.sync="dialogUpdateProgramVisible">
     <el-form :model="projectUpdateItem" :rules="rulePro1" ref="projectUpdateItem">
       <el-form-item label="项目名称" prop="projectName" label-width="120">
@@ -63,6 +65,7 @@
       {{ index+1 }}、 {{ work.bricklayer }}
     </div>
   </el-card>
+  <!-- 新增工种 -->
   <el-dialog title="新增工种" :visible.sync="dialogWorkVisible">
     <el-form :model="workItem" :rules="ruleWork" ref="workItem">
       <el-form-item label="工种名称" prop="bricklayer" label-width="120">
@@ -142,6 +145,7 @@ export default {
           console.log(rsp.data)
           if (rsp.data.result === 200) {
             this.$message.success('新增项目成功！')
+            this.projectItem.projectName = ''
           } else if (rsp.data.result === 500) {
             this.$message.error(rsp.data.resultText)
           } else {
@@ -157,6 +161,7 @@ export default {
           console.log(rsp.data)
           if (rsp.data.result === 200) {
             this.$message.success('新增工种成功！')
+            this.workItem.bricklayer = ''
           } else if (rsp.data.result === 500) {
             this.$message.error(rsp.data.resultText)
           } else {

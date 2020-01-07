@@ -32,7 +32,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="检测结果" prop="table16DetectionResult">
+        <el-form-item label="检测结果">
           <el-input v-model="table16.table16DetectionResult" clearable />
         </el-form-item>
       </el-col>
@@ -44,7 +44,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="数量" prop="table16Quantity">
+        <el-form-item label="数量">
           <el-input v-model.number="table16.table16Quantity" type="number" clearable />
         </el-form-item>
       </el-col>
@@ -109,9 +109,7 @@ export default {
         table16TeamName: [{ required: true, message: '不可为空', trigger: 'change' }],
         table16InspectionTime: [{ required: true, message: '请选择时间', trigger: 'change' }],
         table16ReportTime: [{ required: true, message: '请选择时间', trigger: 'change' }],
-        table16DetectionResult: [{ required: true, message: '不可为空', trigger: 'change' }],
         table16Unit: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table16Quantity: [{ required: true, message: '不可为空', trigger: 'change' }],
         table16GroupNumber: [{ required: true, message: '不可为空', trigger: 'change' }],
         table16Price: [{ required: true, message: '请输入金额', trigger: 'change' }],
         table16TotalPrice: [{ required: true, message: '请输入金额', trigger: 'change' }]

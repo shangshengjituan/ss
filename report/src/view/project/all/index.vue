@@ -16,6 +16,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+  .el-button--mini {
+    padding: 7px;
+  }
 </style>

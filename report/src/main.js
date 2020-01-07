@@ -13,16 +13,35 @@ Vue.config.productionTip = false
 
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
-  if (store.getters.token) { // 判断是否有token
+  // let token = JSON.parse(sessionStorage.getItem('store')).token || store.getters.token || ''
+  let token = store.getters.token
+  if (token) { // 判断是否有token
+    console.log('有token：', token)
     console.log('router:', from.name, '-->', to.name)
     next()
   } else {
+    console.log('无token：', token)
+    console.log('router:', from.name, '-->', to.name)
     if (to.name === 'Login') {
       next()
     } else {
       next('/login')
     }
   }
+  // if (store.getters.token) { // 判断是否有token
+  //   console.log(store.getters.token)
+  //   console.log('router:', from.name, '-->', to.name)
+  //   next()
+  // } else {
+  //   next()
+  //   console.log('from', from)
+  //   console.log('to', to)
+  //   if (from.name === 'Login') {
+  //     next()
+  //   } else {
+  //     next('/login')
+  //   }
+  // }
 })
 router.afterEach((to, from, next) => {
   window.scroll(0, 0)

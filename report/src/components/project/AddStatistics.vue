@@ -3,17 +3,17 @@
     <el-row>
       <el-col :span="8">
         <el-form-item label="合同价">
-          <el-input v-model.number="table1.table1ContractPrice" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table1.table1ContractPrice" type="number" :readonly="true"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="责任成本">
-          <el-input v-model.number="table1.table1LiabilityCost" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table1.table1LiabilityCost" type="number" :readonly="true"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="实际成本">
-          <el-input v-model.number="table1.table1ActualCost" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table1.table1ActualCost" type="number" :readonly="true"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>

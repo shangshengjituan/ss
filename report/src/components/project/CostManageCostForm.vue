@@ -19,8 +19,8 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="分包工程价" prop="table10EngineeringPrice">
-          <el-input v-model.number="table10.table10EngineeringPrice" type="number" clearable><template slot="append">元</template></el-input>
+        <el-form-item label="分包工程价">
+          <el-input v-model.number="table10.table10EngineeringPrice" type="number" :readonly="true"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -68,6 +68,12 @@ export default {
       handler (newValue, oldValue) {
         this.table10 = Object.assign({}, newValue)
       }
+    },
+    table10: {
+      handler (newValue, oldValue) {
+        newValue.table10EngineeringPrice = parseFloat((newValue.table10ContractPrice * (1 - newValue.table10ManagementFee / 100)).toFixed(2))
+      },
+      deep: true
     }
   },
   data () {

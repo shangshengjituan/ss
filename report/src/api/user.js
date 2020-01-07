@@ -5,10 +5,9 @@ const user = {
   login (data) {
     return axios.post('/login', data)
   },
-  allgroup (data) {
-    return axios.get('/selectgroupform', {
-      params: data
-    })
+  // 登出
+  logout () {
+    return axios.get('/logout')
   }
 }
 
