@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="产值">
-          <el-input v-model.number="table2option2.table2Output" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2Output" type="number" :readonly="readonlyOutput"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
@@ -18,14 +18,14 @@
       </el-col>
       <el-col :span="6">
         <el-form-item label="实际成本">
-          <el-input v-model.number="table2option2.table2ActualCost" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2ActualCost" type="number" :readonly="readonlyActualCost"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="差额">
-          <span>{{(table2option2.table2LiabilityCost - table2option2.table2ActualCost) || 0 }}</span>
+          <span>{{Math.round((table2option2.table2Output - table2option2.table2ActualCost)*100)/100 || 0 }}</span>
         </el-form-item>
       </el-col>
       <el-col :span="18">
@@ -63,7 +63,9 @@ export default {
         table2LiabilityCost: '',
         table2ActualCost: '',
         table2Remark: ''
-      }
+      },
+      readonlyOutput: !!this.summaryData.table2Output,
+      readonlyActualCost: !!this.summaryData.table2ActualCost
     }
   },
   created () {
@@ -72,6 +74,8 @@ export default {
   watch: {
     summaryData: {
       handler (newValue, oldValue) {
+        this.readonlyOutput = !!newValue.table2Output
+        this.readonlyActualCost = !!newValue.table2ActualCost
         console.log('change')
         this.initData()
       },
@@ -84,6 +88,7 @@ export default {
       Object.keys(this.table2option2).forEach(key => {
         this.table2option2[key] = this.summaryData[key]
       })
+      this.table2option2.specificOptionId = this.summaryData.optionId[1]
     },
     addTable2 () {
       this.$api.project.addTable2(this.table2option2)

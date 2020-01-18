@@ -88,8 +88,8 @@ export default {
     },
     table13: {
       handler (newValue, oldValue) {
-        newValue.table13SubcontractingTotalPrice = parseFloat((newValue.table13ActualQuantity * newValue.table13SubcontractingPrice).toFixed(2))
-        newValue.table13LiabilityCostTotalPrice = parseFloat((newValue.table13ContractQuantity * newValue.table13LiabilityCostPrice).toFixed(2))
+        newValue.table13SubcontractingTotalPrice = Math.round((newValue.table13ActualQuantity * newValue.table13SubcontractingPrice) * 100) / 100
+        newValue.table13LiabilityCostTotalPrice = Math.round((newValue.table13ContractQuantity * newValue.table13LiabilityCostPrice) * 100) / 100
       },
       deep: true
     }

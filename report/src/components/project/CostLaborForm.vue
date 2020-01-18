@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     handleCalculate () {
-      this.costDifference = parseFloat((this.table3.table3ResponsibleLaborFee - this.table3.table3ActualLaborCost).toFixed(2))
+      this.costDifference = Math.round((this.table3.table3ResponsibleLaborFee - this.table3.table3ActualLaborCost).toFixed(2) * 100) / 100
     },
     // 取消修改
     handleCancel () {

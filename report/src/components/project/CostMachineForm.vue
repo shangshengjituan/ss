@@ -97,7 +97,7 @@ export default {
     },
     table9: {
       handler (newValue, oldValue) {
-        this.costDifference = parseFloat((newValue.table9MachineryFee - newValue.table9TotalPrice).toFixed(2))
+        this.costDifference = Math.round((newValue.table9MachineryFee - newValue.table9TotalPrice) * 100) / 100
       },
       deep: true
     }
@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     handleCalculate () {
-      this.costDifference = this.table9.table9MachineryFee - this.table9.table9TotalPrice
+      this.costDifference = Math.round((this.table9.table9MachineryFee - this.table9.table9TotalPrice) * 100) / 100
     },
     // 取消修改
     handleCancel () {

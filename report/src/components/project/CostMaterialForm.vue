@@ -114,7 +114,7 @@ export default {
   },
   methods: {
     handleCalculate () {
-      this.totalPrice = parseFloat((this.table7.table7WorkQuantity * this.table7.table7Price).toFixed(2))
+      this.totalPrice = Math.round((this.table7.table7WorkQuantity * this.table7.table7Price) * 100) / 100
     },
     // 取消修改
     handleCancel () {

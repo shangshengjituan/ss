@@ -81,7 +81,7 @@ export default {
     table21: {
       handler (newValue, oldValue) {
         if (newValue.table21ActualPrice && newValue.table21ActualQuantity) {
-          newValue.table21MaterialPrice = parseFloat((newValue.table21ActualPrice * newValue.table21ActualQuantity).toFixed(2))
+          newValue.table21MaterialPrice = Math.round((newValue.table21ActualPrice * newValue.table21ActualQuantity) * 100) / 100
         }
       },
       deep: true

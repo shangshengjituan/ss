@@ -311,10 +311,10 @@ export default {
           sums[index] = '累计'
         }
         if (columns.property === 'table1ContractPrice') {
-          sums[index] = demo
+          sums[index] = Math.round(demo * 100) / 100
         }
         if (columns.property === 'table1ActualCost') {
-          sums[index] = demo1
+          sums[index] = Math.round(demo1 * 100) / 100
         }
       })
       return sums

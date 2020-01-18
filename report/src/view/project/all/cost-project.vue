@@ -36,8 +36,9 @@
       <el-table-column type="index" width="50" fixed/>
       <el-table-column prop="table12SubcontractingName" label="分包项目名称" fixed/>
       <el-table-column prop="table12Unit" label="单位" />
-      <el-table-column prop="table12WorkQuantity" label="合同工程量" />
       <el-table-column prop="table12ContractPrice" label="合同价（元）" />
+      <el-table-column prop="table12WorkQuantity" label="合同工程量" />
+      <el-table-column prop="table12SubcontractingWorkQuantity" label="分包工程量" />
       <el-table-column prop="table12SubcontractingPrice" label="分包单价（元））" />
       <el-table-column prop="table12SubcontractingTotalPrice" label="分包合价（元）" />
       <el-table-column prop="table12LiabilityCostPrice" label="责任成本单价（元））" />
@@ -165,11 +166,11 @@ export default {
           sums[index] = '累计'
         }
         switch (columns.property) {
-          case 'table12SubcontractingTotalPrice': sums[index] = demo
+          case 'table12SubcontractingTotalPrice': sums[index] = Math.round(demo * 100) / 100
             break
-          case 'table12LiabilityCostTotalPrice': sums[index] = demo1
+          case 'table12LiabilityCostTotalPrice': sums[index] = Math.round(demo1 * 100) / 100
             break
-          case 'table12Spread': sums[index] = demo2
+          case 'table12Spread': sums[index] = Math.round(demo2 * 100) / 100
             break
         }
       })

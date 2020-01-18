@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="overflow: hidden;">
   <el-breadcrumb separator="/">
     <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
     <el-breadcrumb-item>表单工具</el-breadcrumb-item>

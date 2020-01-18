@@ -132,7 +132,7 @@ export default {
   watch: {
     table10: {
       handler (newValue, oldValue) {
-        newValue.table10EngineeringPrice = parseFloat((newValue.table10ContractPrice * (1 - newValue.table10ManagementFee / 100)).toFixed(2))
+        newValue.table10EngineeringPrice = Math.round((newValue.table10ContractPrice * (1 - newValue.table10ManagementFee / 100)) * 100) / 100
       },
       deep: true
     }

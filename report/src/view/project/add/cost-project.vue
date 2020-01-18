@@ -47,15 +47,15 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="合同工程量" prop="table12WorkQuantity">
-            <el-input v-model.number="table12.table12WorkQuantity" type="number" clearable />
+          <el-form-item label="合同价">
+            <el-input v-model="table12.table12ContractPrice" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row  :gutter="20">
         <el-col :span="8">
-          <el-form-item label="合同价" prop="table12ContractPrice">
-            <el-input v-model.number="table12.table12ContractPrice" type="number" clearable><template slot="append">元</template></el-input>
+          <el-form-item label="分包工程量" prop="table12SubcontractingWorkQuantity">
+            <el-input v-model.number="table12.table12SubcontractingWorkQuantity" type="number" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -71,6 +71,11 @@
       </el-row>
       <el-row  :gutter="20">
         <el-col :span="8">
+          <el-form-item label="合同工程量" prop="table12WorkQuantity">
+            <el-input v-model.number="table12.table12WorkQuantity" type="number" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item label="责任成本单价" prop="table12LiabilityCostPrice">
             <el-input v-model.number="table12.table12LiabilityCostPrice" type="number" clearable><template slot="append">元</template></el-input>
           </el-form-item>
@@ -80,9 +85,11 @@
             <el-input v-model.number="table12.table12LiabilityCostTotalPrice" :readonly="true" type="number"><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="差额">
-            <el-input v-model="table12.table12Spread" placeholder="责任成本与分包合价差额" :readonly="true"><template slot="append">元</template></el-input>
+            <el-input v-model="table12.table12Spread" placeholder="责任成本合价与分包合价差额" :readonly="true"><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -121,6 +128,7 @@ export default {
         table12SubcontractingName: '',
         table12Unit: '',
         table12WorkQuantity: '',
+        table12SubcontractingWorkQuantity: '',
         table12ContractPrice: '',
         table12SubcontractingPrice: '',
         table12SubcontractingTotalPrice: '',
@@ -137,7 +145,7 @@ export default {
         table12SubcontractingName: [{ required: true, message: '不可为空', trigger: 'change' }],
         table12Unit: [{ required: true, message: '不可为空', trigger: 'change' }],
         table12WorkQuantity: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table12ContractPrice: [{ required: true, message: '不可为空', trigger: 'change' }],
+        table12SubcontractingWorkQuantity: [{ type: 'number', required: true, message: '不可为空', trigger: 'change' }],
         table12SubcontractingPrice: [{ required: true, message: '不可为空', trigger: 'change' }],
         table12LiabilityCostPrice: [{ required: true, message: '不可为空', trigger: 'change' }]
       },
@@ -151,9 +159,9 @@ export default {
   watch: {
     table12: {
       handler (newValue, oldValue) {
-        newValue.table12SubcontractingTotalPrice = parseFloat((newValue.table12ContractPrice * newValue.table12SubcontractingPrice).toFixed(2))
-        newValue.table12LiabilityCostTotalPrice = parseFloat((newValue.table12WorkQuantity * newValue.table12LiabilityCostPrice).toFixed(2))
-        newValue.table12Spread = parseFloat((newValue.table12LiabilityCostTotalPrice - newValue.table12SubcontractingTotalPrice).toFixed(2))
+        newValue.table12SubcontractingTotalPrice = Math.round((newValue.table12SubcontractingWorkQuantity * newValue.table12SubcontractingPrice) * 100) / 100
+        newValue.table12LiabilityCostTotalPrice = Math.round((newValue.table12WorkQuantity * newValue.table12LiabilityCostPrice) * 100) / 100
+        newValue.table12Spread = Math.round((newValue.table12LiabilityCostTotalPrice - newValue.table12SubcontractingTotalPrice) * 100) / 100
       },
       deep: true
     }

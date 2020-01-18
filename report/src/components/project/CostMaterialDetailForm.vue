@@ -94,7 +94,7 @@ export default {
     },
     table6: {
       handler (newValue, oldValue) {
-        this.costDifference = parseFloat((newValue.table6LiabilityCostTotalPrice - newValue.table6ActualTotalPrice).toFixed(2))
+        this.costDifference = Math.round((newValue.table6LiabilityCostTotalPrice - newValue.table6ActualTotalPrice) * 100) / 100
       },
       deep: true
     }

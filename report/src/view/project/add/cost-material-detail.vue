@@ -153,7 +153,7 @@ export default {
   },
   computed: {
     costDifference () {
-      return parseFloat((this.table6.table6LiabilityCostTotalPrice - this.table6.table6ActualTotalPrice).toFixed(2))
+      return Math.round((this.table6.table6LiabilityCostTotalPrice - this.table6.table6ActualTotalPrice) * 100) / 100
     }
   },
   methods: {

@@ -169,7 +169,7 @@ export default {
   },
   computed: {
     costDifference () {
-      return parseFloat((this.table3.table3ResponsibleLaborFee - this.table3.table3ActualLaborCost).toFixed(2))
+      return Math.round((this.table3.table3ResponsibleLaborFee - this.table3.table3ActualLaborCost) * 100) / 100
     }
   },
   methods: {

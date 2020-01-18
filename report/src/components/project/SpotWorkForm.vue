@@ -142,7 +142,7 @@ export default {
         })
     },
     handleCalculate () {
-      this.totalPrice = parseFloat((this.table5.table5AveragePeople * this.table5.table5UnitPrice).toFixed(2))
+      this.totalPrice = Math.round((this.table5.table5AveragePeople * this.table5.table5UnitPrice) * 100) / 100
     },
     // 取消修改
     handleCancel () {

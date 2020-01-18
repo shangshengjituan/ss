@@ -134,6 +134,15 @@ export default {
         this.initData()
       },
       deep: true
+    },
+    table1up: {
+      handler (newValue, oldValue) {
+        console.log(newValue)
+        console.log(this.diffDate(newValue.plannedStartDate, newValue.plannedEndDate))
+        console.log(this.diffDate(newValue.actualStartDate, newValue.actualEndDate))
+        console.log(this.diffDate('2020-1-9', '2020-1-10'))
+      },
+      deep: true
     }
   },
   methods: {
@@ -177,6 +186,13 @@ export default {
       }).catch(() => {
         console.log('cancel submit.')
       })
+    },
+    diffDate (day1, day2) {
+      console.log(day1)
+      let d1 = Date.parse(day1)
+      console.log(d1)
+      let d2 = Date.parse(day2)
+      return parseInt((d2 - d1) / (1000 * 60 * 60 * 24))
     }
   }
 }

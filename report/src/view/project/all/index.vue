@@ -4,9 +4,7 @@
       <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>表单统计</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-card>
-      <router-view></router-view>
-    </el-card>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -18,6 +16,6 @@ export default {
 
 <style>
   .el-button--mini {
-    padding: 7px;
+    padding: 7px !important;
   }
 </style>

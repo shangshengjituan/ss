@@ -167,11 +167,11 @@ export default {
           sums[index] = '累计'
         }
         switch (columns.property) {
-          case 'table9TotalPrice': sums[index] = demo
+          case 'table9TotalPrice': sums[index] = Math.round(demo * 100) / 100
             break
-          case 'table9MachineryFee': sums[index] = demo1
+          case 'table9MachineryFee': sums[index] = Math.round(demo1 * 100) / 100
             break
-          case 'table9SpreadFee': sums[index] = demo2
+          case 'table9SpreadFee': sums[index] = Math.round(demo2 * 100) / 100
             break
         }
       })

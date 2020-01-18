@@ -148,7 +148,7 @@ export default {
   },
   computed: {
     totalPrice () {
-      return parseFloat((this.table7.table7WorkQuantity * this.table7.table7Price).toFixed(2))
+      return Math.round((this.table7.table7WorkQuantity * this.table7.table7Price) * 100) / 100
     },
     type () {
       let demo = this.table7.table7Type

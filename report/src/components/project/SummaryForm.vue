@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="产值">
-          <el-input v-model.number="table2option2.table2Output" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2Output" type="number" :readonly="readonlyOutput"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
@@ -18,7 +18,7 @@
       </el-col>
       <el-col :span="6">
         <el-form-item label="实际成本">
-          <el-input v-model.number="table2option2.table2ActualCost" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2ActualCost" type="number" :readonly="readonlyActualCost"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -52,13 +52,16 @@ export default {
   watch: {
     formData: {
       handler (newValue, oldValue) {
+        console.log(newValue)
         this.table2option2 = Object.assign({}, newValue)
       }
     }
   },
   data () {
     return {
-      table2option2: Object.assign({}, this.formData)
+      table2option2: Object.assign({}, this.formData),
+      readonlyOutput: !!this.formData.table2Output,
+      readonlyActualCost: !!this.formData.table2ActualCost
     }
   },
   methods: {

@@ -8,7 +8,7 @@
       label-position="left"
       label-width="0px"
       class="demo-ruleForm login-page">
-      <h3 class="title">尚昇系统登录</h3>
+      <h3 class="title">尚昇成本报表系统登录</h3>
       <el-form-item prop="userNum">
         <el-input
           type="text"
@@ -35,7 +35,7 @@
           @click="handleSubmit"
           :loading="logining">登录</el-button>
       </el-form-item>
-      00006拜总，00033花锋，00059许峰，00224王寒
+      00006拜正芳，00033花锋，00059许峰，00027吴利平。密码12345
     </el-form>
   </div>
 </template>

@@ -179,7 +179,7 @@ export default {
           sums[index] = '累计'
         }
         if (columns.property === 'table8TotalPrice') {
-          sums[index] = demo
+          sums[index] = Math.round(demo * 100) / 100
         }
       })
       return sums
