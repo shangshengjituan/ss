@@ -149,6 +149,7 @@ export default {
     height: 100%;
   }
   .content-wrap {
+    overflow: hidden;
     border: 1px solid #DCDFF7;
     border-top: none;
     padding: 0 10px 10px 10px;

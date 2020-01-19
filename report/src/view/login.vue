@@ -35,7 +35,6 @@
           @click="handleSubmit"
           :loading="logining">登录</el-button>
       </el-form-item>
-      00006拜正芳，00033花锋，00059许峰，00027吴利平。密码12345
     </el-form>
   </div>
 </template>
@@ -47,11 +46,11 @@ export default {
     return {
       logining: false,
       loginForm: {
-        userNum: '00059',
-        userPwd: '12345'
+        userNum: '',
+        userPwd: ''
       },
       rules: {
-        userNum: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+        userNum: [{required: true, message: '请输入工号', trigger: 'blur'}],
         userPwd: [{required: true, message: '请输入密码', trigger: 'blur'}]
       },
       checked: false

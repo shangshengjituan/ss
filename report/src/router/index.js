@@ -7,6 +7,14 @@ import Admin from '@/view/admin/admin'
 
 Vue.use(Router)
 
+const originalPush = Router.prototype.push
+
+Router.prototype.push = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+
+  return originalPush.call(this, location).catch(err => err)
+}
+
 export default new Router({
   mode: 'history',
   base: '/report/',
@@ -21,11 +29,13 @@ export default new Router({
         component: Admin,
         meta: {title: '首页', roles: ['1', '2', '3', '4']}
       }]
-    }, {
+    },
+    {
       path: '/login',
       name: 'Login',
       component: Login
-    }, {
+    },
+    {
       path: '/operation',
       name: 'Operation',
       component: Layout,

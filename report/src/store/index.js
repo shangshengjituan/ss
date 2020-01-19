@@ -57,13 +57,17 @@ let store = new Vuex.Store({
     userNum: state => state.user.userNum,
     plateId: state => state.user.plateId,
     // plateId转换为plateIdArr控制侧栏显示
+    // 不用了
     plateIdArr: state => {
       let arr = []
       arr[0] = state.user.plateId
       return arr
     },
+    // plateId值4和123 departmentId值0和其他
+    // plateId departmentId用于分配权限
+    // userDepartment用户部门
+    departmentId: state => state.user.departmentId,
     departmentName: state => state.user.departmentName,
-    departmentId: state => state.user.userDepartment,
     // 控制个别按钮，小功能
     role: state => {
       let tem = state.user.departmentId
@@ -164,12 +168,11 @@ let store = new Vuex.Store({
     //     resolve()
     //   })
     // },
-    logout ({ commit, state }) {
+    logout ({ commit }) {
       return new Promise((resolve, reject) => {
         $api.user.logout().then(rsp => {
           commit('SET_USER', {})
           commit('SET_TOKEN', '')
-          resolve()
           resolve(rsp.data)
         }).catch(error => {
           reject(error)
