@@ -29,7 +29,7 @@
           <el-input type="password" v-model="userForm.userPwd1" placeholder="请重复新密码" show-password></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('userForm')">提交</el-button>
+          <el-button @click="submitForm('userForm')">提交</el-button>
         </el-form-item>
       </el-form>
     </el-card>

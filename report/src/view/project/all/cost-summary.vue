@@ -30,6 +30,7 @@
       </el-form-item>
     </el-form>
     <el-table
+      show-summary :summary-method="getSummaries"
       :data="tableData" border row-key="id" :indent="0"
       :span-method="cellMerge"
       header-cell-class-name="header-row">
@@ -40,7 +41,7 @@
       <el-table-column prop="table2Target" label="责任指标" />
       <el-table-column prop="table2LiabilityCost" label="责任成本（元）" />
       <el-table-column prop="table2ActualCost" label="实际成本（元）" />
-      <el-table-column label="差额（元）" >
+      <el-table-column prop="diff" label="差额（元）" >
         <template slot-scope="scope">
           {{ scope.row.table2LiabilityCost - scope.row.table2ActualCost }}
         </template>
@@ -94,10 +95,14 @@ export default {
   computed: {
     tableData: {
       get () {
-        return this.list
+        return this.list.map(item => {
+          return Object.assign(item, {'diff': item.table2LiabilityCost - item.table2ActualCost})
+        })
       },
       set () {
-        return this.list
+        return this.list.map(item => {
+          return Object.assign(item, {'diff': item.table2LiabilityCost - item.table2ActualCost})
+        })
       }
     }
   },
@@ -123,7 +128,7 @@ export default {
             this.list = rsp.data.table2.table2lists || []
           } else if (rsp.data.result === 404) {
             this.$message.warning(rsp.data.resultText)
-            this.list = rsp.data.table2.table2lists || []
+            this.list = []
           } else {
             this.$message.error('未知错误，查询失败！')
           }
@@ -173,6 +178,31 @@ export default {
           colspan: _col
         }
       }
+    },
+    // 累计
+    getSummaries (params) {
+      const { columns, data } = params
+      let sums = []
+      let [demo, demo1, demo2] = [0, 0, 0]
+      data.forEach((columns) => {
+        demo += columns.table2Output
+        demo1 += columns.table2ActualCost
+        demo2 += columns.diff
+      })
+      columns.forEach((columns, index) => {
+        if (index === 0) {
+          sums[index] = '累计'
+        }
+        switch (columns.property) {
+          case 'table2Output': sums[index] = Math.round(demo * 100) / 100
+            break
+          case 'table2ActualCost': sums[index] = Math.round(demo1 * 100) / 100
+            break
+          case 'diff': sums[index] = Math.round(demo2 * 100) / 100
+            break
+        }
+      })
+      return sums
     },
     // 点击删除
     clickDelete (data) {

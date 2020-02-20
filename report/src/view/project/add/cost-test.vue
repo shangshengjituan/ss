@@ -1,5 +1,6 @@
 <template>
-  <el-card shadow="hover">
+  <!--<el-card shadow="hover">-->
+    <div>
     <h4>项目检测实验费用统计</h4>
     <el-divider></el-divider>
     <el-form :model="table16" :rules="rules" ref="table16" label-width="180px" label-position="right" >
@@ -117,7 +118,8 @@
         <el-button type="primary" @click="validateData('table16')"> 立即创建 </el-button>
       </el-form-item>
     </el-form>
-  </el-card>
+    </div>
+  <!--</el-card>-->
 </template>
 
 <script>
