@@ -18,6 +18,23 @@ const operation = {
       params: data
     })
   },
+  // 科技
+  addTech (data) {
+    return axios.post('/insertTechForm', data)
+  },
+  getTech (data) {
+    return axios.get('/selectTechform', {
+      params: data
+    })
+  },
+  updateTech (data) {
+    return axios.post('/updateTechForm', data)
+  },
+  getTechSummary (data) {
+    return axios.get('/selectTechSummary', {
+      params: data
+    })
+  },
   // 建筑
   addBuilding (data) {
     return axios.post('/insertBuildingForm', data)

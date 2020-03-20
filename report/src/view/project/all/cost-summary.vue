@@ -41,11 +41,7 @@
       <el-table-column prop="table2Target" label="责任指标" />
       <el-table-column prop="table2LiabilityCost" label="责任成本（元）" />
       <el-table-column prop="table2ActualCost" label="实际成本（元）" />
-      <el-table-column prop="diff" label="差额（元）" >
-        <template slot-scope="scope">
-          {{ scope.row.table2LiabilityCost - scope.row.table2ActualCost }}
-        </template>
-      </el-table-column>
+      <el-table-column prop="diff" label="差额（元）" />
       <el-table-column prop="table2Remark" label="备注" />
       <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="116">
         <template slot-scope="scope">

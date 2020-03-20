@@ -4,6 +4,7 @@ import Layout from '@/view/layout'
 import Login from '@/view/login'
 import Error from '@/view/error'
 import Admin from '@/view/admin/admin'
+import Administrator from '@/view/administrator/index'
 
 Vue.use(Router)
 
@@ -51,6 +52,11 @@ export default new Router({
           meta: {title: '集团模块', roles: ['1']},
           component: () => import('@/view/operation/add/add-group')
         }, {
+          path: 'technology',
+          name: 'AddTechnology',
+          meta: {title: '科技模块', roles: ['1']},
+          component: () => import('@/view/operation/add/add-technology')
+        }, {
           path: 'building',
           name: 'AddBuilding',
           meta: {title: '建筑模块', roles: ['2']},
@@ -66,23 +72,27 @@ export default new Router({
         name: 'All',
         component: () => import('@/view/operation/all/index'),
         meta: {title: '运营成本汇总', roles: ['1', '2', '3', '4']},
-        children: [
-          {
-            path: 'group',
-            name: 'AllGroup',
-            meta: {title: '集团模块', roles: ['1', '4']},
-            component: () => import('@/view/operation/all/all-group')
-          }, {
-            path: 'building',
-            name: 'AllBuilding',
-            meta: {title: '建筑模块', roles: ['2', '4']},
-            component: () => import('@/view/operation/all/all-building')
-          }, {
-            path: 'sport',
-            name: 'AllSport',
-            meta: {title: '文体模块', roles: ['3', '4']},
-            component: () => import('@/view/operation/all/all-sport')
-          }
+        children: [{
+          path: 'group',
+          name: 'AllGroup',
+          meta: {title: '集团模块', roles: ['1', '4']},
+          component: () => import('@/view/operation/all/all-group')
+        }, {
+          path: 'technology',
+          name: 'AllTechnology',
+          meta: {title: '科技模块', roles: ['1', '4']},
+          component: () => import('@/view/operation/all/all-technology')
+        }, {
+          path: 'building',
+          name: 'AllBuilding',
+          meta: {title: '建筑模块', roles: ['2', '4']},
+          component: () => import('@/view/operation/all/all-building')
+        }, {
+          path: 'sport',
+          name: 'AllSport',
+          meta: {title: '文体模块', roles: ['3', '4']},
+          component: () => import('@/view/operation/all/all-sport')
+        }
         ]
       }]
     },
@@ -339,6 +349,10 @@ export default new Router({
           component: () => import('@/view/project/all/cost-work-type')
         }]
       }]
+    }, {
+      path: '/administrator',
+      name: 'Administrator',
+      component: Administrator
     }, {
       path: '*',
       name: 'Error',

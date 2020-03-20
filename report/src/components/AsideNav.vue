@@ -22,12 +22,14 @@
           <el-menu-item v-show="plateId === '1'" index="/operation/add/group">集团模块</el-menu-item>
           <el-menu-item v-show="plateId === '2'" index="/operation/add/building">建筑模块</el-menu-item>
           <el-menu-item v-show="plateId === '3'" index="/operation/add/sport">文体模块</el-menu-item>
+          <el-menu-item v-show="plateId === '5'" index="/operation/add/technology">科技模块</el-menu-item>
         </el-submenu>
         <el-submenu index="/operation/all">
           <template slot="title">运营成本汇总</template>
           <el-menu-item v-show="plateId === '1' || plateId === '4'" index="/operation/all/group">集团模块</el-menu-item>
           <el-menu-item v-show="plateId === '2' || plateId === '4'" index="/operation/all/building">建筑模块</el-menu-item>
           <el-menu-item v-show="plateId === '3' || plateId === '4'" index="/operation/all/sport">文体模块</el-menu-item>
+          <el-menu-item v-show="plateId === '5' || plateId === '4'" index="/operation/all/technology">科技模块</el-menu-item>
         </el-submenu>
       </el-submenu>
       <el-submenu index="/project" v-show="plateId === '2' || plateId === '4'">
