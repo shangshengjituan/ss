@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-  <h1>报表系统后台管理</h1>
+  <h1>江苏尚昇建设集团有限公司 <small> 报表系统后台管理</small></h1>
   <el-tabs type="border-card">
     <!--用户管理:已有人员,新注册人员,忘记密码-->
     <el-tab-pane label="用户管理">
       <el-button type="primary" @click="clickAdd">注册人员</el-button>
+      <p><span>注：密码初始值为 12345</span></p>
       <el-table :data="users" border height="600" style="width: 100%;margin-top: 10px" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
         <el-table-column type="index" />
         <el-table-column prop="userNum" label="工号"></el-table-column>

@@ -6,10 +6,10 @@
     </div>
     <div style="float: right">
       当前用户：
-      <el-dropdown style="color: #ffffff;">
+      <el-dropdown @command="handleCommand" style="color: #ffffff;">
         <span class="el-dropdown-link">{{userName}}<i class="el-icon-arrow-down el-icon--right"></i></span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item icon="el-icon-switch-button"><span  @click="logout">退出</span></el-dropdown-item>
+          <el-dropdown-item icon="el-icon-switch-button" command="out"><span>退出</span></el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -25,6 +25,11 @@ export default {
     }
   },
   methods: {
+    handleCommand (command) {
+      if (command === 'out') {
+        this.logout()
+      }
+    },
     logout () {
       this.$store.dispatch('logout').then(rsp => {
         console.log(rsp)
