@@ -27,14 +27,16 @@
           @keyup.enter.native="handleSubmit"
         ></el-input>
       </el-form-item>
-      <!--<el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox>-->
-      <el-form-item style="width:100%;">
+      <el-form-item style="width:100%; margin-bottom: 0">
         <el-button
           type="primary"
           style="width:100%;"
           @click="handleSubmit"
           :loading="logining">登录</el-button>
       </el-form-item>
+      <div style="text-align: right">
+        <el-button type="text" @click="openMsg">联系管理员</el-button>
+      </div>
     </el-form>
   </div>
 </template>
@@ -50,6 +52,7 @@ export default {
         userPwd: ''
       },
       rules: {
+        // amount: [{required: true, validator: this.$tool.validatorNumber, trigger: 'change'}],
         userNum: [{required: true, message: '请输入工号', trigger: 'blur'}],
         userPwd: [{required: true, message: '请输入密码', trigger: 'blur'}]
       },
@@ -69,7 +72,12 @@ export default {
           this.$store.dispatch('login', userInfo).then(rsp => {
             console.log(rsp)
             if (rsp.result === '200') {
-              this.$router.push({path: '/admin'})
+              console.log(rsp.user)
+              if (rsp.user.plateId !== '0') {
+                this.$router.push({path: '/admin'})
+              } else {
+                this.$router.push({path: '/administrator'})
+              }
               this.logining = false
             } else {
               this.$alert(rsp.resultText, '提示：', {
@@ -81,13 +89,19 @@ export default {
                 }
               })
             }
-          }).catch(() => {
+          }).catch(err => {
+            console.log(err)
             console.log('....')
             this.logining = true
           })
         } else {
           return false
         }
+      })
+    },
+    openMsg () {
+      this.$alert('智能服务中心 王寒', '请联系', {
+        confirmButtonText: '确定'
       })
     }
   }

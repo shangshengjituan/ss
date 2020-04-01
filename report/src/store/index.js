@@ -110,6 +110,9 @@ let store = new Vuex.Store({
     // 设置当前激活的tab
     set_active_index (state, index) {
       this.state.activeIndex = index
+    },
+    reset_tabs (state) {
+      this.state.openTab = []
     }
   },
   actions: {
@@ -173,6 +176,7 @@ let store = new Vuex.Store({
         $api.user.logout().then(rsp => {
           commit('SET_USER', {})
           commit('SET_TOKEN', '')
+          commit('reset_tabs')
           resolve(rsp.data)
         }).catch(error => {
           reject(error)
