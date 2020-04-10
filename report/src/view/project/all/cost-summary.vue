@@ -38,10 +38,9 @@
       <el-table-column prop="optionName" label="名称" fixed/>
       <el-table-column prop="specificOptionName" label="详细类别" />
       <el-table-column prop="table2Output" label="产值（元）" />
-      <el-table-column prop="table2Target" label="责任指标" />
       <el-table-column prop="table2LiabilityCost" label="责任成本（元）" />
       <el-table-column prop="table2ActualCost" label="实际成本（元）" />
-      <el-table-column prop="diff" label="差额（元）" />
+      <el-table-column prop="diff" label="产值与实际成本差额（元）" />
       <el-table-column prop="table2Remark" label="备注" />
       <el-table-column v-if="role === 'leader'" fixed="right" label="操作" width="116">
         <template slot-scope="scope">
@@ -50,7 +49,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="修改" :visible.sync="dialogVisible">
+    <el-dialog title="修改项目成本统计" :visible.sync="dialogVisible">
       <summary-form :form-data="dialogData" @confirm="confirmUpdate" @cancel="cancelDialog"/>
     </el-dialog>
   </div>
@@ -77,6 +76,7 @@ export default {
       plateId: this.$store.getters.plateId,
       role: this.$store.getters.role,
       projectList: [],
+      target: '', // 基点
       options: this.$store.getters.addType[1].children,
       list: [], // 接口数据
       currentList: [], // 格式化的接口数据
@@ -92,12 +92,12 @@ export default {
     tableData: {
       get () {
         return this.list.map(item => {
-          return Object.assign(item, {'diff': item.table2LiabilityCost - item.table2ActualCost})
+          return Object.assign(item, {'diff': this.numeral(item.table2Output).subtract(item.table2ActualCost).value()})
         })
       },
       set () {
         return this.list.map(item => {
-          return Object.assign(item, {'diff': item.table2LiabilityCost - item.table2ActualCost})
+          return Object.assign(item, {'diff': this.numeral(item.table2Output).subtract(item.table2ActualCost).value()})
         })
       }
     }
@@ -121,6 +121,8 @@ export default {
           console.log('getTable2 Success')
           if (rsp.data.result === 200) {
             console.log(rsp.data.table2.table2lists)
+            this.target = rsp.data.target
+            console.log(rsp.data.target, this.target)
             this.list = rsp.data.table2.table2lists || []
           } else if (rsp.data.result === 404) {
             this.$message.warning(rsp.data.resultText)
@@ -190,11 +192,11 @@ export default {
           sums[index] = '累计'
         }
         switch (columns.property) {
-          case 'table2Output': sums[index] = Math.round(demo * 100) / 100
+          case 'table2Output': sums[index] = this.numeral(demo).format('0.00')
             break
-          case 'table2ActualCost': sums[index] = Math.round(demo1 * 100) / 100
+          case 'table2ActualCost': sums[index] = this.numeral(demo1).format('0.00')
             break
-          case 'diff': sums[index] = Math.round(demo2 * 100) / 100
+          case 'diff': sums[index] = this.numeral(demo2).format('0.00')
             break
         }
       })
@@ -227,7 +229,7 @@ export default {
     // 点击编辑，跳出修改框
     clickUpdate (data) {
       console.log(data)
-      this.dialogData = Object.assign({}, data)
+      this.dialogData = Object.assign({}, data, {target: this.target})
       this.dialogVisible = true
     },
     cancelDialog () {
@@ -253,5 +255,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .el-dialog {
+    width: 50% !important;
+  }
 </style>

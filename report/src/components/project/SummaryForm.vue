@@ -1,31 +1,31 @@
 <template>
-  <el-form :model="table2option2" label-width="110px" label-position="right" >
+  <el-form :model="table2option2" label-width="90px" label-position="right" >
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-form-item label="产值">
-          <el-input v-model.number="table2option2.table2Output" type="number" :readonly="readonlyOutput"><template slot="append">元</template></el-input>
+        <el-form-item label="基数">
+          <span>{{ table2option2.target }}</span>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="责任指标">
-          <el-input v-model="table2option2.table2Target" clearable />
+        <el-form-item label="产值">
+          <el-input v-model.number="table2option2.table2Output" type="number"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="责任成本">
-          <el-input v-model.number="table2option2.table2LiabilityCost" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2LiabilityCost" :readonly="true" type="number" clearable><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="实际成本">
-          <el-input v-model.number="table2option2.table2ActualCost" type="number" :readonly="readonlyActualCost"><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2ActualCost" type="number"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="差额">
-          <span>{{(table2option2.table2LiabilityCost - table2option2.table2ActualCost) || 0 }}</span>
+          <span>{{ table2option2.diff}} 元</span>
         </el-form-item>
       </el-col>
       <el-col :span="18">
@@ -55,13 +55,22 @@ export default {
         console.log(newValue)
         this.table2option2 = Object.assign({}, newValue)
       }
+    },
+    table2option2: {
+      handler (newVal, oldVal) {
+        if (newVal.table2Output) {
+          newVal.table2LiabilityCost = this.numeral(newVal.table2Output).multiply(newVal.target).value()
+        }
+        if (newVal.table2Output && newVal.table2ActualCost) {
+          newVal.diff = this.numeral(newVal.table2Output).subtract(newVal.table2ActualCost).value()
+        }
+      },
+      deep: true
     }
   },
   data () {
     return {
-      table2option2: Object.assign({}, this.formData),
-      readonlyOutput: !!this.formData.table2Output,
-      readonlyActualCost: !!this.formData.table2ActualCost
+      table2option2: Object.assign({}, this.formData)
     }
   },
   methods: {

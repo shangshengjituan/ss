@@ -145,7 +145,7 @@ export default {
         table9ProjectYear: [{ required: true, message: '请选择年份', trigger: 'change' }],
         table9Quarter: [{ required: true, message: '请选择季度', trigger: 'change' }],
         table9MechanicalName: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table9LaborFee: [{ required: true, message: '不可为空', trigger: 'change' }],
+        table9LaborFee: [{ required: true, message: '不可为空且必须是数字', trigger: 'change' }],
         table9StartDate: [{ required: true, message: '请选择日期', trigger: 'change' }],
         table9EndDate: [{ required: true, message: '请选择日期', trigger: 'change' }],
         table9Price: [{ required: true, message: '不可为空', trigger: 'change' }],

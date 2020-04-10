@@ -5,7 +5,7 @@
     <el-breadcrumb-item>表单工具</el-breadcrumb-item>
   </el-breadcrumb>
   <!--项目汇总-->
-  <el-card shadow="hover">
+  <el-card shadow="hover" style="width: 450px">
     <div slot="header" class="clearfix">
       <span>项目汇总</span>
       <el-button
@@ -15,7 +15,7 @@
     <div style="height: 400px;overflow:scroll;">
       <el-scrollbar :native="false"  :noresize="false">
         <div v-for="(project, index) in projectList" :key="index" class="text item">
-          <span>{{ index+1 }}、 {{ project.projectName }} （{{project.projectManager}}）</span>
+          <span>{{ index+1 }}、 {{ project.projectName }} / {{project.projectManager}} / 管理费：{{project.managementFee}}%</span>
           <el-button
             v-show="project.departmentId === departmentId"
             @click="openDialogUpdateProgram(project)"
@@ -26,12 +26,15 @@
   </el-card>
   <!-- 新增项目 -->
   <el-dialog title="新增项目" :visible.sync="dialogProgramVisible">
-    <el-form :model="projectItem" :rules="rulePro" ref="projectItem">
-      <el-form-item label="项目名称" prop="projectName" label-width="120">
+    <el-form :model="projectItem" :rules="rulePro" ref="projectItem" label-width="150px">
+      <el-form-item label="项目名称" prop="projectName">
         <el-input v-model="projectItem.projectName" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="项目经理" prop="projectManager" label-width="120">
+      <el-form-item label="项目经理" prop="projectManager">
         <el-input v-model="projectItem.projectManager" autocomplete="off" :readonly="true"></el-input>
+      </el-form-item>
+      <el-form-item label="收取管理费" prop="managementFee">
+        <el-input v-model.number="projectItem.managementFee" placeholder="提交后不可修改，请谨慎填写" type="number" autocomplete="off"><template slot="append">%</template></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -94,10 +97,12 @@ export default {
       projectItem: {
         departmentId: this.$store.getters.departmentId,
         projectName: '',
+        managementFee: '',
         projectManager: this.$store.getters.userName
       },
       rulePro: {
         projectName: [{ required: true, message: '不可为空', trigger: 'change' }],
+        managementFee: [{ required: true, message: '请输入数字', trigger: 'change' }],
         projectManager: [{ required: true, message: '不可为空', trigger: 'change' }]
       },
       dialogUpdateProgramVisible: false,

@@ -3,17 +3,17 @@
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="产值">
-          <el-input v-model.number="table2option2.table2Output" type="number" :readonly="readonlyOutput"><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2Output" type="number" ><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="责任指标">
-          <el-input v-model="table2option2.table2Target" clearable />
+        <el-form-item label="基数">
+          <span>{{ summaryData.target }}</span>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="责任成本">
-          <el-input v-model.number="table2option2.table2LiabilityCost" type="number" clearable><template slot="append">元</template></el-input>
+          <el-input v-model.number="table2option2.table2LiabilityCost" :readonly="true" type="number" clearable><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
@@ -25,7 +25,7 @@
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="差额">
-          <span>{{Math.round((table2option2.table2Output - table2option2.table2ActualCost)*100)/100 || 0 }}</span>
+          <span>{{ diff}} 元</span>
         </el-form-item>
       </el-col>
       <el-col :span="18">
@@ -59,13 +59,12 @@ export default {
         table2Quarter: '',
         specificOptionId: '',
         table2Output: '',
-        table2Target: '',
         table2LiabilityCost: '',
         table2ActualCost: '',
         table2Remark: ''
       },
-      readonlyOutput: !!this.summaryData.table2Output,
-      readonlyActualCost: !!this.summaryData.table2ActualCost
+      readonlyActualCost: !!this.summaryData.table2ActualCost,
+      diff: 0
     }
   },
   created () {
@@ -73,11 +72,21 @@ export default {
   },
   watch: {
     summaryData: {
-      handler (newValue, oldValue) {
-        this.readonlyOutput = !!newValue.table2Output
-        this.readonlyActualCost = !!newValue.table2ActualCost
+      handler (newVal, oldVal) {
+        this.readonlyActualCost = !!newVal.table2ActualCost
         console.log('change')
         this.initData()
+      },
+      deep: true
+    },
+    table2option2: {
+      handler (newVal, oldVal) {
+        if (newVal.table2Output) {
+          newVal.table2LiabilityCost = this.numeral(newVal.table2Output).multiply(this.summaryData.target).value()
+        }
+        if (newVal.table2Output && newVal.table2ActualCost) {
+          this.diff = this.numeral(newVal.table2Output).subtract(newVal.table2ActualCost).value()
+        }
       },
       deep: true
     }
