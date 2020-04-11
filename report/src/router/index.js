@@ -107,6 +107,11 @@ export default new Router({
         component: () => import('@/view/project/tool/index'),
         meta: {title: '表单工具', roles: ['2', '4']}
       }, {
+        path: 'statistics',
+        name: 'Statistics',
+        component: () => import('@/view/project/statistics/index'),
+        meta: {title: '项目成本统计', roles: ['2', '4']}
+      }, {
         path: 'add',
         name: 'ProgramAdd',
         component: () => import('@/view/project/add/index'),

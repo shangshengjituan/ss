@@ -1,6 +1,6 @@
 <template>
   <div class="o-container">
-    <el-tabs type="border-card">
+    <el-tabs>
       <!-- 文体板块单位 -->
       <el-tab-pane label="文体板块单位">
         <el-form class="search-form" :inline="true" :model="searchData">

@@ -37,6 +37,7 @@
           <span><i class="el-icon-document"></i>项目明细</span>
         </template>
         <el-menu-item index="/project/tool">表单工具</el-menu-item>
+        <el-menu-item index="/project/statistics">项目成本统计</el-menu-item>
         <el-submenu index="/project/add" v-show="plateId === '2' && role === 'leader'">
           <template slot="title">新增表单</template>
           <el-menu-item index="/project/add/labor">人工费统计</el-menu-item>
@@ -60,13 +61,13 @@
           <el-menu-item index="/project/add/tempmaterial">临时设施、场地等材料费明细统计</el-menu-item>
           <el-menu-item index="/project/add/totalcompare">总产值与相应成本对比统计</el-menu-item>
           <el-menu-item index="/project/add/worktype">各工种每平方米单价统计</el-menu-item>
-          <el-menu-item index="/project/add/summary">项目成本统计二</el-menu-item>
-          <el-menu-item index="/project/add/statistics">项目成本统计一</el-menu-item>
+          <el-menu-item index="/project/add/summary">项目成本统计</el-menu-item>
+          <!--<el-menu-item index="/project/add/statistics">项目成本统计一</el-menu-item>-->
         </el-submenu>
         <el-submenu index="/project/all">
           <template slot="title">表单汇总</template>
-          <el-menu-item index="/project/all/statistics">项目成本统计汇总一</el-menu-item>
-          <el-menu-item index="/project/all/summary">项目成本统计汇总二</el-menu-item>
+          <!--<el-menu-item index="/project/all/statistics">项目成本统计汇总一</el-menu-item>-->
+          <el-menu-item index="/project/all/summary">项目成本统计汇总</el-menu-item>
           <el-menu-item index="/project/all/labor">人工费汇总</el-menu-item>
           <el-menu-item index="/project/all/labordetail">人工费明细汇总</el-menu-item>
           <el-menu-item index="/project/all/spotwork">使用点工汇总</el-menu-item>

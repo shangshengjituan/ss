@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="hover">
-    <h4>成本统计表</h4>
-    <el-divider></el-divider>
-    <el-form :model="selectData" label-width="110px" label-position="right" >
+    <!--<h4>成本统计表</h4>-->
+    <!--<el-divider></el-divider>-->
+    <el-form :model="selectData" label-width="150px" label-position="right" >
       <el-row >
-        <el-col :span="6">
+        <el-col :span="8">
           <el-form-item label="项目名称">
             <el-select v-model="selectData.table1ProjectId" placeholder="请选择项目名称" value="">
               <el-option
@@ -14,45 +14,44 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="年份">
-            <el-date-picker
-              v-model="selectData.table1ProjectYear"
-              type="year" format="yyyy" value-format="yyyy"
-              :clearable="false" :editable="false"
-              placeholder="请选择年份">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="季度">
-            <el-select v-model="selectData.table1Quarter" placeholder="请选择季度" value="">
-              <el-option
-                v-for="item in options"
-                :label="item.label" :key="item.value" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="汇总类型">
-            <el-select v-model="selectData.optionId" placeholder="请选择类型" value="">
-              <el-option
-                v-for="item in items"
-                :label="item.optionName" :key="item.optionId" :value="item.optionId">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
+        <!--<el-col :span="6">-->
+          <!--<el-form-item label="年份">-->
+            <!--<el-date-picker-->
+              <!--v-model="selectData.table1ProjectYear"-->
+              <!--type="year" format="yyyy" value-format="yyyy"-->
+              <!--:clearable="false" :editable="false"-->
+              <!--placeholder="请选择年份">-->
+            <!--</el-date-picker>-->
+          <!--</el-form-item>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6">-->
+          <!--<el-form-item label="季度">-->
+            <!--<el-select v-model="selectData.table1Quarter" placeholder="请选择季度" value="">-->
+              <!--<el-option-->
+                <!--v-for="item in options"-->
+                <!--:label="item.label" :key="item.value" :value="item.value">-->
+              <!--</el-option>-->
+            <!--</el-select>-->
+          <!--</el-form-item>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6">-->
+          <!--<el-form-item label="汇总类型">-->
+            <!--<el-select v-model="selectData.optionId" placeholder="请选择类型" value="">-->
+              <!--<el-option-->
+                <!--v-for="item in items"-->
+                <!--:label="item.optionName" :key="item.optionId" :value="item.optionId">-->
+              <!--</el-option>-->
+            <!--</el-select>-->
+          <!--</el-form-item>-->
+        <!--</el-col>-->
       </el-row>
     </el-form>
     <div v-show="isShowUp" class="o-container">
-      <el-divider />
       <get-statistics :basisData="selectData" :summaryData="currentSummaryUp"/>
     </div>
-    <div v-show="isShow" class="o-container">
+    <div v-show="isShowDown" class="o-container">
       <el-divider />
-      <add-statistics :basisData="selectData" :summaryData="currentSummary" @fresh="handleFresh" />
+      <add-statistics :basisData="selectData" :items="items" />
     </div>
   </el-card>
 </template>
@@ -63,25 +62,25 @@ import AddStatistics from '../../../components/project/AddStatistics'
 export default {
   name: 'cost-statistics',
   components: {AddStatistics, GetStatistics},
-  inject: ['reload'],
+  // inject: ['reload'],
   data () {
     return {
       departmentId: this.$store.getters.departmentId,
       departmentName: this.$store.getters.departmentName,
       plateId: this.$store.getters.plateId,
       selectData: {
-        table1ProjectId: '',
-        table1ProjectYear: '',
-        table1Quarter: '',
-        optionId: '' // 类型
+        table1ProjectId: ''
+        // table1ProjectYear: '',
+        // table1Quarter: '',
+        // optionId: '' // 类型
       },
       options: this.$store.getters.addType[1].children, // 季度
       projectList: [],
       items: [], // 存放项目成本统计汇总表的类型名称
       isShowUp: false, // 上半部分子组件
       currentSummaryUp: {},
-      isShow: false, // 当前子组件是否显示
-      currentSummary: {} // 当前子组件数据
+      isShowDown: false // 当前子组件是否显示
+      // currentSummary: {} // 当前子组件数据
     }
   },
   created () {
@@ -91,7 +90,7 @@ export default {
   watch: {
     selectData: {
       handler (newVal, oldVal) {
-        if (newVal.table1ProjectId && newVal.table1ProjectYear && newVal.table1Quarter && newVal.optionId) {
+        if (newVal.table1ProjectId) {
           this.getSummary(this.selectData)
         }
       },
@@ -123,17 +122,29 @@ export default {
         }
         this.isShowUp = true
         console.log(rsp.data)
-        this.currentSummary = rsp.data.table1Summary
-        this.isShow = true
+        // this.currentSummary = rsp.data.table1Summary
+        this.isShowDown = true
       })
-    },
-    handleFresh () {
-      this.reload() // 刷新
     }
+    // handleFresh () {
+    //   this.reload() // 刷新
+    // }
   }
 }
 </script>
 
 <style scoped>
-
+  table {
+    border-top: 1px solid #EBEEF5;
+    border-left: 1px solid #EBEEF5;
+  }
+  th, td {
+    padding: 6px;
+    border-bottom: 1px solid #EBEEF5;
+    border-right: 1px solid #EBEEF5;
+  }
+  td input {
+    border: 0;
+    padding: 10px 5px;
+  }
 </style>

@@ -9,22 +9,22 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年份：" prop="table1ProjectYear">
-        <el-date-picker
-          v-model="searchData.table1ProjectYear"
-          type="year" format="yyyy" value-format="yyyy"
-          :editable="false" :clearable="false"
-          placeholder="请选择年份">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="季度：" prop="table1Quarter">
-        <el-select v-model="searchData.table1Quarter" placeholder="请选择季度" value="">
-          <el-option
-            v-for="item in options"
-            :label="item.label" :key="item.value" :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
+      <!--<el-form-item label="年份：" prop="table1ProjectYear">-->
+        <!--<el-date-picker-->
+          <!--v-model="searchData.table1ProjectYear"-->
+          <!--type="year" format="yyyy" value-format="yyyy"-->
+          <!--:editable="false" :clearable="false"-->
+          <!--placeholder="请选择年份">-->
+        <!--</el-date-picker>-->
+      <!--</el-form-item>-->
+      <!--<el-form-item label="季度：" prop="table1Quarter">-->
+        <!--<el-select v-model="searchData.table1Quarter" placeholder="请选择季度" value="">-->
+          <!--<el-option-->
+            <!--v-for="item in options"-->
+            <!--:label="item.label" :key="item.value" :value="item.value">-->
+          <!--</el-option>-->
+        <!--</el-select>-->
+      <!--</el-form-item>-->
       <el-form-item>
         <el-button type="primary" @click="validateData('searchData')"> 查询 </el-button>
       </el-form-item>
@@ -146,14 +146,10 @@ export default {
   data () {
     return {
       searchData: {
-        table1ProjectYear: new Date().getFullYear().toString(),
-        table1ProjectId: '',
-        table1Quarter: ''
+        table1ProjectId: ''
       },
       rules: {
-        table1ProjectYear: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table1ProjectId: [{ required: true, message: '不可为空', trigger: 'change' }],
-        table1Quarter: [{ required: true, message: '不可为空', trigger: 'change' }]
+        table1ProjectId: [{ required: true, message: '不可为空', trigger: 'change' }]
       },
       departmentId: this.$store.getters.departmentId,
       plateId: this.$store.getters.plateId,

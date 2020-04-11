@@ -1,9 +1,9 @@
 <template>
 <div style="overflow: hidden;">
-  <el-breadcrumb separator="/">
-    <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>表单工具</el-breadcrumb-item>
-  </el-breadcrumb>
+  <!--<el-breadcrumb separator="/">-->
+    <!--<el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>-->
+    <!--<el-breadcrumb-item>表单工具</el-breadcrumb-item>-->
+  <!--</el-breadcrumb>-->
   <!--项目汇总-->
   <el-card shadow="hover" style="width: 450px">
     <div slot="header" class="clearfix">

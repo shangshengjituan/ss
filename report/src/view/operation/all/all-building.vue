@@ -1,6 +1,6 @@
 <template>
   <div class="o-container">
-    <el-tabs type="border-card">
+    <el-tabs>
       <!-- 成本汇总明细 -->
       <el-tab-pane label="成本汇总明细">
         <el-form class="search-form" :inline="true" :model="searchData">

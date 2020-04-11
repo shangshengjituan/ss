@@ -2,18 +2,30 @@
   <el-form :model="table1" label-width="150px" label-position="right" >
     <el-row>
       <el-col :span="8">
+        <el-form-item label="汇总类型">
+          <el-select v-model="table1.optionId" placeholder="请选择类型" value="">
+            <el-option
+              v-for="item in items"
+              :label="item.optionName" :key="item.optionId" :value="item.optionId">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8">
         <el-form-item label="合同价">
-          <el-input v-model.number="table1.table1ContractPrice" type="number" :readonly="true"><template slot="append">元</template></el-input>
+          <el-input v-model.number="table1.table1ContractPrice" type="number"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="责任成本">
-          <el-input v-model.number="table1.table1LiabilityCost" type="number" :readonly="true"><template slot="append">元</template></el-input>
+          <el-input v-model.number="table1.table1LiabilityCost" type="number"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="实际成本">
-          <el-input v-model.number="table1.table1ActualCost" type="number" :readonly="true"><template slot="append">元</template></el-input>
+          <el-input v-model.number="table1.table1ActualCost" type="number"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -51,8 +63,8 @@
 export default {
   name: 'AddStatistics',
   props: {
-    summaryData: {
-      type: Object
+    items: {
+      type: Array
     },
     basisData: {
       type: Object
@@ -62,8 +74,6 @@ export default {
     return {
       table1: {
         table1ProjectId: '',
-        table1ProjectYear: '',
-        table1Quarter: '',
         optionId: '',
         table1ContractPrice: '',
         table1LiabilityCost: '',
@@ -75,32 +85,27 @@ export default {
       }
     }
   },
-  created () {
-    this.initData()
-  },
+  // created () {
+  //   this.initData()
+  // },
   watch: {
-    summaryData: {
-      handler (newValue, oldValue) {
+    basisData: {
+      handler (newVal, oldVal) {
         console.log('change')
-        this.initData()
+        this.table1.table1ProjectId = newVal.table1ProjectId
       },
       deep: true
     }
   },
   methods: {
-    initData () {
-      Object.assign(this.summaryData, this.basisData)
-      Object.keys(this.table1).forEach(key => {
-        this.table1[key] = this.summaryData[key]
-      })
-      // this.table1.optionId = this.basisData.optionId
-    },
     addTable1 () {
       this.$api.project.addTable1(this.table1)
         .then(rsp => {
           if (rsp.data.result === 200) {
             this.$message.success('新增表单成功！')
-            this.$emit('fresh')
+            this.table1 = {}
+            this.table1.table1ProjectId = this.basisData.table1ProjectId
+            // this.$emit('fresh')
           } else if (rsp.data.result === 500) {
             this.$message.error(rsp.data.resultText)
           } else {

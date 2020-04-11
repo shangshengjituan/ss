@@ -56,3 +56,7 @@ input[type="number"] {
 .el-menu-item.is-active {
   background: #255e98 !important;
 }
+
+.el-tabs--border-card>.el-tabs__content {
+  padding: 5px;
+}

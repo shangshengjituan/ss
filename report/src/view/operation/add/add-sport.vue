@@ -1,5 +1,5 @@
 <template>
-  <el-tabs v-model="activeName" type="border-card">
+  <el-tabs v-model="activeName">
     <el-tab-pane label="文体板块单位" name="sportplate">
       <h4>文体板块各单位运营成本明细统计表</h4>
       <el-divider></el-divider>
@@ -383,5 +383,8 @@ export default {
 <style>
   .el-breadcrumb {
     margin-bottom: 20px;
+  }
+  .el-tab-pane {
+    padding: 10px;
   }
 </style>
