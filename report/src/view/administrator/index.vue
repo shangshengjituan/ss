@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-  <h1>江苏尚昇建设集团有限公司 <small> 报表系统后台管理</small></h1>
+  <h1>江苏尚昇建设集团有限公司 <small> 报表系统后台管理</small><el-link @click="logout" type="primary" style="float: right">退出系统</el-link></h1>
   <el-tabs type="border-card">
     <!--用户管理:已有人员,新注册人员,忘记密码-->
     <el-tab-pane label="用户管理">
@@ -294,6 +294,12 @@ export default {
           }
           console.log(rsp)
         })
+    },
+    logout () {
+      this.$store.dispatch('logout').then(rsp => {
+        console.log(rsp)
+        this.$router.push('/login')
+      })
     }
   }
 }
