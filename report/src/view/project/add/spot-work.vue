@@ -223,9 +223,9 @@ export default {
         }
       }
     },
-    disabledDate (time) {
-      return time.getTime() > new Date(this.table5.table5StartTime).getTime()
-    },
+    // disabledDate (time) {
+    //   return time.getTime() > new Date(this.table5.table5StartTime).getTime()
+    // },
     validateData (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

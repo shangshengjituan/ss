@@ -25,6 +25,7 @@
       <el-col :span="8">
         <el-form-item label="合同竣工时间">
           <el-date-picker
+            @focus="handleEndTime" :picker-options="pickerOptions"
             v-model="table1up.plannedEndDate" :clearable="false" :editable="false" :readonly="isExist"
             type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
             placeholder="请选择终止日期">
@@ -50,6 +51,7 @@
       <el-col :span="8">
         <el-form-item label="实际竣工时间">
           <el-date-picker
+            @focus="handleEndTime1" :picker-options="pickerOptions"
             v-model="table1up.actualEndDate" :clearable="false" :editable="false" :readonly="isExist"
             type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
             placeholder="请选择终止日期">
@@ -122,7 +124,8 @@ export default {
         projectArea: '',
         workContent: ''
       },
-      isExist: false
+      isExist: false,
+      pickerOptions: {}
     }
   },
   created () {
@@ -132,15 +135,6 @@ export default {
     summaryData: {
       handler (newValue, oldValue) {
         this.initData()
-      },
-      deep: true
-    },
-    table1up: {
-      handler (newValue, oldValue) {
-        console.log(newValue)
-        console.log(this.diffDate(newValue.plannedStartDate, newValue.plannedEndDate))
-        console.log(this.diffDate(newValue.actualStartDate, newValue.actualEndDate))
-        console.log(this.diffDate('2020-1-9', '2020-1-10'))
       },
       deep: true
     }
@@ -186,6 +180,24 @@ export default {
       }).catch(() => {
         console.log('cancel submit.')
       })
+    },
+    handleEndTime () {
+      let demo = new Date(this.table1up.plannedStartDate).getTime()
+      console.log(demo)
+      this.pickerOptions = {
+        disabledDate (time) {
+          return time.getTime() < demo
+        }
+      }
+    },
+    handleEndTime1 () {
+      let demo = new Date(this.table1up.actualStartDate).getTime()
+      console.log(demo)
+      this.pickerOptions = {
+        disabledDate (time) {
+          return time.getTime() < demo
+        }
+      }
     },
     diffDate (day1, day2) {
       console.log(day1)
