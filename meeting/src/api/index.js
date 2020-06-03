@@ -22,8 +22,15 @@ const api = {
   addStaff (data) {
     return axios.post('/insertStaff', data)
   },
+  updateStaff (data) {
+    return axios.get('/updateDepartment', {
+      params: data
+    })
+  },
   deleteStaff (data) {
-    return axios.post('/delStaff', data)
+    return axios.get('/delStaff', {
+      params: data
+    })
   },
   // 根据部门查询员工
   getStaff (data) {
@@ -37,6 +44,14 @@ const api = {
   },
   getUsers () {
     return axios.get('/selectAllUser')
+  },
+  updateUserPwd (data) {
+    return axios.post('/updateUserPwd', data)
+  },
+  deleteUser (data) {
+    return axios.get('/delUser', {
+      params: data
+    })
   },
   // 会议
   addMeeting (data) {

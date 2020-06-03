@@ -17,5 +17,7 @@ p {
   display: flex;
   flex-flow: column;
   justify-content: flex-end;
+  flex: 1;
+  text-align: center;
 }
 </style>

@@ -9,11 +9,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {},
-    token: ''
+    token: '',
+    departments: []
   },
   getters: {
     token: state => state.token,
-    userNum: state => state.user.userNum
+    userNum: state => state.user.userNum,
+    departments: state => state.user.departments
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -21,6 +23,9 @@ export default new Vuex.Store({
     },
     SET_USER: (state, user) => {
       state.user = user
+    },
+    SET_DEPARTMENTS: (state, departments) => {
+      state.departments = departments
     }
   },
   actions: {
@@ -51,6 +56,11 @@ export default new Vuex.Store({
         }).catch(error => {
           reject(error)
         })
+      })
+    },
+    getDepartments ({ commit }) {
+      $api.getDepartments().then(rsp => {
+        commit('SET_DEPARTMENTS', rsp.departments)
       })
     }
   }

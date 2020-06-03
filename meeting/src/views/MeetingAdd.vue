@@ -53,13 +53,13 @@ export default {
     this.getDepStaff()
   },
   methods: {
+    goBack () {
+      this.$router.go(-1)
+    },
     getDepStaff () {
       this.$api.getDepStaff().then(rsp => {
         console.log(rsp)
       })
-    },
-    goBack () {
-      this.$router.go(-1)
     },
     formatter (type, val) {
       if (type === 'year') {

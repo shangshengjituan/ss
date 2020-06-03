@@ -9,7 +9,8 @@
       <van-grid-item icon="add-o" text="新增会议" to="/meetingadd" />
       <van-grid-item icon="notes-o" text="进行中会议" to="/list" />
       <van-grid-item icon="orders-o" text="已完成会议" to="/list" />
-      <van-grid-item icon="user-o" text="人员管理" to="/staff" />
+      <van-grid-item icon="friends-o" text="公司人员管理" to="/staff" />
+      <van-grid-item icon="manager-o" text="系统用户管理" to="/users" />
       <van-grid-item icon="edit" text="修改密码" to="/updatepwd" />
       <van-grid-item icon="replay" text="退出账号" @click="handleLogout" />
     </van-grid>
