@@ -25,6 +25,7 @@
       <el-col :span="8">
         <el-form-item label="合同竣工时间">
           <el-date-picker
+            @focus="handleEndTime" :picker-options="pickerOptions"
             v-model="table1up.plannedEndDate" :clearable="false" :editable="false"
             type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
             placeholder="请选择终止日期">
@@ -33,7 +34,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="合同日历天数">
-          <el-input v-model.number="table1up.plannedDays" type="number" clearable  />
+          <el-input v-model.number="table1up.plannedDays" type="number" :readonly="true" clearable  />
         </el-form-item>
       </el-col>
     </el-row>
@@ -50,6 +51,7 @@
       <el-col :span="8">
         <el-form-item label="实际竣工时间">
           <el-date-picker
+            @focus="handleEndTime1" :picker-options="pickerOptions"
             v-model="table1up.actualEndDate" :clearable="false" :editable="false"
             type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
             placeholder="请选择终止日期">
@@ -58,7 +60,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="实际日历天数">
-          <el-input v-model.number="table1up.actualDays" type="number" clearable />
+          <el-input v-model.number="table1up.actualDays" type="number" :readonly="true" clearable />
         </el-form-item>
       </el-col>
     </el-row>
@@ -106,14 +108,47 @@ export default {
       handler (newValue, oldValue) {
         this.table1up = Object.assign({}, newValue)
       }
+    },
+    table1up: {
+      handler (newVal, oldVal) {
+        this.table1up.plannedDays = this.diffDate(newVal.plannedStartDate, newVal.plannedEndDate)
+        this.table1up.actualDays = this.diffDate(newVal.actualStartDate, newVal.actualEndDate)
+      },
+      deep: true
     }
   },
   data () {
     return {
-      table1up: Object.assign({}, this.formData)
+      table1up: Object.assign({}, this.formData),
+      pickerOptions: {}
     }
   },
   methods: {
+    handleEndTime () {
+      let demo = new Date(this.table1up.plannedStartDate).getTime()
+      console.log(demo)
+      this.pickerOptions = {
+        disabledDate (time) {
+          return time.getTime() < demo
+        }
+      }
+    },
+    handleEndTime1 () {
+      let demo = new Date(this.table1up.actualStartDate).getTime()
+      console.log(demo)
+      this.pickerOptions = {
+        disabledDate (time) {
+          return time.getTime() < demo
+        }
+      }
+    },
+    diffDate (day1, day2) {
+      console.log(day1)
+      let d1 = Date.parse(day1)
+      console.log(d1)
+      let d2 = Date.parse(day2)
+      return parseInt((d2 - d1) / (1000 * 60 * 60 * 24))
+    },
     // 取消修改
     handleCancel () {
       this.$emit('cancel')

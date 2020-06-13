@@ -110,7 +110,7 @@ export default new Router({
         path: 'statistics',
         name: 'Statistics',
         component: () => import('@/view/project/statistics/index'),
-        meta: {title: '项目成本统计', roles: ['2', '4']}
+        meta: {title: '成本统计汇总', roles: ['2', '4']}
       }, {
         path: 'add',
         name: 'ProgramAdd',
@@ -224,13 +224,8 @@ export default new Router({
         }, {
           path: 'summary',
           name: 'AddSummary',
-          meta: {title: '项目成本统计二', roles: ['2']},
-          component: () => import('@/view/project/add/cost-summary')
-        }, {
-          path: 'statistics',
-          name: 'AddStatistics',
           meta: {title: '项目成本统计一', roles: ['2']},
-          component: () => import('@/view/project/add/cost-statistics')
+          component: () => import('@/view/project/add/cost-summary')
         }]
       }, {
         path: 'all',
@@ -238,14 +233,9 @@ export default new Router({
         component: () => import('@/view/project/all/index'),
         meta: {title: '表单汇总', roles: ['2', '4']},
         children: [{
-          path: 'statistics',
-          name: 'AllStatistics',
-          meta: {title: '项目成本统计汇总一', roles: ['2', '4']},
-          component: () => import('@/view/project/all/cost-statistics')
-        }, {
           path: 'summary',
           name: 'AllSummary',
-          meta: {title: '项目成本统计汇总二', roles: ['2', '4']},
+          meta: {title: '项目成本统计汇总一', roles: ['2', '4']},
           component: () => import('@/view/project/all/cost-summary')
         }, {
           path: 'labor',

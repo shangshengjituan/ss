@@ -34,7 +34,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="合同日历天数">
-          <el-input v-model.number="table1up.plannedDays" type="number" clearable :readonly="isExist" />
+          <el-input v-model.number="table1up.plannedDays" type="number" clearable :readonly="true" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -60,7 +60,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="实际日历天数">
-          <el-input v-model.number="table1up.actualDays" type="number" clearable :readonly="isExist"/>
+          <el-input v-model.number="table1up.actualDays" type="number" clearable :readonly="true"/>
         </el-form-item>
       </el-col>
     </el-row>
@@ -133,8 +133,15 @@ export default {
   },
   watch: {
     summaryData: {
-      handler (newValue, oldValue) {
+      handler (newVal, oldVal) {
         this.initData()
+      },
+      deep: true
+    },
+    table1up: {
+      handler (newVal, oldVal) {
+        this.table1up.plannedDays = this.diffDate(newVal.plannedStartDate, newVal.plannedEndDate)
+        this.table1up.actualDays = this.diffDate(newVal.actualStartDate, newVal.actualEndDate)
       },
       deep: true
     }
