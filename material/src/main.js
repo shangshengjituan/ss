@@ -3,22 +3,19 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import XEUtils from 'xe-utils'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 // import 'xe-utils'
-// import VXETable from 'vxe-table'
-// import 'vxe-table/lib/index.css'
 // import './util/utils'
-// import './util/table'
-import './util/ui'
+// import './util/ui'
 import api from './api'
 
 Vue.config.productionTip = false
 
-// Vue.use(VXETable)
-
-// 给 vue 实例挂载全局窗口对象
-// Vue.prototype.$XModal = VXETable.modal
 Vue.prototype.$utils = XEUtils
 Vue.prototype.$api = api
+
+Vue.use(ElementUI)
 
 new Vue({
   router,

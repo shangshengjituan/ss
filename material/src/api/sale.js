@@ -10,19 +10,18 @@ const sale = {
   getClients () {
     return axios.get('/clientCode')
   },
-  getSales () {
-    return axios.get('/saleList')
-  },
-  addGroup (data) {
-    return axios.post('/insertGroupForm', data)
-  },
-  getGroup (data) {
-    return axios.get('/selectgroupform', {
+  getSales (data) {
+    return axios.get('/saleList', {
       params: data
     })
   },
-  getGroupSummary () {
-    return axios.get('/selectGroupSummary')
+  addSale (data) {
+    return axios.post('/insertSaleTable', data)
+  },
+  delSale (data) {
+    return axios.get('/delSale', {
+      params: data
+    })
   }
 }
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 const instance = axios.create({
   baseURL: 'http://192.168.20.100:8093'
   // baseURL: 'http://2e56198e61.zicp.vip:22089'
@@ -20,7 +20,7 @@ instance.interceptors.request.use(
     // if (token) {
     //   config.headers.common.Authorization = token
     // }
-    // return config
+    return config
   },
   error => {
     // 对请求错误做些什么
@@ -32,6 +32,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   response => {
     // 对响应数据做点什么
+    console.log('response:', response)
     return response.data
   },
   error => {
