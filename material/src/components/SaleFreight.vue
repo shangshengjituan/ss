@@ -1,37 +1,39 @@
 <template>
-  <el-form ref="form" :model="formData" :rules="rules" label-width="100px" size="mini">
+  <el-form ref="form" :model="formData" :rules="rules" label-width="100px">
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="日期" prop="freight_date">
+        <el-form-item label="日期" prop="freightDate">
           <el-date-picker
-            v-model="formData.freight_date" value-format="yyyy-MM-dd" class="width-full"
+            v-model="formData.freightDate" value-format="yyyy-MM-dd" class="width-full"
             type="date" placeholder="选择日期" :editable="false" :clearable="false"></el-date-picker>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="收入/支出" prop="income_expenditure">
-          <el-select v-model="formData.income_expenditure" placeholder="请选择">
+        <el-form-item label="收入/支出" prop="incomeExpenditure">
+          <el-select v-model="formData.incomeExpenditure" placeholder="请选择" class="width-full">
             <el-option key="收入" label="收入" value="收入" />
               <el-option key="支出" label="支出" value="支出" />
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="费用类别" prop="freight_type">
-          <!--<el-input v-model="formData.freight_type"></el-input>-->
-          <el-autocomplete v-model="formData.freight_type" class="width-full" :fetch-suggestions="querySearch" />
+        <el-form-item label="费用类别" prop="freightType">
+          <!--<el-input v-model="formData.freightType"></el-input>-->
+          <el-autocomplete v-model="formData.freightType" class="width-full" :fetch-suggestions="querySearch" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="项目名称" prop="project_id">
-          <el-input v-model="formData.project_id"></el-input>
+        <el-form-item label="项目名称" prop="projectId">
+          <el-select v-model="formData.projectId" placeholder="请选择项目" class="width-full">
+            <el-option v-for="item in projects" :key="item.projectId" :label="item.projectName" :value="item.projectId" />
+          </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="车型">
-          <el-input v-model="formData.car_length"></el-input>
+          <el-input v-model="formData.carLength"><template slot="append">米</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -43,41 +45,41 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="基本公里数">
-          <el-input v-model="formData.basic_mileage"></el-input>
+          <el-input v-model="formData.basicMileage"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="实际公里数">
-          <el-input v-model="formData.actual_mileage"></el-input>
+          <el-input v-model="formData.actualMileage"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="单价(含税)" prop="freight_price_tax">
-          <el-input v-model="formData.freight_price_tax"><template slot="append">元</template></el-input>
+        <el-form-item label="单价(含税)" prop="freightPriceTax">
+          <el-input v-model="formData.freightPriceTax"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="金额(含税)">
-          <el-input v-model="formData.freight_amount_tax" readonly><template slot="append">元</template></el-input>
+          <el-input v-model="formData.freightAmountTax" readonly><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="税率" prop="tax_rate">
-          <el-input v-model="formData.tax_rate"><template slot="append">%</template></el-input>
+        <el-form-item label="税率" prop="taxRate">
+          <el-input v-model="formData.taxRate"><template slot="append">%</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="单价(不含税)" prop="freight_price">
-          <el-input v-model="formData.freight_price"><template slot="append">元</template></el-input>
+        <el-form-item label="单价(不含税)" prop="freightPrice">
+          <el-input v-model="formData.freightPrice"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="金额(不含税)">
-          <el-input v-model="formData.freight_amount" readonly><template slot="append">元</template></el-input>
+          <el-input v-model="formData.freightAmount" readonly><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -89,12 +91,14 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="发票号">
-          <el-input v-model="formData.receipt_number"></el-input>
+          <el-input v-model="formData.receiptNumber"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="客户/承运商"  prop="client_id">
-          <el-input v-model="formData.client_id"></el-input>
+        <el-form-item label="客户/承运商"  prop="clientId">
+          <el-select v-model="formData.clientId" placeholder="请选择" class="width-full">
+            <el-option v-for="item in clients" :key="item.clientId" :label="item.clientName" :value="item.clientId" />
+          </el-select>
         </el-form-item>
       </el-col>
     </el-row>
@@ -121,40 +125,40 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       rules: {
-        freight_date: [{ required: true, message: '不可为空' }],
-        income_expenditure: [{ required: true, message: '不可为空' }],
-        freight_type: [{ required: true, message: '不可为空' }],
-        project_id: [{ required: true, message: '不可为空' }],
+        freightDate: [{ required: true, message: '不可为空' }],
+        incomeExpenditure: [{ required: true, message: '不可为空' }],
+        freightType: [{ required: true, message: '不可为空' }],
+        projectId: [{ required: true, message: '不可为空' }],
         frequency: [{ required: true, message: '不可为空' }],
-        freight_price_tax: [{ required: true, message: '不可为空' }],
-        tax_rate: [{ required: true, message: '不可为空' }],
-        client_id: [{ required: true, message: '不可为空' }]
+        freightPriceTax: [{ required: true, message: '不可为空' }],
+        taxRate: [{ required: true, message: '不可为空' }],
+        clientId: [{ required: true, message: '不可为空' }]
       },
-      units: [{ value: '运输费' }, { value: '其他' }]
+      units: [{ value: '运输费' }, { value: '其他' }],
+      projects: [],
+      clients: []
     }
+  },
+  created () {
+    this.getBase()
   },
   watch: {
     baseData: {
       handler (val, old) {
+        console.log(JSON.stringify(val))
         this.formData = Object.assign({}, val)
-        // console.log(val, old)
-        // if (val) {
-        //   console.log('true')
-        //   this.formData = Object.assign({}, val)
-        // } else {
-        //   this.formData = {}
-        // }
+        console.log(JSON.stringify(this.formData))
       },
       deep: true
     },
     formData: {
       handler (val, old) {
-        if (val.freight_price_tax && val.frequency) {
-          this.formData.freight_amount_tax = this.$utils.multiply(val.freight_price_tax, val.frequency)
-          this.formData.freight_amount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.freight_amount_tax, this.$utils.add(1, this.$utils.divide(val.tax_rate, 100))), 2)
-          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.freight_amount, this.$utils.divide(val.tax_rate, 100)), 2)
+        if (val.freightPriceTax && val.frequency) {
+          this.formData.freightAmountTax = this.$utils.multiply(val.freightPriceTax, val.frequency)
+          this.formData.freightAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.freightAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))), 2)
+          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.freightAmount, this.$utils.divide(val.taxRate, 100)), 2)
         }
       },
       deep: true
@@ -176,16 +180,39 @@ export default {
       this.isEdit ? this.editItem() : this.addItem()
     },
     handleCancel (formName) {
-      this.$refs[formName].resetFields()
-      this.$emit('cancel')
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.isEdit ? this.editItem() : this.addItem()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
     addItem () {
       // add
-      this.$emit('primary')
+      console.log('add')
+      this.$api.sale.addFreight(this.formData).then(rsp => {
+        console.log(rsp)
+        if (rsp.result === 200) {
+          this.$message({ type: 'success', message: '新增成功!' })
+          this.$emit('primary')
+        } else {
+          this.$message({ type: 'error', message: rsp.resultText })
+        }
+      })
     },
     editItem () {
       // edit
       this.$emit('primary')
+    },
+    getBase () {
+      this.$api.sale.getProjects().then(rsp => {
+        this.projects = rsp.data
+      })
+      this.$api.sale.getClients().then(rsp => {
+        this.clients = rsp.data
+      })
     }
   }
 }

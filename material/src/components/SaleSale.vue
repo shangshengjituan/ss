@@ -1,28 +1,25 @@
 <template>
-  <el-form ref="form" :model="formData" :rules="rules" label-width="100px" size="mini">
+  <el-form ref="form" :model="formData" :rules="rules" label-width="100px">
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="日期" prop="sale_date">
+        <el-form-item label="日期" prop="saleDate">
           <el-date-picker
-            v-model="formData.sale_date" value-format="yyyy-MM-dd" class="width-full"
+            v-model="formData.saleDate" value-format="yyyy-MM-dd" class="width-full"
             type="date" placeholder="选择日期" :editable="false" :clearable="false"></el-date-picker>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="项目名称" prop="project_id">
-          <el-input v-model="formData.project_id"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="品名" prop="freight_id">
-          <el-input v-model="formData.freight_id"></el-input>
+        <el-form-item label="项目名称" prop="projectId">
+          <el-select v-model="formData.projectId" placeholder="请选择项目">
+            <el-option v-for="item in projects" :key="item.projectId" :label="item.projectName" :value="item.projectId" />
+          </el-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="规格" prop="freight_id">
-          <el-input v-model="formData.freight_id"></el-input>
+        <el-form-item label="规格" prop="commodity">
+          <el-cascader v-model="formData.commodity" :options="commodities" :props="{ expandTrigger: 'hover' }"></el-cascader>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -31,32 +28,32 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="数量" prop="sale_quantity">
-          <el-input-number v-model="formData.sale_quantity" controls-position="right" :min="0" class="width-full"></el-input-number>
+        <el-form-item label="数量" prop="saleQuantity">
+          <el-input-number v-model="formData.saleQuantity" controls-position="right" :min="0" class="width-full"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="面积" prop="sale_area">
-          <el-input v-model="formData.sale_area"><template slot="append">㎡</template></el-input>
+        <el-form-item label="面积" prop="saleArea">
+          <el-input v-model="formData.saleArea"><template slot="append">㎡</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="销售单价" prop="sale_price">
-          <el-input v-model="formData.sale_price"><template slot="append">元</template></el-input>
+        <el-form-item label="销售单价" prop="salePrice">
+          <el-input v-model="formData.salePrice"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="金额(含税)">
-          <el-input v-model="formData.sale_amount_tax" readonly><template slot="append">元</template></el-input>
+          <el-input v-model="formData.saleAmountTax" readonly><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="金额(不含税)">
-          <el-input v-model="formData.sale_amount" readonly><template slot="append">元</template></el-input>
+          <el-input v-model="formData.saleAmount" readonly><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -66,19 +63,21 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="是否回款">
-          <el-input v-model="formData.hit_money"></el-input>
+          <el-input v-model="formData.hitMoney"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="已开发票号">
-          <el-input v-model="formData.receipt_number"></el-input>
+          <el-input v-model="formData.receiptNumber"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="客户"  prop="client_id">
-          <el-input v-model="formData.client_id"></el-input>
+        <el-form-item label="客户"  prop="clientId">
+          <el-select v-model="formData.clientId" placeholder="请选择客户">
+            <el-option v-for="item in clients" :key="item.clientId" :label="item.clientName" :value="item.clientId" />
+          </el-select>
         </el-form-item>
       </el-col>
     </el-row>
@@ -105,43 +104,47 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       rules: {
-        sale_date: [{ required: true, message: '不可为空' }],
-        project_id: [{ required: true, message: '不可为空' }],
-        freight_id: [{ required: true, message: '不可为空' }],
+        saleDate: [{ required: true, message: '不可为空' }],
+        projectId: [{ required: true, message: '不可为空' }],
+        commodity: [{ required: true, message: '不可为空' }],
         unit: [{ required: true, message: '不可为空' }],
-        sale_quantity: [{ required: true, message: '不可为空' }],
-        sale_area: [{ required: true, message: '不可为空' }],
-        sale_price: [{ required: true, message: '不可为空' }],
-        sale_amount_tax: [{ required: true, message: '不可为空' }],
-        sale_amount: [{ required: true, message: '不可为空' }],
+        saleQuantity: [{ required: true, message: '不可为空' }],
+        saleArea: [{ required: true, message: '不可为空' }],
+        salePrice: [{ required: true, message: '不可为空' }],
+        saleAmountTax: [{ required: true, message: '不可为空' }],
+        saleAmount: [{ required: true, message: '不可为空' }],
         tax: [{ required: true, message: '不可为空' }],
-        client_id: [{ required: true, message: '不可为空' }]
+        clientId: [{ required: true, message: '不可为空' }]
       },
-      units: [{ value: '块' }, { value: '个' }]
+      units: [{ value: '块' }, { value: '个' }],
+      projects: [],
+      commodities: [],
+      clients: []
     }
+  },
+  created () {
+    this.getBase()
   },
   watch: {
     baseData: {
       handler (val, old) {
+        console.log(JSON.stringify(val))
         this.formData = Object.assign({}, val)
-        // console.log(val, old)
-        // if (val) {
-        //   console.log('true')
-        //   this.formData = Object.assign({}, val)
-        // } else {
-        //   this.formData = {}
-        // }
+        console.log(JSON.stringify(this.formData))
       },
       deep: true
     },
     formData: {
       handler (val, old) {
-        if (val.sale_area && val.sale_price) {
-          this.formData.sale_amount_tax = this.$utils.multiply(val.sale_area, val.sale_price)
-          this.formData.sale_amount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.sale_amount_tax, 1.13), 2)
-          this.formData.tax = this.$utils.subtract(this.formData.sale_amount_tax, this.formData.sale_amount)
+        if (val.saleArea && val.salePrice) {
+          this.formData.saleAmountTax = this.$utils.multiply(val.saleArea, val.salePrice)
+          this.formData.saleAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.saleAmountTax, 1.13), 2)
+          this.formData.tax = this.$utils.subtract(this.formData.saleAmountTax, this.formData.saleAmount)
+        }
+        if (val.commodity) {
+          val.commodityId = val.commodity[1]
         }
       },
       deep: true
@@ -162,35 +165,66 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // alert('submit!')
           this.isEdit ? this.editItem() : this.addItem()
         } else {
           console.log('error submit!!')
           return false
         }
       })
-      // this.isEdit ? this.editItem() : this.addItem()
     },
     handleCancel (formName) {
       this.$refs[formName].resetFields()
+      // this.baseData = {}
       this.$emit('cancel')
     },
     addItem () {
-      // add
       console.log('add')
       this.$api.sale.addSale(this.formData).then(rsp => {
         console.log(rsp)
+        if (rsp.result === 200) {
+          this.$message({ type: 'success', message: '新增成功!' })
+          this.$emit('primary')
+        } else {
+          this.$message({ type: 'error', message: rsp.resultText })
+        }
       })
-      this.$emit('primary')
     },
     editItem () {
-      // edit
       this.$emit('primary')
+    },
+    getBase () {
+      this.$api.sale.getProjects().then(rsp => {
+        this.projects = rsp.data
+      })
+      this.$api.sale.getCommodities().then(rsp => {
+        const temp = []
+        rsp.data.forEach((item, index) => {
+          temp.push({
+            label: item.commodityName,
+            value: item.index,
+            children: []
+          })
+          if (item.commoditySizeLists) {
+            item.commoditySizeLists.forEach(it => {
+              temp[index].children.push({
+                label: it.commoditySize,
+                value: it.commodityId
+              })
+            })
+          }
+        })
+        this.commodities = temp
+      })
+      this.$api.sale.getClients().then(rsp => {
+        this.clients = rsp.data
+      })
     }
   }
 }
 </script>
 
-<style scoped>
-
+<style>
+  .el-input-number .el-input__inner {
+    text-align: left;
+  }
 </style>

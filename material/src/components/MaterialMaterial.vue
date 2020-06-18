@@ -1,66 +1,64 @@
 <template>
-  <el-form ref="form" :model="formData" :rules="rules" label-width="100px" size="mini">
+  <el-form ref="form" :model="formData" :rules="rules" label-width="100px">
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="日期" prop="material_statistic_date">
+        <el-form-item label="日期" prop="materialStatisticDate">
           <el-date-picker
-            v-model="formData.material_statistic_date" value-format="yyyy-MM-dd" class="width-full"
+            v-model="formData.materialStatisticDate" value-format="yyyy-MM-dd" class="width-full"
             type="date" placeholder="选择日期" :editable="false" :clearable="false"></el-date-picker>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="采购/领用" prop="purchase_user_id">
-          <el-select v-model="formData.purchase_user_id" placeholder="请选择">
-            <el-option key="采购" label="采购" value="采购" />
-            <el-option key="领用" label="领用" value="领用" />
+        <el-form-item label="采购/领用" prop="purchaseUserId">
+          <el-select v-model="formData.purchaseUserId" placeholder="请选择">
+            <el-option v-for="item in kinds" :key="item.purchaseUserId" :label="item.purchaseUser" :value="item.purchaseUserId" />
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="材料类别" prop="material_id">
-          <!--<el-input v-model="formData.material_id"></el-input>-->
-          <el-autocomplete v-model="formData.material_id" class="width-full" :fetch-suggestions="querySearch" />
+        <el-form-item label="材料类别" prop="material">
+          <el-cascader v-model="formData.material" :options="materialTypes" :props="{ expandTrigger: 'hover' }" class="width-full"></el-cascader>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="单位" prop="material_unit">
-          <el-autocomplete v-model="formData.material_unit" class="width-full" :fetch-suggestions="querySearch" />
+        <el-form-item label="单位" prop="materialUnit">
+          <el-autocomplete v-model="formData.materialUnit" class="width-full" :fetch-suggestions="querySearch" />
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="数量" prop="material_quantity">
-          <el-input-number v-model="formData.material_quantity" controls-position="right" :min="0" class="width-full"></el-input-number>
+        <el-form-item label="数量" prop="materialQuantity">
+          <el-input-number v-model="formData.materialQuantity" controls-position="right" :min="0" class="width-full"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="单价(含税)" prop="material_price_tax">
-          <el-input v-model="formData.material_price_tax"><template slot="append">元</template></el-input>
+        <el-form-item label="单价(含税)" prop="materialPriceTax">
+          <el-input v-model="formData.materialPriceTax"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="金额(含税)">
-          <el-input v-model="formData.material_amount_tax" readonly><template slot="append">元</template></el-input>
+          <el-input v-model="formData.materialAmountTax" readonly><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="税率" prop="tax_rate">
-          <el-input v-model="formData.tax_rate"><template slot="append">%</template></el-input>
+        <el-form-item label="税率" prop="taxRate">
+          <el-input v-model="formData.taxRate"><template slot="append">%</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="单价(不含税)" prop="material_price">
-          <el-input v-model="formData.material_price"><template slot="append">元</template></el-input>
+        <el-form-item label="单价(不含税)">
+          <el-input v-model="formData.materialPrice"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="金额(不含税)">
-          <el-input v-model="formData.material_amount" readonly><template slot="append">元</template></el-input>
+          <el-input v-model="formData.materialAmount" readonly><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -72,17 +70,19 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="用途">
-          <el-input v-model="formData.material_user"></el-input>
+          <el-input v-model="formData.materialUser"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="发票号">
-          <el-input v-model="formData.receipt_number"></el-input>
+          <el-input v-model="formData.receiptNumber"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="供应商"  prop="supplier_id">
-          <el-input v-model="formData.supplier_id"></el-input>
+        <el-form-item label="供应商"  prop="supplierId">
+          <el-select v-model="formData.supplierId" placeholder="请选择">
+            <el-option v-for="item in providers" :key="item.supplierId" :label="item.supplier" :value="item.supplierId" />
+          </el-select>
         </el-form-item>
       </el-col>
     </el-row>
@@ -111,42 +111,45 @@ export default {
     return {
       formData: {},
       rules: {
-        material_statistic_date: [{ required: true, message: '不可为空' }],
-        purchase_user_id: [{ required: true, message: '不可为空' }],
-        material_id: [{ required: true, message: '不可为空' }],
-        material_unit: [{ required: true, message: '不可为空' }],
-        material_quantity: [{ required: true, message: '不可为空' }],
-        material_price_tax: [{ required: true, message: '不可为空' }],
-        tax_rate: [{ required: true, message: '不可为空' }],
-        supplier_id: [{ required: true, message: '不可为空' }]
+        materialStatisticDate: [{ required: true, message: '不可为空' }],
+        purchaseUserId: [{ required: true, message: '不可为空' }],
+        material: [{ required: true, message: '不可为空' }],
+        materialUnit: [{ required: true, message: '不可为空' }],
+        materialQuantity: [{ required: true, message: '不可为空' }],
+        materialPriceTax: [{ required: true, message: '不可为空' }],
+        taxRate: [{ required: true, message: '不可为空' }],
+        supplierId: [{ required: true, message: '不可为空' }]
       },
-      units: [{ value: '运输费' }, { value: '其他' }]
+      units: [{ value: '吨' }, { value: 'kg' }, { value: '片' }],
+      materialTypes: [],
+      kinds: [],
+      providers: []
     }
   },
   watch: {
     baseData: {
       handler (val, old) {
         this.formData = Object.assign({}, val)
-        // console.log(val, old)
-        // if (val) {
-        //   console.log('true')
-        //   this.formData = Object.assign({}, val)
-        // } else {
-        //   this.formData = {}
-        // }
       },
       deep: true
     },
     formData: {
       handler (val, old) {
-        if (val.material_price_tax && val.material_quantity) {
-          this.formData.material_amount_tax = this.$utils.multiply(val.material_price_tax, val.material_quantity)
-          this.formData.material_amount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.material_amount_tax, this.$utils.add(1, this.$utils.divide(val.tax_rate, 100))), 2)
-          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.material_amount, this.$utils.divide(val.tax_rate, 100)), 2)
+        if (val.materialPriceTax && val.materialQuantity) {
+          this.formData.materialAmountTax = this.$utils.multiply(val.materialPriceTax, val.materialQuantity)
+          this.formData.materialAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.materialAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))), 2)
+          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.materialAmount, this.$utils.divide(val.taxRate, 100)), 2)
+          this.formData.materialPrice = this.$utils.divide(this.formData.materialAmount, val.materialQuantity)
+        }
+        if (val.material) {
+          val.materialId = val.material[1]
         }
       },
       deep: true
     }
+  },
+  created () {
+    this.getBase()
   },
   methods: {
     querySearch (queryString, cb) {
@@ -160,20 +163,61 @@ export default {
         return (item.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
       }
     },
-    submitForm () {
-      this.isEdit ? this.editItem() : this.addItem()
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.isEdit ? this.editItem() : this.addItem()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
     handleCancel (formName) {
       this.$refs[formName].resetFields()
       this.$emit('cancel')
     },
     addItem () {
-      // add
-      this.$emit('primary')
+      console.log('add')
+      this.$api.material.addItem(this.formData).then(rsp => {
+        console.log(rsp)
+        if (rsp.result === 200) {
+          this.$message({ type: 'success', message: '新增成功!' })
+          this.$emit('primary')
+        } else {
+          this.$message({ type: 'error', message: rsp.resultText })
+        }
+      })
     },
     editItem () {
-      // edit
       this.$emit('primary')
+    },
+    getBase () {
+      this.$api.material.getMaterialType().then(rsp => {
+        const temp = []
+        rsp.data.forEach((item, index) => {
+          temp.push({
+            label: item.rawMaterialCategory,
+            value: item.index,
+            children: []
+          })
+          if (item.specificProductNameList) {
+            item.specificProductNameList.forEach(it => {
+              temp[index].children.push({
+                label: it.specificProductName,
+                value: it.materialId
+              })
+            })
+          }
+        })
+        this.materialTypes = temp
+      })
+      this.$api.material.getKinds().then(rsp => {
+        this.kinds = rsp.data
+      })
+      this.$api.material.getProviders().then(rsp => {
+        this.providers = rsp.data
+      })
     }
   }
 }
