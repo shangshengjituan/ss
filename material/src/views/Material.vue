@@ -16,10 +16,16 @@
       </el-button-group>
     </el-form>
     <el-table
-      :data="tableData" border style="width: 100%">
+      :data="tableData" border style="width: 100%"
+      :show-summary="isSummary" :summary-method="getSummaries" @filter-change="filterChange">
       <el-table-column type="index"></el-table-column>
       <el-table-column prop="materialStatisticDate" label="日期"></el-table-column>
-      <el-table-column prop="purchaseUser" label="采购/领用"></el-table-column>
+      <el-table-column
+        prop="purchaseUser" label="采购/领用"
+        :filters="kinds"
+        column-key="purchaseUser" :filter-multiple="false"
+        :filter-method="filterTag" filter-placement="bottom-end">
+      </el-table-column>
       <el-table-column prop="rawMaterialCategory" label="原材料大类"></el-table-column>
       <el-table-column prop="specificProductName" label="具体品名"></el-table-column>
       <el-table-column prop="materialUnit" label="单位"></el-table-column>
@@ -66,18 +72,20 @@ export default {
       showForm: false,
       isEdit: false,
       baseData: {},
-      tableData: []
+      kinds: [],
+      tableData: [],
+      isSummary: false, // 是否合计
+      filterLength: 0 // 筛选后数据条数
     }
   },
   created () {
     this.getMaterials()
-    // this.getList()
+    this.getBase()
   },
   watch: {
     selectData: {
       handler (val, old) {
         this.getList()
-        // this.getMaterialType()
       },
       deep: true
     }
@@ -101,6 +109,13 @@ export default {
         this.tableData = rsp.data
       })
     },
+    getBase () {
+      this.$api.material.getKinds().then(rsp => {
+        this.kinds = rsp.data.map((item) => {
+          return { text: item.purchaseUser, value: item.purchaseUser }
+        })
+      })
+    },
     handleShow (item) {
       this.showForm = true
       if (item.materialStatisticId) {
@@ -114,7 +129,6 @@ export default {
     },
     handleHide () {
       this.showForm = false
-      // this.baseData = {}
     },
     handleHideFresh () {
       this.handleHide()
@@ -146,6 +160,41 @@ export default {
           })
         }
       })
+    },
+    getSummaries (params) {
+      const { columns, data } = params
+      const sums = []
+      let [demo, demo1, demo2, demo3] = [0, 0, 0, 0]
+      data.forEach((columns) => {
+        demo = this.$utils.add(columns.materialAmountTax, demo)
+        demo1 = this.$utils.add(columns.materialAmount, demo1)
+        demo2 = this.$utils.add(columns.tax, demo2)
+        demo3 = this.$utils.add(columns.materialQuantity, demo3)
+      })
+      columns.forEach((columns, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+        }
+        switch (columns.property) {
+          case 'materialAmountTax': sums[index] = demo
+            break
+          case 'materialAmount': sums[index] = demo1
+            break
+          case 'tax': sums[index] = demo2
+            break
+          case 'materialQuantity': sums[index] = demo3
+            break
+        }
+      })
+      return sums
+    },
+    filterTag (value, row) {
+      if (row.purchaseUser === value) { this.filterLength++ }
+      return row.purchaseUser === value
+    },
+    filterChange (filters) {
+      this.isSummary = this.filterLength > 0 && filters.purchaseUser.length > 0
+      this.filterLength = 0
     }
   }
 }

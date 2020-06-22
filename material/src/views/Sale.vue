@@ -19,7 +19,7 @@
   <div v-if="selectData.type === '1'">
     <el-table
       :data="tableData1" border highlight-current-row style="width: 100%"
-      header-cell-class-name="top-table" show-summary :summary-method="getSummaries1">
+      header-cell-class-name="top-table" :summary-method="getSummaries1">
       <el-table-column type="index" label="#"></el-table-column>
       <el-table-column prop="saleDate" label="日期"></el-table-column>
       <el-table-column prop="projectName" label="项目名称"></el-table-column>
@@ -51,13 +51,19 @@
     <!---->
     <el-table
       :data="tableData2" border highlight-current-row style="width: 100%"
-      show-summary :summary-method="getSummaries2">
+      :show-summary="isSummary" :summary-method="getSummaries2" @filter-change="filterChange">
       <el-table-column type="index" />
       <el-table-column prop="freightDate" label="日期" />
       <el-table-column
         prop="incomeExpenditure" label="类型"
         :filters="[{ text: '收入', value: '收入' }, { text: '支出', value: '支出' }]"
-        :filter-method="filterTag" filter-placement="bottom-end"/>
+        column-key="incomeExpenditure" :filter-multiple="false"
+        :filter-method="filterTag" filter-placement="bottom-end">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.incomeExpenditure === '收入' ? 'success' : 'warning'"
+            disable-transitions>{{scope.row.incomeExpenditure}}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="freightType" label="费用类别"/>
       <el-table-column prop="projectName" label="项目名称" />
       <el-table-column prop="carLength" label="车型" />
@@ -108,7 +114,9 @@ export default {
       baseData: {},
       tableData1: [],
       tableData2: [],
-      showForm2: false
+      showForm2: false,
+      isSummary: false, // 是否合计
+      filterLength: 0 // 筛选后数据条数
     }
   },
   created () {
@@ -129,7 +137,6 @@ export default {
       this.$api.sale.getSales({
         saleDate: this.selectData.month
       }).then(rsp => {
-        console.log(rsp)
         this.tableData1 = rsp.data
       })
     },
@@ -137,7 +144,6 @@ export default {
       this.$api.sale.getFreights({
         freightDate: this.selectData.month
       }).then(rsp => {
-        console.log(rsp)
         this.tableData2 = rsp.data
       })
     },
@@ -283,9 +289,12 @@ export default {
       return sums
     },
     filterTag (value, row) {
-      console.log(value)
-      console.log(row)
+      if (row.incomeExpenditure === value) { this.filterLength++ }
       return row.incomeExpenditure === value
+    },
+    filterChange (filters) {
+      this.isSummary = this.filterLength > 0 && filters.incomeExpenditure.length > 0
+      this.filterLength = 0
     }
   }
 }
