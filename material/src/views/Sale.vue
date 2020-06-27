@@ -16,11 +16,11 @@
       <el-button @click="handleShow" type="success" icon="el-icon-plus">新增数据</el-button>
     </el-button-group>
   </el-form>
-  <div v-if="selectData.type === '1'">
+  <div v-show="selectData.type === '1'">
     <el-table
       :data="tableData1" border highlight-current-row style="width: 100%"
       header-cell-class-name="top-table" :summary-method="getSummaries1">
-      <el-table-column type="index" label="#"></el-table-column>
+      <el-table-column type="index" label="#" width="50"></el-table-column>
       <el-table-column prop="saleDate" label="日期"></el-table-column>
       <el-table-column prop="projectName" label="项目名称"></el-table-column>
       <el-table-column prop="commodityName" label="品名"></el-table-column>
@@ -47,12 +47,12 @@
       <sale-sale :base-data="baseData" :isEdit="isEdit" @cancel="handleHide1" @primary="handleHideFresh1"/>
     </el-dialog>
   </div>
-  <div v-if="selectData.type === '2'">
+  <div v-show="selectData.type === '2'">
     <!---->
     <el-table
-      :data="tableData2" border highlight-current-row style="width: 100%"
+      :data="tableData2" border highlight-current-row style="width: 100%" header-cell-class-name="top-table"
       :show-summary="isSummary" :summary-method="getSummaries2" @filter-change="filterChange">
-      <el-table-column type="index" />
+      <el-table-column type="index" label="#" width="50" />
       <el-table-column prop="freightDate" label="日期" />
       <el-table-column
         prop="incomeExpenditure" label="类型"
@@ -309,8 +309,13 @@ export default {
   .top-form .el-form-item {
     margin: 0 15px 0 0;
   }
+  .el-table thead.is-group th {
+    background: #FFFFE0;
+  }
   .el-table .top-table {
-    background-color: #F5F7FA;
+    /*background-color: #F5F7FA;*/
+    background-color: #FFFFE0;
+
   }
   .el-dialog {
     width: 80%;

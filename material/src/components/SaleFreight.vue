@@ -176,10 +176,7 @@ export default {
         return (item.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
       }
     },
-    submitForm () {
-      this.isEdit ? this.editItem() : this.addItem()
-    },
-    handleCancel (formName) {
+    submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.isEdit ? this.editItem() : this.addItem()
@@ -188,6 +185,10 @@ export default {
           return false
         }
       })
+    },
+    handleCancel (formName) {
+      this.$refs[formName].resetFields()
+      this.$emit('cancel')
     },
     addItem () {
       // add

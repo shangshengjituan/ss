@@ -10,7 +10,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="采购/领用" prop="purchaseUserId">
-          <el-select v-model="formData.purchaseUserId" placeholder="请选择">
+          <el-select v-model="formData.purchaseUserId" placeholder="请选择" class="width-full">
             <el-option v-for="item in kinds" :key="item.purchaseUserId" :label="item.purchaseUser" :value="item.purchaseUserId" />
           </el-select>
         </el-form-item>
@@ -80,7 +80,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="供应商"  prop="supplierId">
-          <el-select v-model="formData.supplierId" placeholder="请选择">
+          <el-select v-model="formData.supplierId" placeholder="请选择" class="width-full">
             <el-option v-for="item in providers" :key="item.supplierId" :label="item.supplier" :value="item.supplierId" />
           </el-select>
         </el-form-item>

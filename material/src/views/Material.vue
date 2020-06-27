@@ -16,14 +16,13 @@
       </el-button-group>
     </el-form>
     <el-table
-      :data="tableData" border style="width: 100%"
+      :data="tableData" border style="width: 100%" header-cell-class-name="top-table"
       :show-summary="isSummary" :summary-method="getSummaries" @filter-change="filterChange">
-      <el-table-column type="index"></el-table-column>
+      <el-table-column type="index" label="#" width="50"></el-table-column>
       <el-table-column prop="materialStatisticDate" label="日期"></el-table-column>
       <el-table-column
         prop="purchaseUser" label="采购/领用"
-        :filters="kinds"
-        column-key="purchaseUser" :filter-multiple="false"
+        :filters="kinds" column-key="purchaseUser" :filter-multiple="false"
         :filter-method="filterTag" filter-placement="bottom-end">
       </el-table-column>
       <el-table-column prop="rawMaterialCategory" label="原材料大类"></el-table-column>

@@ -174,7 +174,6 @@ export default {
     },
     handleCancel (formName) {
       this.$refs[formName].resetFields()
-      // this.baseData = {}
       this.$emit('cancel')
     },
     addItem () {
