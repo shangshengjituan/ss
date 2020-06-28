@@ -87,15 +87,67 @@ const rear = {
   },
   // 7
   addMealItem (data) {
-    return axios.post('/insertOfficeTable', data)
+    return axios.post('/insertFoodTable', data)
   },
   getMealList (data) {
-    return axios.get('/officeList', {
+    return axios.get('/foodList', {
       params: data
     })
   },
   delMealItem (data) {
-    return axios.get('/delOffice', {
+    return axios.get('/delFood', {
+      params: data
+    })
+  },
+  // 8
+  addTravelItem (data) {
+    return axios.post('/insertTravelTable', data)
+  },
+  getTravelList (data) {
+    return axios.get('/travelList', {
+      params: data
+    })
+  },
+  delTravelItem (data) {
+    return axios.get('/delTravel', {
+      params: data
+    })
+  },
+  // 9
+  addConsultingItem (data) {
+    return axios.post('/insertAdvisoryTable', data)
+  },
+  getConsultingList (data) {
+    return axios.get('/advisoryList', { params: data })
+  },
+  delConsultingItem (data) {
+    return axios.get('/delAdvisory', { params: data })
+  },
+  // 10
+  addWelfareItem (data) {
+    return axios.post('/insertWelfareTable', data)
+  },
+  getWelfareList (data) {
+    return axios.get('/welfareList', {
+      params: data
+    })
+  },
+  delWelfareItem (data) {
+    return axios.get('/delWelfare', {
+      params: data
+    })
+  },
+  // 11
+  addMachineryItem (data) {
+    return axios.post('/insertEquipmentTable', data)
+  },
+  getMachineryList (data) {
+    return axios.get('/equipmentList', {
+      params: data
+    })
+  },
+  delMachineryItem (data) {
+    return axios.get('/delEquipment', {
       params: data
     })
   }

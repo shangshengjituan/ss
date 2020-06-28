@@ -130,9 +130,7 @@ export default {
   watch: {
     baseData: {
       handler (val, old) {
-        console.log(JSON.stringify(val))
         this.formData = Object.assign({}, val)
-        console.log(JSON.stringify(this.formData))
       },
       deep: true
     },

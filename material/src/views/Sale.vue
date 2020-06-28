@@ -12,14 +12,21 @@
         <el-option label="运费" value="2"></el-option>
       </el-select>
     </el-form-item>
-    <el-button-group style="float: right">
-      <el-button @click="handleShow" type="success" icon="el-icon-plus">新增数据</el-button>
-    </el-button-group>
+    <!--<el-button-group style="float: right">-->
+      <!--<el-button @click="handleShow" type="success" icon="el-icon-plus">新增数据</el-button>-->
+    <!--</el-button-group>-->
   </el-form>
+  <div style="text-align: right">
+    <el-button-group>
+      <el-button @click="handleDelete" type="warning">删除选中行</el-button>
+      <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
+      <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
+    </el-button-group>
+  </div>
   <div v-show="selectData.type === '1'">
     <el-table
       :data="tableData1" border highlight-current-row style="width: 100%"
-      header-cell-class-name="top-table" :summary-method="getSummaries1">
+      header-cell-class-name="top-table" :summary-method="getSummaries1" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"></el-table-column>
       <el-table-column prop="saleDate" label="日期"></el-table-column>
       <el-table-column prop="projectName" label="项目名称"></el-table-column>
@@ -36,12 +43,6 @@
       <el-table-column prop="receiptNumber" label="已开发票号"></el-table-column>
       <el-table-column prop="clientName" label="客户"></el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
-        <template slot-scope="scope">
-          <!--<el-button @click="handleShow(scope.row)" type="primary" size="mini" icon="el-icon-edit" circle></el-button>-->
-          <el-button @click="handleDelete(scope.row)" type="danger" size="mini" icon="el-icon-delete" circle></el-button>
-        </template>
-      </el-table-column>
     </el-table>
     <el-dialog :title="isEdit ? '编辑数据' : '新增数据'" :visible.sync="showForm1">
       <sale-sale :base-data="baseData" :isEdit="isEdit" @cancel="handleHide1" @primary="handleHideFresh1"/>
@@ -51,7 +52,7 @@
     <!---->
     <el-table
       :data="tableData2" border highlight-current-row style="width: 100%" header-cell-class-name="top-table"
-      :show-summary="isSummary" :summary-method="getSummaries2" @filter-change="filterChange">
+      :show-summary="isSummary" :summary-method="getSummaries2" @filter-change="filterChange" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50" />
       <el-table-column prop="freightDate" label="日期" />
       <el-table-column
@@ -83,12 +84,6 @@
       <el-table-column prop="receiptNumber" label="发票号" />
       <el-table-column prop="clientName" label="客户/承运商" />
       <el-table-column prop="remark" label="备注" />
-      <el-table-column fixed="right" label="操作" width="100">
-        <template slot-scope="scope">
-          <!--<el-button @click="handleShow(scope.row)" type="primary" icon="el-icon-edit" size="mini" circle></el-button>-->
-          <el-button @click="handleDelete(scope.row)" type="danger" icon="el-icon-delete" size="mini" circle></el-button>
-        </template>
-      </el-table-column>
     </el-table>
     <el-dialog :title="isEdit ? '编辑数据' : '新增数据'" :visible.sync="showForm2">
       <sale-freight :base-data="baseData" :isEdit="isEdit" @cancel="handleHide2" @primary="handleHideFresh2"/>
@@ -114,6 +109,7 @@ export default {
       baseData: {},
       tableData1: [],
       tableData2: [],
+      currentRow: {},
       showForm2: false,
       isSummary: false, // 是否合计
       filterLength: 0 // 筛选后数据条数
@@ -147,21 +143,26 @@ export default {
         this.tableData2 = rsp.data
       })
     },
-    handleShow (item) {
+    handleShow () {
       if (this.selectData.type === '1') {
         this.showForm1 = true
       }
       if (this.selectData.type === '2') {
         this.showForm2 = true
       }
-      if (item.saleId || item.freightId) {
-        this.isEdit = true
-        this.baseData = item
-      } else {
-        this.isEdit = false
-        this.baseData = {}
-      }
+      this.isEdit = false
+      this.baseData = {}
     },
+    // handleEditShow () {
+    //   if (this.selectData.type === '1') {
+    //     this.showForm1 = true
+    //   }
+    //   if (this.selectData.type === '2') {
+    //     this.showForm2 = true
+    //   }
+    //   this.isEdit = true
+    //   this.baseData = this.currentRow
+    // },
     handleHide1 () {
       this.showForm1 = false
       this.baseData = {}
@@ -178,7 +179,10 @@ export default {
       this.handleHide2()
       this.getList2()
     },
-    handleDelete (item) {
+    handleCurrentChange (val) {
+      this.currentRow = val
+    },
+    handleDelete () {
       this.$confirm('此操作将永久删除该条数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -186,10 +190,10 @@ export default {
       }).then(() => {
         // 删除
         if (this.selectData.type === '1') {
-          this.deleteItem1(item)
+          this.deleteItem1(this.currentRow)
         }
         if (this.selectData.type === '2') {
-          this.deleteItem2(item)
+          this.deleteItem2(this.currentRow)
         }
       }).catch(() => {
         this.$message({

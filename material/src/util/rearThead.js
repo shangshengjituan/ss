@@ -146,21 +146,79 @@ const thead = {
   ],
   // 伙食费
   meal: [
-    { label: '日期', prop: 'detectDate' },
-    { label: '姓名', prop: 'receivingUnit' },
-    { label: '考勤', prop: 'detectProject' },
-    { label: '标准（元/天）', prop: 'detectPayment' },
+    { label: '日期', prop: 'foodDate' },
+    { label: '姓名', prop: 'staffName' },
+    { label: '考勤', prop: 'attendance' },
+    { label: '标准（元/天）', prop: 'standard' },
     {
       label: '个人承担',
       children: [
-        { label: '标准', prop: 'detectAmount' },
-        { label: '小计', prop: 'tax' }
+        { label: '标准', prop: 'standardPersonal' },
+        { label: '小计', prop: 'subtotalPersonal' }
       ]
     },
-    { label: '金额（元）', prop: 'receiptNumber' }
+    { label: '金额（元）', prop: 'foodAmount' }
   ],
   // 差旅费
-  travel: []
+  travel: [
+    { label: '日期', prop: 'travelDate' },
+    { label: '收款单位', prop: 'beneficiary' },
+    { label: '费用名称', prop: 'feeName' },
+    {
+      label: '发票金额',
+      children: [
+        { label: '金额', prop: 'travelAmount' },
+        { label: '税金', prop: 'tax' },
+        { label: '税率', prop: 'taxRate' }
+      ]
+    },
+    { label: '发票号', prop: 'receiptNumber' }
+  ],
+  // 咨询费
+  consultingFee: [
+    { label: '日期', prop: 'advisoryDate' },
+    { label: '收款单位', prop: 'beneficiary' },
+    { label: '项目', prop: 'advisoryProject' },
+    { label: '合同金额（元）', prop: 'contractAmount' },
+    { label: '累计付款（元）', prop: 'cumulativePayment' },
+    { label: '上期付款（元）', prop: 'lastPayment' },
+    { label: '本期付款（元）', prop: 'currentPayment' },
+    { label: '发票号', prop: 'receiptNumber' },
+    {
+      label: '发票金额',
+      children: [
+        { label: '金额', prop: 'advisoryAmount' },
+        { label: '税金', prop: 'tax' },
+        { label: '税率', prop: 'taxRate' }
+      ]
+    }
+  ],
+  // 员工福利
+  staffWelfare: [
+    { label: '日期', prop: 'welfareDate' },
+    { label: '姓名', prop: 'staffName' },
+    { label: '事由', prop: 'welfareCause' },
+    { label: '金额（元）', prop: 'welfareAmount' }
+  ],
+  // 机械设备
+  machinery: [
+    { label: '日期', prop: 'equipmentDate' },
+    { label: '收款单位', prop: 'beneficiary' },
+    { label: '设备名称', prop: 'equipmentName' },
+    { label: '合同金额（元）', prop: 'contractAmount' },
+    { label: '累计付款（元）', prop: 'cumulativePayment' },
+    { label: '上期付款（元）', prop: 'lastPayment' },
+    { label: '本期付款（元）', prop: 'currentPayment' },
+    { label: '发票号', prop: 'receiptNumber' },
+    {
+      label: '发票金额',
+      children: [
+        { label: '金额', prop: 'equipmentAmount' },
+        { label: '税金', prop: 'tax' },
+        { label: '税率', prop: 'taxRate' }
+      ]
+    }
+  ]
 }
 
 export default thead

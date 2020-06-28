@@ -148,6 +148,12 @@ export default {
     }
   },
   watch: {
+    baseData: {
+      handler (val, old) {
+        this.formData = Object.assign({}, val)
+      },
+      deep: true
+    },
     formData: {
       handler (val, old) {
         const temp = this.$utils.add(this.$utils.add(val.medicalTreatmentEnterprise, val.pensionEnterprise), this.$utils.add(val.workInjuryEnterprise, val.childbirthEnterprise))

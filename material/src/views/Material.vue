@@ -11,13 +11,17 @@
           <el-option v-for="item in options" :key="item.rawMaterialCategory" :label="item.rawMaterialCategory" :value="item.rawMaterialCategory" />
         </el-select>
       </el-form-item>
-      <el-button-group style="float: right">
-        <el-button @click="handleShow" type="success" icon="el-icon-plus">新增数据</el-button>
-      </el-button-group>
     </el-form>
+    <div style="text-align: right">
+      <el-button-group>
+        <el-button @click="handleDelete" type="warning">删除选中行</el-button>
+        <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
+        <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
+      </el-button-group>
+    </div>
     <el-table
-      :data="tableData" border style="width: 100%" header-cell-class-name="top-table"
-      :show-summary="isSummary" :summary-method="getSummaries" @filter-change="filterChange">
+      :data="tableData" border style="width: 100%" header-cell-class-name="top-table"  highlight-current-row
+      :show-summary="isSummary" :summary-method="getSummaries" @filter-change="filterChange" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"></el-table-column>
       <el-table-column prop="materialStatisticDate" label="日期"></el-table-column>
       <el-table-column
@@ -43,12 +47,6 @@
       <el-table-column prop="receiptNumber" label="发票号"></el-table-column>
       <el-table-column prop="supplier" label="供应商"></el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
-        <template slot-scope="scope">
-          <!--<el-button @click="handleShow(scope.row)" type="primary" icon="el-icon-edit" circle></el-button>-->
-          <el-button @click="handleDelete(scope.row)" type="danger" icon="el-icon-delete" circle></el-button>
-        </template>
-      </el-table-column>
     </el-table>
     <el-dialog :title="isEdit ? `编辑${selectData.type}数据` : `新增${selectData.type}数据`" :visible.sync="showForm">
       <material-material :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
@@ -73,6 +71,7 @@ export default {
       baseData: {},
       kinds: [],
       tableData: [],
+      currentRow: {},
       isSummary: false, // 是否合计
       filterLength: 0 // 筛选后数据条数
     }
@@ -115,17 +114,17 @@ export default {
         })
       })
     },
-    handleShow (item) {
+    handleShow () {
       this.showForm = true
-      if (item.materialStatisticId) {
-        this.isEdit = true
-        this.baseData = item
-      } else {
-        this.isEdit = false
-        this.baseData = {}
-      }
+      this.isEdit = false
+      this.baseData = {}
       console.log(JSON.stringify(this.baseData))
     },
+    // handleEditShow () {
+    //   this.showForm = true
+    //   this.isEdit = true
+    //   this.baseData = this.currentRow
+    // },
     handleHide () {
       this.showForm = false
     },
@@ -133,14 +132,18 @@ export default {
       this.handleHide()
       this.getList()
     },
-    handleDelete (item) {
+    handleCurrentChange (val) {
+      this.currentRow = val
+    },
+    handleDelete () {
+      console.log(this.currentRow)
       this.$confirm('此操作将永久删除该条数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         // 删除
-        this.deleteItem(item)
+        this.deleteItem(this.currentRow)
       }).catch(() => {
         this.$message({ type: 'info', message: '已取消删除' })
       })

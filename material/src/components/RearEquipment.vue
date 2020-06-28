@@ -2,45 +2,42 @@
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-form-item label="日期" prop="detectDate">
+        <el-form-item label="日期" prop="equipmentDate">
           <el-date-picker
-            v-model="formData.detectDate" value-format="yyyy-MM-dd" class="width-full"
+            v-model="formData.equipmentDate" value-format="yyyy-MM-dd" class="width-full"
             type="date" placeholder="选择日期" :editable="false" :clearable="false"></el-date-picker>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="收款单位" prop="receivingUnit">
-          <el-input v-model="formData.receivingUnit" />
+        <el-form-item label="收款单位" prop="beneficiary">
+          <el-input v-model="formData.beneficiary" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
+        <el-form-item label="设备名称" prop="equipmentName">
+          <el-input v-model="formData.equipmentName" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-form-item label="项目" prop="detectProject">
-          <el-input v-model="formData.detectProject" />
+        <el-form-item label="合同金额">
+          <el-input v-model="formData.contractAmount"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="本期付款" prop="detectPayment">
-          <el-input v-model="formData.detectPayment"><template slot="append">元</template></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <p class="text-divider">本期发票金额</p>
-    <el-row :gutter="20">
-      <el-col :span="6">
-        <el-form-item label="金额">
-          <el-input v-model="formData.detectAmount"><template slot="append">元</template></el-input>
+        <el-form-item label="累计付款">
+          <el-input v-model="formData.cumulativePayment"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="税金">
-          <el-input v-model="formData.tax" readonly><template slot="append">元</template></el-input>
+        <el-form-item label="上期付款">
+          <el-input v-model="formData.lastPayment"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="税率">
-          <el-input v-model="formData.taxRate"><template slot="append">%</template></el-input>
+        <el-form-item label="本期付款">
+          <el-input v-model="formData.currentPayment"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -48,6 +45,24 @@
       <el-col :span="6">
         <el-form-item label="发票号">
           <el-input v-model="formData.receiptNumber" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <p class="text-divider">发票金额</p>
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-form-item label="金额">
+          <el-input v-model="formData.equipmentAmount"><template slot="append">元</template></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
+        <el-form-item label="税金">
+          <el-input v-model="formData.tax"><template slot="append">元</template></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
+        <el-form-item label="税率">
+          <el-input v-model="formData.taxRate"><template slot="append">%</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -67,7 +82,7 @@
 
 <script>
 export default {
-  name: 'RearTestingFee',
+  name: 'RearEquipment',
   props: {
     baseData: Object,
     isEdit: Boolean
@@ -76,9 +91,9 @@ export default {
     return {
       formData: {},
       rules: {
-        detectDate: [{ required: true, message: '不可为空' }],
-        receivingUnit: [{ required: true, message: '不可为空' }],
-        detectProject: [{ required: true, message: '不可为空' }],
+        equipmentDate: [{ required: true, message: '不可为空' }],
+        beneficiary: [{ required: true, message: '不可为空' }],
+        equipmentName: [{ required: true, message: '不可为空' }],
         detectPayment: [{ required: true, message: '不可为空' }]
       }
     }
@@ -92,14 +107,10 @@ export default {
     },
     formData: {
       handler (val, old) {
-        if (val.materialPriceTax && val.materialQuantity) {
-          this.formData.materialAmountTax = this.$utils.multiply(val.materialPriceTax, val.materialQuantity)
-          this.formData.hydropowerAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.hydropowerAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))), 2)
-          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.hydropowerAmount, this.$utils.divide(val.taxRate, 100)), 2)
-          this.formData.materialPrice = this.$utils.divide(this.formData.materialAmount, val.materialQuantity)
-        }
-        if (val.material) {
-          val.materialId = val.material[1]
+        if (val.currentPayment && val.lastPayment) {
+          this.formData.cumulativePayment = this.$utils.add(val.currentPayment, val.lastPayment)
+          this.formData.equipmentAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.currentPayment, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))), 2)
+          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.equipmentAmount, this.$utils.divide(val.taxRate, 100)), 2)
         }
       },
       deep: true
@@ -122,7 +133,7 @@ export default {
     },
     addItem () {
       console.log('add')
-      this.$api.rear.addTestingItem(this.formData).then(rsp => {
+      this.$api.rear.addMachineryItem(this.formData).then(rsp => {
         console.log(rsp)
         if (rsp.result === 200) {
           this.$message({ type: 'success', message: '新增成功!' })

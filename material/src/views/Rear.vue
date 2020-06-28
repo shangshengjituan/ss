@@ -48,6 +48,10 @@
       <rear-entertain v-if="selectData.type==='招待费'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <rear-office v-if="selectData.type==='办公费用'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <rear-meal v-if="selectData.type==='伙食费'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <rear-travel v-if="selectData.type==='差旅资料'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <rear-consulting-fee v-if="selectData.type==='咨询费'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <rear-welfare v-if="selectData.type==='员工福利'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <rear-equipment v-if="selectData.type==='机械设备'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
   </div>
 </template>
@@ -61,9 +65,13 @@ import RearTestingFee from '../components/RearTestingFee'
 import RearEntertain from '../components/RearEntertain'
 import RearOffice from '../components/RearOffice'
 import RearMeal from '../components/RearMeal'
+import RearTravel from '../components/RearTravel'
+import RearConsultingFee from '../components/RearConsultingFee'
+import RearWelfare from '../components/RearWelfare'
+import RearEquipment from '../components/RearEquipment'
 export default {
   name: 'Rear',
-  components: { RearMeal, RearOffice, RearEntertain, RearTestingFee, RearUtilityFee, RearSSFund, RearWage },
+  components: { RearEquipment, RearWelfare, RearConsultingFee, RearTravel, RearMeal, RearOffice, RearEntertain, RearTestingFee, RearUtilityFee, RearSSFund, RearWage },
   data () {
     return {
       selectData: {
@@ -115,12 +123,20 @@ export default {
             this.isSummary = true
             break
           case '差旅资料':
+            this.tableHead = thead.travel
+            this.isSummary = false
             break
           case '咨询费':
+            this.tableHead = thead.consultingFee
+            this.isSummary = false
             break
           case '员工福利':
+            this.tableHead = thead.staffWelfare
+            this.isSummary = true
             break
           case '机械设备':
+            this.tableHead = thead.machinery
+            this.isSummary = true
             break
         }
         this.getList()
@@ -172,18 +188,34 @@ export default {
           })
           break
         case '伙食费':
-          this.$api.rear.getMealList({ officeDate: this.selectData.month }).then(rsp => {
+          this.$api.rear.getMealList({ foodDate: this.selectData.month }).then(rsp => {
             this.$message.success('查询成功')
             this.tableData = rsp.data
           })
           break
         case '差旅资料':
+          this.$api.rear.getTravelList({ travelDate: this.selectData.month }).then(rsp => {
+            this.$message.success('查询成功')
+            this.tableData = rsp.data
+          })
           break
         case '咨询费':
+          this.$api.rear.getConsultingList({ advisoryDate: this.selectData.month }).then(rsp => {
+            this.$message.success('查询成功')
+            this.tableData = rsp.data
+          })
           break
         case '员工福利':
+          this.$api.rear.getWelfareList({ welfareDate: this.selectData.month }).then(rsp => {
+            this.$message.success('查询成功')
+            this.tableData = rsp.data
+          })
           break
         case '机械设备':
+          this.$api.rear.getMachineryList({ equipmentDate: this.selectData.month }).then(rsp => {
+            this.$message.success('查询成功')
+            this.tableData = rsp.data
+          })
           break
       }
     },
@@ -215,11 +247,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // 删除
         this.deleteItem(this.currentRow)
-      }).catch(() => {
-        this.$message.info('已取消删除')
-      })
+      }).catch(() => { this.$message.info('已取消删除') })
     },
     deleteItem (item) {
       switch (this.selectData.type) {
@@ -228,9 +257,7 @@ export default {
             if (rsp.result === 200) {
               this.$message.success('删除成功')
               this.getList()
-            } else {
-              this.$message.error(rsp.resultText)
-            }
+            } else { this.$message.error(rsp.resultText) }
           })
           break
         case '社保公积金':
@@ -238,9 +265,7 @@ export default {
             if (rsp.result === 200) {
               this.$message.success('删除成功')
               this.getList()
-            } else {
-              this.$message.error(rsp.resultText)
-            }
+            } else { this.$message.error(rsp.resultText) }
           })
           break
         case '水电气费':
@@ -248,9 +273,7 @@ export default {
             if (rsp.result === 200) {
               this.$message.success('删除成功')
               this.getList()
-            } else {
-              this.$message.error(rsp.resultText)
-            }
+            } else { this.$message.error(rsp.resultText) }
           })
           break
         case '检测费':
@@ -258,9 +281,7 @@ export default {
             if (rsp.result === 200) {
               this.$message.success('删除成功')
               this.getList()
-            } else {
-              this.$message.error(rsp.resultText)
-            }
+            } else { this.$message.error(rsp.resultText) }
           })
           break
         case '招待费':
@@ -268,9 +289,7 @@ export default {
             if (rsp.result === 200) {
               this.$message.success('删除成功')
               this.getList()
-            } else {
-              this.$message.error(rsp.resultText)
-            }
+            } else { this.$message.error(rsp.resultText) }
           })
           break
         case '办公费用':
@@ -278,13 +297,35 @@ export default {
             if (rsp.result === 200) {
               this.$message.success('删除成功')
               this.getList()
-            } else {
-              this.$message.error(rsp.resultText)
-            }
+            } else { this.$message.error(rsp.resultText) }
           })
           break
         case '伙食费':
-          this.$api.rear.delMealItem({ officeId: item.officeId }).then(rsp => {
+          this.$api.rear.delMealItem({ foodId: item.foodId }).then(rsp => {
+            if (rsp.result === 200) {
+              this.$message.success('删除成功')
+              this.getList()
+            } else { this.$message.error(rsp.resultText) }
+          })
+          break
+        case '差旅资料':
+          this.$api.rear.delTravelItem({ travelId: item.travelId }).then(rsp => {
+            if (rsp.result === 200) {
+              this.$message.success('删除成功')
+              this.getList()
+            } else { this.$message.error(rsp.resultText) }
+          })
+          break
+        case '咨询费':
+          this.$api.rear.delConsultingItem({ advisoryId: item.advisoryId }).then(rsp => {
+            if (rsp.result === 200) {
+              this.$message.success('删除成功')
+              this.getList()
+            } else { this.$message.error(rsp.resultText) }
+          })
+          break
+        case '员工福利':
+          this.$api.rear.delWelfareItem({ welfareId: item.welfareId }).then(rsp => {
             if (rsp.result === 200) {
               this.$message.success('删除成功')
               this.getList()
@@ -293,13 +334,15 @@ export default {
             }
           })
           break
-        case '差旅资料':
-          break
-        case '咨询费':
-          break
-        case '员工福利':
-          break
         case '机械设备':
+          this.$api.rear.delMachineryItem({ equipmentId: item.equipmentId }).then(rsp => {
+            if (rsp.result === 200) {
+              this.$message.success('删除成功')
+              this.getList()
+            } else {
+              this.$message.error(rsp.resultText)
+            }
+          })
           break
       }
     },
@@ -389,8 +432,8 @@ export default {
             }
           })
           break
-        case '检测费':
-          break
+        // case '检测费':
+        //   break
         case '招待费':
           demo = 0
           data.forEach((columns) => { demo = this.$utils.add(columns.entertainAmount, demo) })
@@ -410,50 +453,51 @@ export default {
         case '伙食费':
           demo = []
           data.forEach((columns) => {
-            demo[0] = this.$utils.add(columns.hydropowerAmountTax, demo[0])
-            demo[1] = this.$utils.add(columns.hydropowerAmount, demo[1])
+            demo[0] = this.$utils.add(columns.subtotalPersonal, demo[0])
+            demo[1] = this.$utils.add(columns.foodAmount, demo[1])
           })
           columns.forEach((columns, index) => {
             if (index === 0) sums[index] = '合计'
             switch (columns.property) {
-              case 'hydropowerAmountTax': sums[index] = demo[0]
+              case 'subtotalPersonal': sums[index] = demo[0]
                 break
-              case 'hydropowerAmount': sums[index] = demo[1]
+              case 'foodAmount': sums[index] = demo[1]
                 break
             }
           })
           break
-        case '差旅资料':
-          break
-        case '咨询费':
-          break
+        // case '差旅资料':
+        //   break
+        // case '咨询费':
+        //   break
         case '员工福利':
+          demo = 0
+          data.forEach((columns) => { demo = this.$utils.add(columns.welfareAmount, demo) })
+          columns.forEach((columns, index) => {
+            if (index === 0) sums[index] = '合计'
+            if (columns.property === 'welfareAmount') sums[index] = demo
+          })
           break
         case '机械设备':
+          demo = []
+          data.forEach((columns) => {
+            demo[0] = this.$utils.add(columns.currentPayment, demo[0])
+            demo[1] = this.$utils.add(columns.equipmentAmount, demo[1])
+            demo[2] = this.$utils.add(columns.tax, demo[2])
+          })
+          columns.forEach((columns, index) => {
+            if (index === 0) sums[index] = '合计'
+            switch (columns.property) {
+              case 'currentPayment': sums[index] = demo[0]
+                break
+              case 'equipmentAmount': sums[index] = demo[1]
+                break
+              case 'tax': sums[index] = demo[2]
+                break
+            }
+          })
           break
       }
-      // let [demo, demo1, demo2, demo3] = [0, 0, 0, 0]
-      // data.forEach((columns) => {
-      //   demo = this.$utils.add(columns.materialAmountTax, demo)
-      //   demo1 = this.$utils.add(columns.materialAmount, demo1)
-      //   demo2 = this.$utils.add(columns.tax, demo2)
-      //   demo3 = this.$utils.add(columns.materialQuantity, demo3)
-      // })
-      // columns.forEach((columns, index) => {
-      //   if (index === 0) {
-      //     sums[index] = '合计'
-      //   }
-      //   switch (columns.property) {
-      //     case 'materialAmountTax': sums[index] = demo
-      //       break
-      //     case 'materialAmount': sums[index] = demo1
-      //       break
-      //     case 'tax': sums[index] = demo2
-      //       break
-      //     case 'materialQuantity': sums[index] = demo3
-      //       break
-      //   }
-      // })
       return sums
     }
   }
