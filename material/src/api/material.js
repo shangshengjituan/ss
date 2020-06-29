@@ -26,6 +26,11 @@ const material = {
       params: data
     })
   },
+  getAddList (data) {
+    return axios.get('/additiveStatisticsList', {
+      params: data
+    })
+  },
   delItem (data) {
     return axios.get('/delMaterialStatistic', {
       params: data

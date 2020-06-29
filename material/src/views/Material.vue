@@ -7,9 +7,10 @@
           type="month" placeholder="选择月" :editable="false" :clearable="false"></el-date-picker>
       </el-form-item>
       <el-form-item label="分类">
-        <el-select v-model="selectData.type" placeholder="类型">
-          <el-option v-for="item in options" :key="item.rawMaterialCategory" :label="item.rawMaterialCategory" :value="item.rawMaterialCategory" />
-        </el-select>
+        <el-cascader v-model="selectData.type" :options="options" :show-all-levels="false"></el-cascader>
+        <!--<el-select v-model="selectData.type" placeholder="类型">-->
+          <!--<el-option v-for="item in options" :key="item.rawMaterialCategory" :label="item.rawMaterialCategory" :value="item.rawMaterialCategory" />-->
+        <!--</el-select>-->
       </el-form-item>
     </el-form>
     <div style="text-align: right">
@@ -91,7 +92,24 @@ export default {
   methods: {
     getMaterials () {
       this.$api.material.getMaterials().then(rsp => {
-        this.options = rsp.data
+        const temp = []
+        rsp.data.forEach((item, index) => {
+          temp.push({
+            label: item.rawMaterialCategory,
+            value: item.rawMaterialCategory
+          })
+          if (item.specificProductNameList) {
+            item.specificProductNameList.forEach(it => {
+              Object.assign(temp[index], { children: [] })
+              temp[index].children.push({
+                label: it.specificProductName,
+                value: it.materialId
+              })
+            })
+          }
+        })
+        console.log(temp)
+        this.options = temp
       })
     },
     getList () {
@@ -99,13 +117,25 @@ export default {
         this.$message.warning('请选择查询类别')
         return
       }
-      this.$api.material.getList({
-        materialStatisticDate: this.selectData.month,
-        rawMaterialCategory: this.selectData.type
-      }).then(rsp => {
-        this.$message.success('查询成功')
-        this.tableData = rsp.data
-      })
+      if (this.selectData.type[1]) {
+        // 外加剂
+        this.$api.material.getAddList({
+          materialStatisticDate: this.selectData.month,
+          materialId: this.selectData.type[1]
+        }).then(rsp => {
+          this.$message.success('查询成功')
+          this.tableData = rsp.data
+        })
+      } else {
+        // 其他
+        this.$api.material.getList({
+          materialStatisticDate: this.selectData.month,
+          rawMaterialCategory: this.selectData.type[0]
+        }).then(rsp => {
+          this.$message.success('查询成功')
+          this.tableData = rsp.data
+        })
+      }
     },
     getBase () {
       this.$api.material.getKinds().then(rsp => {

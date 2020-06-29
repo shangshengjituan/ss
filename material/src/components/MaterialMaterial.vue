@@ -195,7 +195,7 @@ export default {
     getBase () {
       this.$api.material.getMaterialType().then(rsp => {
         const temp = []
-        rsp.data.forEach((item, index) => {
+        rsp.materialType.forEach((item, index) => {
           temp.push({
             label: item.rawMaterialCategory,
             value: item.index,
