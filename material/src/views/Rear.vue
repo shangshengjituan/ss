@@ -30,6 +30,7 @@
       </el-button-group>
     </div>
     <el-table
+      ref="tableDataRef"
       :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
       :show-summary="isSummary" :summary-method="getSummaries" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"></el-table-column>
@@ -39,6 +40,59 @@
         </el-table-column>
       </el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
+      <div slot="append">
+        <div v-if="selectData.type==='人员工资'">
+          <div ref="subtotalRef" v-for="(item, index) in tableSubtotal" :key="index" class="sum-footer">
+            <div class="sum-footer-unit sum-footer-warn">小计</div>
+            <div class="sum-footer-unit">{{item.staffType}}</div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit">{{item.amountsPayable}}</div>
+            <div class="sum-footer-unit">{{item.socialInsurance}}</div>
+            <div class="sum-footer-unit">{{item.largeInsurance}}</div>
+            <div class="sum-footer-unit">{{item.providentFund}}</div>
+            <div class="sum-footer-unit">{{item.foodExpenses}}</div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit">{{item.totalDeductions}}</div>
+            <div class="sum-footer-unit">{{item.amountPayable}}</div>
+            <div class="sum-footer-unit">{{item.amountActual}}</div>
+            <div class="sum-footer-unit">{{item.wageBalance}}</div>
+            <div class="sum-footer-unit"></div>
+          </div>
+        </div>
+        <div v-if="selectData.type==='招待费'">
+          <div ref="subtotalRef" v-for="(item, index) in tableSubtotal" :key="index" class="sum-footer">
+            <div class="sum-footer-unit sum-footer-warn">小计</div>
+            <div class="sum-footer-unit">{{item.category}}</div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit">{{item.entertainAmount}}</div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+          </div>
+        </div>
+        <div v-if="selectData.type==='办公费用'">
+          <div ref="subtotalRef" v-for="(item, index) in tableSubtotal" :key="index" class="sum-footer">
+            <div class="sum-footer-unit sum-footer-warn">小计</div>
+            <div class="sum-footer-unit">{{item.category}}</div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit">{{item.officeAmount}}</div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+          </div>
+        </div>
+      </div>
     </el-table>
     <el-dialog :title="isEdit ? `编辑${selectData.type}数据` : `新增${selectData.type}数据`" :visible.sync="showForm">
       <rear-wage v-if="selectData.type==='人员工资'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
@@ -84,6 +138,7 @@ export default {
       isEdit: false,
       baseData: {},
       tableData: [],
+      tableSubtotal: [],
       currentRow: {}
     }
   },
@@ -140,11 +195,24 @@ export default {
             break
         }
         this.getList()
+        // this.$ref.tableDataRef.doLayout()
       },
       deep: true
     }
   },
   methods: {
+    adjustWidth () {
+      this.$nextTick(() => {
+        if (this.$refs && this.$refs.tableDataRef && this.$refs.subtotalRef) {
+          const width = getComputedStyle(this.$refs.tableDataRef.$refs.headerWrapper.querySelector('table')).width
+          this.$refs.subtotalRef.forEach(item => { item.style = 'width:' + width })
+          Array.from(this.$refs.tableDataRef.$refs.headerWrapper.querySelectorAll('col')).forEach((n, i) => {
+            if (n.getAttribute('width') === '0') return
+            this.$refs.subtotalRef.forEach(item => { item.children[i].style = 'width:' + n.getAttribute('width') + 'px' })
+          })
+        }
+      })
+    },
     getList () {
       if (!this.selectData.month || !this.selectData.type) {
         this.$message.warning('请选择查询类别')
@@ -155,6 +223,8 @@ export default {
           this.$api.rear.getWageList({ wageDate: this.selectData.month }).then(rsp => {
             this.$message.success('查询成功')
             this.tableData = rsp.data
+            this.tableSubtotal = rsp.total.filter(item => !!item)
+            this.adjustWidth()
           })
           break
         case '社保公积金':
@@ -179,12 +249,16 @@ export default {
           this.$api.rear.getEntertainList({ entertainDate: this.selectData.month }).then(rsp => {
             this.$message.success('查询成功')
             this.tableData = rsp.data
+            this.tableSubtotal = rsp.total.filter(item => !!item)
+            this.adjustWidth()
           })
           break
         case '办公费用':
           this.$api.rear.getOfficeList({ officeDate: this.selectData.month }).then(rsp => {
             this.$message.success('查询成功')
             this.tableData = rsp.data
+            this.tableSubtotal = rsp.total.filter(item => !!item)
+            this.adjustWidth()
           })
           break
         case '伙食费':
@@ -508,4 +582,28 @@ export default {
 .el-dialog {
   margin-top: 5vh;
 }
+.el-table .sum-footer:nth-child(2) {
+  border-top: 1px solid #EBEEF5;
+}
+  .sum-footer {
+    /*overflow:scroll;*/
+    /*width: inherit;*/
+    display:flex;
+    display:-webkit-flex;
+    line-height:40px;
+    color:#606266;
+    /*overflow: hidden;*/
+  }
+  .sum-footer-unit {
+    flex-grow:1;
+    -webkit-flex-grow:1;
+    text-indent:10px;
+    font-size:14px;
+    font-weight: bold;
+    background: #FFEFD5;
+  }
+  .sum-footer-warn {
+    background: #FFEFD5;
+    font-weight: bold;
+  }
 </style>
