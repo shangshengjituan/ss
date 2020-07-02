@@ -129,7 +129,7 @@ export default {
     },
     getList () {
       if (!this.selectData.month || !this.selectData.type) {
-        this.$message.warning('请选择查询类别')
+        this.$message({ type: 'warning', message: '请选择查询类别', duration: 1000 })
         return
       }
       if (this.selectData.type[1]) {
@@ -138,7 +138,7 @@ export default {
           materialStatisticDate: this.selectData.month,
           materialId: this.selectData.type[1]
         }).then(rsp => {
-          this.$message.success('查询成功')
+          this.$message({ type: 'success', message: '查询成功', duration: 1000 })
           this.tableData = rsp.data
           this.surData = rsp.total
         })
@@ -148,7 +148,7 @@ export default {
           materialStatisticDate: this.selectData.month,
           rawMaterialCategory: this.selectData.type[0]
         }).then(rsp => {
-          this.$message.success('查询成功')
+          this.$message({ type: 'success', message: '查询成功', duration: 1000 })
           this.tableData = rsp.data
           this.surData = rsp.total
         })
@@ -202,7 +202,7 @@ export default {
         // 删除
         this.deleteItem(this.currentRow)
       }).catch(() => {
-        this.$message({ type: 'info', message: '已取消删除' })
+        this.$message({ type: 'info', message: '已取消删除', duration: 1000 })
       })
     },
     deleteItem (item) {
@@ -210,13 +210,10 @@ export default {
         materialStatisticId: item.materialStatisticId
       }).then(rsp => {
         if (rsp.result === 200) {
-          this.$message({ type: 'success', message: '删除成功!' })
+          this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
           this.getList()
         } else {
-          this.$message({
-            type: 'error',
-            message: rsp.resultText
-          })
+          this.$message({ type: 'error', message: rsp.resultText })
         }
       })
     },

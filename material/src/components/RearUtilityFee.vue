@@ -169,7 +169,7 @@ export default {
       this.$api.rear.addUtilityItem(this.formData).then(rsp => {
         console.log(rsp)
         if (rsp.result === 200) {
-          this.$message({ type: 'success', message: '新增成功!' })
+          this.$message({ type: 'success', message: '新增成功!', duration: 1000 })
           this.$emit('primary')
         } else {
           this.$message({ type: 'error', message: rsp.resultText })

@@ -215,13 +215,13 @@ export default {
     },
     getList () {
       if (!this.selectData.month || !this.selectData.type) {
-        this.$message.warning('请选择查询类别')
+        this.$message({ type: 'warning', message: '请选择查询类别', duration: 1000 })
         return
       }
       switch (this.selectData.type) {
         case '人员工资':
           this.$api.rear.getWageList({ wageDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
             this.tableSubtotal = rsp.total.filter(item => !!item)
             this.adjustWidth()
@@ -229,25 +229,25 @@ export default {
           break
         case '社保公积金':
           this.$api.rear.getSSFundList({ socialSecurityDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
           break
         case '水电气费':
           this.$api.rear.getUtilityList({ hydropowerDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
           break
         case '检测费':
           this.$api.rear.getTestingList({ detectDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
           break
         case '招待费':
           this.$api.rear.getEntertainList({ entertainDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
             this.tableSubtotal = rsp.total.filter(item => !!item)
             this.adjustWidth()
@@ -255,7 +255,7 @@ export default {
           break
         case '办公费用':
           this.$api.rear.getOfficeList({ officeDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
             this.tableSubtotal = rsp.total.filter(item => !!item)
             this.adjustWidth()
@@ -263,31 +263,31 @@ export default {
           break
         case '伙食费':
           this.$api.rear.getMealList({ foodDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
           break
         case '差旅资料':
           this.$api.rear.getTravelList({ travelDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
           break
         case '咨询费':
           this.$api.rear.getConsultingList({ advisoryDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
           break
         case '员工福利':
           this.$api.rear.getWelfareList({ welfareDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
           break
         case '机械设备':
           this.$api.rear.getMachineryList({ equipmentDate: this.selectData.month }).then(rsp => {
-            this.$message.success('查询成功')
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
           break
@@ -322,14 +322,14 @@ export default {
         type: 'warning'
       }).then(() => {
         this.deleteItem(this.currentRow)
-      }).catch(() => { this.$message.info('已取消删除') })
+      }).catch(() => { this.$message({ type: 'info', message: '已取消删除', duration: 1000 }) })
     },
     deleteItem (item) {
       switch (this.selectData.type) {
         case '人员工资':
           this.$api.rear.delWageItem({ wageId: item.wageId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else { this.$message.error(rsp.resultText) }
           })
@@ -337,7 +337,7 @@ export default {
         case '社保公积金':
           this.$api.rear.delSSFundItem({ socialSecurityId: item.socialSecurityId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else { this.$message.error(rsp.resultText) }
           })
@@ -345,7 +345,7 @@ export default {
         case '水电气费':
           this.$api.rear.delUtilityItem({ hydropowerId: item.hydropowerId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else { this.$message.error(rsp.resultText) }
           })
@@ -353,7 +353,7 @@ export default {
         case '检测费':
           this.$api.rear.delTestingItem({ detectId: item.detectId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else { this.$message.error(rsp.resultText) }
           })
@@ -361,7 +361,7 @@ export default {
         case '招待费':
           this.$api.rear.delEntertainItem({ entertainId: item.entertainId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else { this.$message.error(rsp.resultText) }
           })
@@ -369,7 +369,7 @@ export default {
         case '办公费用':
           this.$api.rear.delOfficeItem({ officeId: item.officeId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else { this.$message.error(rsp.resultText) }
           })
@@ -377,7 +377,7 @@ export default {
         case '伙食费':
           this.$api.rear.delMealItem({ foodId: item.foodId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else { this.$message.error(rsp.resultText) }
           })
@@ -385,7 +385,7 @@ export default {
         case '差旅资料':
           this.$api.rear.delTravelItem({ travelId: item.travelId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else { this.$message.error(rsp.resultText) }
           })
@@ -393,7 +393,7 @@ export default {
         case '咨询费':
           this.$api.rear.delConsultingItem({ advisoryId: item.advisoryId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else { this.$message.error(rsp.resultText) }
           })
@@ -401,7 +401,7 @@ export default {
         case '员工福利':
           this.$api.rear.delWelfareItem({ welfareId: item.welfareId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else {
               this.$message.error(rsp.resultText)
@@ -411,7 +411,7 @@ export default {
         case '机械设备':
           this.$api.rear.delMachineryItem({ equipmentId: item.equipmentId }).then(rsp => {
             if (rsp.result === 200) {
-              this.$message.success('删除成功')
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getList()
             } else {
               this.$message.error(rsp.resultText)

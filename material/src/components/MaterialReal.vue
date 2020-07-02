@@ -163,7 +163,7 @@ export default {
       this.$api.material.addRealItem(this.formData).then(rsp => {
         console.log(rsp)
         if (rsp.result === 200) {
-          this.$message({ type: 'success', message: '新增实际量成功!' })
+          this.$message({ type: 'success', message: '新增实际量成功!', duration: 1000 })
           // this.triggerItem()
           this.$emit('primary')
           this.selectData = {}
@@ -180,7 +180,7 @@ export default {
       }).then(rsp => {
         console.log(rsp)
         if (rsp.result === 200) {
-          this.$message({ type: 'success', message: '更新库存成功!' })
+          this.$message({ type: 'success', message: '更新库存成功!', duration: 1000 })
           this.$emit('primary')
           this.selectData = {}
           this.subtotalData = {}

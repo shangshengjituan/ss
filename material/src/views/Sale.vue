@@ -133,6 +133,7 @@ export default {
       this.$api.sale.getSales({
         saleDate: this.selectData.month
       }).then(rsp => {
+        this.$message({ type: 'success', message: '查询成功', duration: 1000 })
         this.tableData1 = rsp.data
       })
     },
@@ -140,6 +141,7 @@ export default {
       this.$api.sale.getFreights({
         freightDate: this.selectData.month
       }).then(rsp => {
+        this.$message({ type: 'success', message: '查询成功', duration: 1000 })
         this.tableData2 = rsp.data
       })
     },
@@ -196,10 +198,7 @@ export default {
           this.deleteItem2(this.currentRow)
         }
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
+        this.$message({ type: 'info', message: '已取消删除', duration: 1000 })
       })
     },
     deleteItem1 (item) {
@@ -207,16 +206,10 @@ export default {
         saleId: item.saleId
       }).then(rsp => {
         if (rsp.result === 200) {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
+          this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
           this.getList1()
         } else {
-          this.$message({
-            type: 'error',
-            message: rsp.resultText
-          })
+          this.$message({ type: 'error', message: rsp.resultText })
         }
       })
     },
@@ -225,16 +218,10 @@ export default {
         freightId: item.freightId
       }).then(rsp => {
         if (rsp.result === 200) {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
+          this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
           this.getList2()
         } else {
-          this.$message({
-            type: 'error',
-            message: rsp.resultText
-          })
+          this.$message({ type: 'error', message: rsp.resultText })
         }
       })
     },
