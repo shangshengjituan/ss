@@ -35,6 +35,25 @@ const material = {
     return axios.get('/delMaterialStatistic', {
       params: data
     })
+  },
+  // 实际量
+  getSubtotal (data) {
+    return axios.get('/useSubtotal', {
+      params: data
+    })
+  },
+  addRealItem (data) {
+    return axios.post('/insertInventoryTable', data)
+  },
+  addTrigger (data) {
+    return axios.get('/updateInventory', {
+      params: data
+    })
+  },
+  delRealItem (data) {
+    return axios.get('/delInventory', {
+      params: data
+    })
   }
 }
 

@@ -201,8 +201,9 @@ export default {
 
 <style>
   .text-divider {
-  color: #409EFF;
-  /*font-weight: bold;*/
-  font-style: italic;
-}
+    color: #409EFF;
+    /*font-weight: bold;*/
+    font-style: italic;
+    margin-top: 0;
+  }
 </style>

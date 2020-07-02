@@ -8,13 +8,11 @@
       </el-form-item>
       <el-form-item label="分类">
         <el-cascader v-model="selectData.type" :options="options" :show-all-levels="false"></el-cascader>
-        <!--<el-select v-model="selectData.type" placeholder="类型">-->
-          <!--<el-option v-for="item in options" :key="item.rawMaterialCategory" :label="item.rawMaterialCategory" :value="item.rawMaterialCategory" />-->
-        <!--</el-select>-->
       </el-form-item>
     </el-form>
     <div style="text-align: right">
       <el-button-group>
+        <el-button @click="handleUpdate" type="danger" plain>更新库存</el-button>
         <el-button @click="handleDelete" type="warning">删除选中行</el-button>
         <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
         <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
@@ -49,17 +47,32 @@
       <el-table-column prop="supplier" label="供应商"></el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
     </el-table>
+    <el-table v-if="surData.length > 0" style="margin-top: 15px; width: 802px"
+      :data="surData" border header-cell-class-name="top-table" highlight-current-row>
+      <el-table-column prop="purchaseUser" label="#" width="100"></el-table-column>
+      <el-table-column prop="materialStatisticDate" label="日期" width="100"></el-table-column>
+      <el-table-column prop="rawMaterialCategory" label="原材料大类" width="100"></el-table-column>
+      <el-table-column prop="specificProductName" label="具体品名" width="100"></el-table-column>
+      <el-table-column prop="materialQuantity" label="数量" width="100"></el-table-column>
+      <el-table-column prop="materialAmountTax" label="含税金额" width="100"></el-table-column>
+      <el-table-column prop="materialAmount" label="不含税金额" width="100"></el-table-column>
+      <el-table-column prop="tax" label="税额" width="100"></el-table-column>
+    </el-table>
     <el-dialog :title="isEdit ? `编辑${selectData.type}数据` : `新增${selectData.type}数据`" :visible.sync="showForm">
       <material-material :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+    </el-dialog>
+    <el-dialog title="更新库存" :visible.sync="showSurForm">
+      <material-real @cancel="handleSurHide" @primary="handleSurHideFresh"/>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import MaterialMaterial from '../components/MaterialMaterial'
+import MaterialReal from '../components/MaterialReal'
 export default {
   name: 'Material',
-  components: { MaterialMaterial },
+  components: { MaterialReal, MaterialMaterial },
   data () {
     return {
       selectData: {
@@ -74,7 +87,9 @@ export default {
       tableData: [],
       currentRow: {},
       isSummary: false, // 是否合计
-      filterLength: 0 // 筛选后数据条数
+      filterLength: 0, // 筛选后数据条数
+      surData: [],
+      showSurForm: false
     }
   },
   created () {
@@ -125,6 +140,7 @@ export default {
         }).then(rsp => {
           this.$message.success('查询成功')
           this.tableData = rsp.data
+          this.surData = rsp.total
         })
       } else {
         // 其他
@@ -134,6 +150,7 @@ export default {
         }).then(rsp => {
           this.$message.success('查询成功')
           this.tableData = rsp.data
+          this.surData = rsp.total
         })
       }
     },
@@ -162,8 +179,18 @@ export default {
       this.handleHide()
       this.getList()
     },
+    handleSurHide () {
+      this.showSurForm = false
+    },
+    handleSurHideFresh () {
+      this.handleSurHide()
+      this.getList()
+    },
     handleCurrentChange (val) {
       this.currentRow = val
+    },
+    handleUpdate () {
+      this.showSurForm = true
     },
     handleDelete () {
       console.log(this.currentRow)
