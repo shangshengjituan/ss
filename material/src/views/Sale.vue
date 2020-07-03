@@ -23,7 +23,7 @@
   <div v-show="selectData.type === '1'">
     <el-table
       :data="tableData1" border highlight-current-row style="width: 100%"
-      header-cell-class-name="top-table" :summary-method="getSummaries1" @current-change="handleCurrentChange">
+      header-cell-class-name="top-table" show-summary :summary-method="getSummaries1" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"></el-table-column>
       <el-table-column prop="saleDate" label="日期"></el-table-column>
       <el-table-column prop="projectName" label="项目名称"></el-table-column>
@@ -223,6 +223,7 @@ export default {
       })
     },
     getSummaries1 (params) {
+      console.log('合计')
       const { columns, data } = params
       const sums = []
       let [demo, demo1, demo2, demo3, demo4] = [0, 0, 0, 0, 0]

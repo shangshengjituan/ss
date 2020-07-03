@@ -94,8 +94,8 @@ export default {
       handler (val, old) {
         if (val.materialPriceTax && val.materialQuantity) {
           this.formData.materialAmountTax = this.$utils.multiply(val.materialPriceTax, val.materialQuantity)
-          this.formData.hydropowerAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.hydropowerAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))), 2)
-          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.hydropowerAmount, this.$utils.divide(val.taxRate, 100)), 2)
+          this.formData.hydropowerAmount = this.$utils.divide(this.formData.hydropowerAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(2)
+          this.formData.tax = this.$utils.multiply(this.formData.hydropowerAmount, this.$utils.divide(val.taxRate, 100)).toFixed(2)
           this.formData.materialPrice = this.$utils.divide(this.formData.materialAmount, val.materialQuantity)
         }
         if (val.material) {

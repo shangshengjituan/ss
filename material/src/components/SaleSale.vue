@@ -138,7 +138,7 @@ export default {
       handler (val, old) {
         if (val.saleArea && val.salePrice) {
           this.formData.saleAmountTax = this.$utils.multiply(val.saleArea, val.salePrice)
-          this.formData.saleAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.saleAmountTax, 1.13), 2)
+          this.formData.saleAmount = this.$utils.divide(this.formData.saleAmountTax, 1.13).toFixed(2)
           this.formData.tax = this.$utils.subtract(this.formData.saleAmountTax, this.formData.saleAmount)
         }
         if (val.commodity) {

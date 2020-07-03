@@ -167,11 +167,11 @@ export default {
     formData: {
       handler (val, old) {
         const temp = this.$utils.add(this.$utils.add(val.performanceWage, val.workAllowance), this.$utils.add(val.seniorityWage, val.certificateWage))
-        this.formData.amountsPayable = this.$utils.toFixedNumber(this.$utils.add(val.basicWage, this.$utils.add(val.otherWage, temp)), 2)
+        this.formData.amountsPayable = this.$utils.add(val.basicWage, this.$utils.add(val.otherWage, temp)).toFixed(2)
         const temp1 = this.$utils.add(this.$utils.add(val.largeInsurance, val.providentFund), this.$utils.add(val.foodExpenses, val.incomeTax))
-        this.formData.totalDeductions = this.$utils.toFixedNumber(this.$utils.add(this.formData.socialInsurance, this.$utils.add(val.otherDenductions, temp1)), 2)
-        this.formData.amountActual = this.$utils.toFixedNumber(this.$utils.subtract(val.amountPayable, this.formData.totalDeductions), 2)
-        this.formData.wageBalance = this.$utils.toFixedNumber(this.$utils.subtract(this.formData.amountsPayable, val.amountPayable), 2)
+        this.formData.totalDeductions = this.$utils.add(this.formData.socialInsurance, this.$utils.add(val.otherDenductions, temp1)).toFixed(2)
+        this.formData.amountActual = this.$utils.subtract(val.amountPayable, this.formData.totalDeductions).toFixed(2)
+        this.formData.wageBalance = this.$utils.subtract(this.formData.amountsPayable, val.amountPayable).toFixed(2)
       },
       deep: true
     }

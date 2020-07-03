@@ -147,9 +147,7 @@ export default {
   watch: {
     baseData: {
       handler (val, old) {
-        console.log(JSON.stringify(val))
         this.formData = Object.assign({}, val)
-        console.log(JSON.stringify(this.formData))
       },
       deep: true
     },
@@ -157,8 +155,8 @@ export default {
       handler (val, old) {
         if (val.freightPriceTax && val.frequency) {
           this.formData.freightAmountTax = this.$utils.multiply(val.freightPriceTax, val.frequency)
-          this.formData.freightAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.freightAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))), 2)
-          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.freightAmount, this.$utils.divide(val.taxRate, 100)), 2)
+          this.formData.freightAmount = this.$utils.divide(this.formData.freightAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(2)
+          this.formData.tax = this.$utils.multiply(this.formData.freightAmount, this.$utils.divide(val.taxRate, 100)).toFixed(2)
         }
       },
       deep: true

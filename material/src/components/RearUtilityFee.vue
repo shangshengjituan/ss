@@ -130,8 +130,8 @@ export default {
           this.formData.hydropowerPriceTax = this.$utils.divide(val.hydropowerAmountTax, val.hydropowerDosage)
         }
         if (val.taxRate) {
-          this.formData.hydropowerAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.hydropowerAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))), 2)
-          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.hydropowerAmount, this.$utils.divide(val.taxRate, 100)), 2)
+          this.formData.hydropowerAmount = this.$utils.divide(this.formData.hydropowerAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(2)
+          this.formData.tax = this.$utils.multiply(this.formData.hydropowerAmount, this.$utils.divide(val.taxRate, 100)).toFixed(2)
           this.formData.materialPrice = this.$utils.divide(this.formData.materialAmount, val.materialQuantity)
         }
       },

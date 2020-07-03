@@ -109,9 +109,9 @@ export default {
       handler (val, old) {
         if (val.currentPayment && val.lastPayment) {
           this.formData.cumulativePayment = this.$utils.add(val.currentPayment, val.lastPayment)
-          this.formData.amountReceipt = this.$utils.toFixedNumber(this.$utils.divide(this.formData.currentPayment, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))), 2)
+          this.formData.amountReceipt = this.$utils.divide(this.formData.currentPayment, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(2)
         }
-        this.formData.taxReceipt = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.amountReceipt, this.$utils.divide(val.taxRate, 100)), 2)
+        this.formData.taxReceipt = this.$utils.multiply(this.formData.amountReceipt, this.$utils.divide(val.taxRate, 100)).toFixed(2)
       },
       deep: true
     }

@@ -92,7 +92,7 @@ export default {
     formData: {
       handler (val, old) {
         if (val.officePrice && val.officeQuantity) {
-          this.formData.officeAmount = this.$utils.toFixedNumber(this.$utils.multiply(val.officePrice, val.officeQuantity), 2)
+          this.formData.officeAmount = this.$utils.multiply(val.officePrice, val.officeQuantity).toFixed(2)
         }
       },
       deep: true

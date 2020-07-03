@@ -140,10 +140,20 @@ export default {
     },
     formData: {
       handler (val, old) {
-        if (val.currentPayment && val.lastPayment) {
-          this.formData.cumulativePayment = this.$utils.add(val.currentPayment, val.lastPayment)
-          this.formData.equipmentAmount = this.$utils.toFixedNumber(this.$utils.divide(this.formData.currentPayment, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))), 2)
-          this.formData.tax = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.equipmentAmount, this.$utils.divide(val.taxRate, 100)), 2)
+        if (val.areaCurrent && val.priceCurrent) {
+          this.formData.amountCurrent = this.$utils.multiply(val.areaCurrent, val.priceCurrent).toFixed(2)
+        }
+        if (val.areaSale && val.priceSale) {
+          this.formData.amountSale = this.$utils.multiply(val.areaSale, val.priceSale).toFixed(2)
+        }
+        if (val.amountPast && val.amountCurrent && val.amountSale) {
+          this.formData.amountInventory = this.$utils.subtract(this.$utils.add(val.amountPast, val.amountCurrent), val.amountSale).toFixed(2)
+        }
+        if (val.blockPast && val.blockCurrent && val.blockSale) {
+          this.formData.blockInventory = this.$utils.subtract(this.$utils.add(val.blockPast, val.blockCurrent), val.blockSale)
+        }
+        if (val.areaPast && val.areaCurrent && val.areaSale) {
+          this.formData.areaInventory = this.$utils.subtract(this.$utils.add(val.areaPast, val.areaCurrent), val.areaSale).toFixed(3)
         }
       },
       deep: true

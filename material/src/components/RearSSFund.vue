@@ -158,9 +158,9 @@ export default {
       handler (val, old) {
         const temp = this.$utils.add(this.$utils.add(val.medicalTreatmentEnterprise, val.pensionEnterprise), this.$utils.add(val.workInjuryEnterprise, val.childbirthEnterprise))
         this.formData.totalEnterprise = this.$utils.add(val.unemploymentEnterprise, temp)
-        this.formData.amountEnterprise = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.basePayEnterprise, this.$utils.divide(this.formData.totalEnterprise, 100)), 2)
+        this.formData.amountEnterprise = this.$utils.multiply(this.formData.basePayEnterprise, this.$utils.divide(this.formData.totalEnterprise, 100)).toFixed(2)
         this.formData.totalPersonal = this.$utils.add(val.medicalTreatmentPersonal, this.$utils.add(val.pensionPersonal, val.unemploymentPersonal))
-        this.formData.amountPersonal = this.$utils.toFixedNumber(this.$utils.multiply(this.formData.basePayPersonal, this.$utils.divide(this.formData.totalPersonal, 100)), 2)
+        this.formData.amountPersonal = this.$utils.multiply(this.formData.basePayPersonal, this.$utils.divide(this.formData.totalPersonal, 100)).toFixed(2)
       },
       deep: true
     }
