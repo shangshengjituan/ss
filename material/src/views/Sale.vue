@@ -6,15 +6,12 @@
         v-model="selectData.month" format="yyyy年MM月" value-format="yyyy-MM"
         type="month" placeholder="选择月" :editable="false" :clearable="false"></el-date-picker>
     </el-form-item>
-    <el-form-item label="分类">
-      <el-select v-model="selectData.type" placeholder="类型">
-        <el-option label="销售收入" value="1"></el-option>
-        <el-option label="运费" value="2"></el-option>
-      </el-select>
+    <el-form-item>
+      <el-radio-group v-model="selectData.type" size="small">
+        <el-radio-button label="1">销售收入</el-radio-button>
+        <el-radio-button label="2">运费</el-radio-button>
+      </el-radio-group>
     </el-form-item>
-    <!--<el-button-group style="float: right">-->
-      <!--<el-button @click="handleShow" type="success" icon="el-icon-plus">新增数据</el-button>-->
-    <!--</el-button-group>-->
   </el-form>
   <div style="text-align: right">
     <el-button-group>

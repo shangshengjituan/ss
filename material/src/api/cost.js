@@ -1,16 +1,36 @@
 import axios from '@/util/request'
 
 const cost = {
-  addGroup (data) {
-    return axios.post('/insertGroupForm', data)
+  // 固定资产投入
+  addFixedItem (data) {
+    return axios.post('/insertFixAssetTable', data)
   },
-  getGroup (data) {
-    return axios.get('/selectgroupform', {
+  getFixedList (data) {
+    return axios.get('/fixAssetList', {
       params: data
     })
   },
-  getGroupSummary () {
-    return axios.get('/selectGroupSummary')
+  delFixedItem (data) {
+    return axios.get('/delFixAsset', {
+      params: data
+    })
+  },
+  // 产品库存表
+  getProductCate () {
+    return axios.get('/productCategoryList')
+  },
+  addProductStoreItem (data) {
+    return axios.post('/insertProductInventoryTable', data)
+  },
+  getProductStoreList (data) {
+    return axios.get('/productInventoryList', {
+      params: data
+    })
+  },
+  delProductStoreItem (data) {
+    return axios.get('/delProductInventory', {
+      params: data
+    })
   }
 }
 

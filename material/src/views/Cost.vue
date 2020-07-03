@@ -35,7 +35,7 @@
           <el-table-column v-for="i in it.children" :key="i.prop" :prop="i.prop" :label="i.label"/>
         </el-table-column>
       </el-table-column>
-      <el-table-column prop="remark" label="备注"></el-table-column>
+      <!--<el-table-column prop="remark" label="备注"></el-table-column>-->
     </el-table>
     <el-dialog :title="isEdit ? `编辑${selectData.type}数据` : `新增${selectData.type}数据`" :visible.sync="showForm">
     <cost-fixed v-if="selectData.type==='固定资产投入'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
@@ -45,7 +45,8 @@
 </template>
 
 <script>
-import thead from '../util/costThead'
+// import thead from '../util/costThead'
+import thead from '@/util/costThead'
 import CostFixed from '../components/CostFixed'
 import CostProductStore from '../components/CostProductStore'
 export default {
@@ -57,7 +58,7 @@ export default {
         month: this.$utils.toDateString(new Date(), 'yyyy-MM'),
         type: '固定资产投入'
       },
-      tableHead: thead.wage,
+      tableHead: thead.fixed,
       isSummary: true,
       showForm: false,
       isEdit: false,
@@ -74,19 +75,19 @@ export default {
       handler (val, old) {
         switch (val.type) {
           case '成本汇总表':
-            this.tableHead = thead.wage
+            this.tableHead = thead.summarySheet
             this.isSummary = true
             break
           case '管理费用明细':
-            this.tableHead = thead.ssFund
+            this.tableHead = thead.manageFee
             this.isSummary = true
             break
           case '陶粒板产品成本表':
-            this.tableHead = thead.utilityFee
+            this.tableHead = thead.ceramsitePlate
             this.isSummary = true
             break
           case '路牙、盖板成本':
-            this.tableHead = thead.testingFee
+            this.tableHead = thead.roadBoard
             this.isSummary = false
             break
           case '固定资产投入':
@@ -94,7 +95,7 @@ export default {
             this.isSummary = true
             break
           case '车间制造费用明细表':
-            this.tableHead = thead.office
+            this.tableHead = thead.workshop
             this.isSummary = true
             break
           case '产品库存表':
@@ -102,7 +103,7 @@ export default {
             this.isSummary = true
             break
           case '原材料库存表':
-            this.tableHead = thead.travel
+            this.tableHead = thead.materialStore
             this.isSummary = false
             break
         }
@@ -143,7 +144,7 @@ export default {
           })
           break
         case '固定资产投入':
-          this.$api.cost.getFixedList({ entertainDate: this.selectData.month }).then(rsp => {
+          this.$api.cost.getFixedList({ fixAssetDate: this.selectData.month }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
@@ -155,7 +156,7 @@ export default {
           })
           break
         case '产品库存表':
-          this.$api.cost.getProductStoreList({ foodDate: this.selectData.month }).then(rsp => {
+          this.$api.cost.getProductStoreList({ productInventoryDate: this.selectData.month }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
@@ -234,7 +235,7 @@ export default {
           })
           break
         case '固定资产投入':
-          this.$api.cost.delEntertainItem({ entertainId: item.entertainId }).then(rsp => {
+          this.$api.cost.delFixedItem({ fixAssetId: item.fixAssetId }).then(rsp => {
             if (rsp.result === 200) {
               this.$message({ type: 'success', message: '删除成功', duration: 1000 })
               this.getList()
@@ -250,7 +251,7 @@ export default {
           })
           break
         case '产品库存表':
-          this.$api.cost.delMealItem({ foodId: item.foodId }).then(rsp => {
+          this.$api.cost.delProductStoreItem({ productInventoryId: item.productInventoryId }).then(rsp => {
             if (rsp.result === 200) {
               this.$message({ type: 'success', message: '删除成功', duration: 1000 })
               this.getList()
@@ -272,95 +273,49 @@ export default {
       const { columns, data } = params
       let demo
       switch (this.selectData.type) {
-        case '成本汇总表':
-          demo = []
-          data.forEach((columns) => {
-            demo[0] = this.$utils.add(columns.amountsPayable, demo[0])
-            demo[1] = this.$utils.add(columns.socialInsurance, demo[1])
-            demo[2] = this.$utils.add(columns.largeInsurance, demo[2])
-            demo[3] = this.$utils.add(columns.foodExpenses, demo[3])
-            demo[4] = this.$utils.add(columns.providentFund, demo[4])
-            demo[5] = this.$utils.add(columns.totalDeductions, demo[5])
-            demo[6] = this.$utils.add(columns.amountPayable, demo[6])
-            demo[7] = this.$utils.add(columns.amountActual, demo[7])
-            demo[8] = this.$utils.add(columns.wageBalance, demo[8])
-          })
-          columns.forEach((columns, index) => {
-            if (index === 0) sums[index] = '合计'
-            switch (columns.property) {
-              case 'amountsPayable': sums[index] = demo[0]
-                break
-              case 'socialInsurance': sums[index] = demo[1]
-                break
-              case 'largeInsurance': sums[index] = demo[2]
-                break
-              case 'foodExpenses': sums[index] = demo[3]
-                break
-              case 'providentFund': sums[index] = demo[4]
-                break
-              case 'totalDeductions': sums[index] = demo[5]
-                break
-              case 'amountPayable': sums[index] = demo[6]
-                break
-              case 'amountActual': sums[index] = demo[7]
-                break
-              case 'wageBalance': sums[index] = demo[8]
-                break
-            }
-          })
-          break
+        // case '成本汇总表':
+        //   break
         case '管理费用明细':
-          demo = []
-          data.forEach((columns) => {
-            demo[0] = this.$utils.add(columns.amountEnterprise, demo[0])
-            demo[1] = this.$utils.add(columns.providentFundEnterprise, demo[1])
-            demo[2] = this.$utils.add(columns.amountPersonal, demo[2])
-            demo[3] = this.$utils.add(columns.largeInsurance, demo[3])
-            demo[4] = this.$utils.add(columns.providentFundPersonal, demo[4])
-          })
+          demo = 0
+          data.forEach((columns) => { demo = this.$utils.add(columns.officeAmount, demo) })
           columns.forEach((columns, index) => {
             if (index === 0) sums[index] = '合计'
-            switch (columns.property) {
-              case 'amountEnterprise': sums[index] = demo[0]
-                break
-              case 'providentFundEnterprise': sums[index] = demo[1]
-                break
-              case 'amountPersonal': sums[index] = demo[2]
-                break
-              case 'largeInsurance': sums[index] = demo[3]
-                break
-              case 'providentFundPersonal': sums[index] = demo[4]
-                break
-            }
+            if (columns.property === 'officeAmount') sums[index] = demo
           })
           break
         case '陶粒板产品成本表':
+          demo = 0
+          data.forEach((columns) => { demo = this.$utils.add(columns.officeAmount, demo) })
+          columns.forEach((columns, index) => {
+            if (index === 0) sums[index] = '合计'
+            if (columns.property === 'officeAmount') sums[index] = demo
+          })
+          break
+        case '路牙、盖板成本':
+          demo = 0
+          data.forEach((columns) => { demo = this.$utils.add(columns.officeAmount, demo) })
+          columns.forEach((columns, index) => {
+            if (index === 0) sums[index] = '合计'
+            if (columns.property === 'officeAmount') sums[index] = demo
+          })
+          break
+        case '固定资产投入':
           demo = []
           data.forEach((columns) => {
-            demo[0] = this.$utils.add(columns.hydropowerAmountTax, demo[0])
-            demo[1] = this.$utils.add(columns.hydropowerAmount, demo[1])
-            demo[2] = this.$utils.add(columns.tax, demo[2])
+            demo[0] = this.$utils.add(columns.currentPayment, demo[0])
+            demo[1] = this.$utils.add(columns.amountReceipt, demo[1])
+            demo[2] = this.$utils.add(columns.taxReceipt, demo[2])
           })
           columns.forEach((columns, index) => {
             if (index === 0) sums[index] = '合计'
             switch (columns.property) {
-              case 'hydropowerAmountTax': sums[index] = demo[0]
+              case 'currentPayment': sums[index] = demo[0]
                 break
-              case 'hydropowerAmount': sums[index] = demo[1]
+              case 'amountReceipt': sums[index] = demo[1]
                 break
-              case 'tax': sums[index] = demo[2]
+              case 'taxReceipt': sums[index] = demo[2]
                 break
             }
-          })
-          break
-        // case '路牙、盖板成本':
-        //   break
-        case '固定资产投入':
-          demo = 0
-          data.forEach((columns) => { demo = this.$utils.add(columns.entertainAmount, demo) })
-          columns.forEach((columns, index) => {
-            if (index === 0) sums[index] = '合计'
-            if (columns.property === 'entertainAmount') sums[index] = demo
           })
           break
         case '车间制造费用明细表':
@@ -371,24 +326,27 @@ export default {
             if (columns.property === 'officeAmount') sums[index] = demo
           })
           break
-        case '产品库存表':
+        // case '产品库存表':
+        //   break
+        case '原材料库存表':
           demo = []
           data.forEach((columns) => {
-            demo[0] = this.$utils.add(columns.subtotalPersonal, demo[0])
-            demo[1] = this.$utils.add(columns.foodAmount, demo[1])
+            demo[0] = this.$utils.add(columns.currentPayment, demo[0])
+            demo[1] = this.$utils.add(columns.amountReceipt, demo[1])
+            demo[2] = this.$utils.add(columns.taxReceipt, demo[2])
           })
           columns.forEach((columns, index) => {
             if (index === 0) sums[index] = '合计'
             switch (columns.property) {
-              case 'subtotalPersonal': sums[index] = demo[0]
+              case 'currentPayment': sums[index] = demo[0]
                 break
-              case 'foodAmount': sums[index] = demo[1]
+              case 'amountReceipt': sums[index] = demo[1]
+                break
+              case 'taxReceipt': sums[index] = demo[2]
                 break
             }
           })
           break
-        // case '原材料库存表':
-        //   break
       }
       return sums
     }
