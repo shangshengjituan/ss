@@ -40,7 +40,7 @@
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="发票号">
-          <el-input v-model="formData.receiptNumber" />
+          <el-input v-model="formData.receiptName" />
         </el-form-item>
       </el-col>
     </el-row>

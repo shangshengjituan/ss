@@ -18,48 +18,68 @@
         <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
       </el-button-group>
     </div>
-    <el-table
+    <el-table v-show="selectData.type[0] !=='辅材'" ref="normalTable"
       :data="tableData" border style="width: 100%" header-cell-class-name="top-table"  highlight-current-row
       :show-summary="isSummary" :summary-method="getSummaries" @filter-change="filterChange" @current-change="handleCurrentChange">
-      <el-table-column type="index" label="#" width="50"></el-table-column>
-      <el-table-column prop="materialStatisticDate" label="日期"></el-table-column>
+      <el-table-column type="index" label="#" width="50"/>
+      <el-table-column prop="materialStatisticDate" label="日期"/>
       <el-table-column
-        prop="purchaseUser" label="采购/领用"
-        :filters="kinds" column-key="purchaseUser" :filter-multiple="false"
-        :filter-method="filterTag" filter-placement="bottom-end">
+        prop="purchaseUser" label="采购/领用" column-key="purchaseUser"
+        :filters="kinds" :filter-multiple="false" :filter-method="filterTag" filter-placement="bottom-end">
       </el-table-column>
-      <el-table-column prop="rawMaterialCategory" label="原材料大类"></el-table-column>
-      <el-table-column prop="specificProductName" label="具体品名"></el-table-column>
-      <el-table-column prop="materialUnit" label="单位"></el-table-column>
-      <el-table-column prop="materialQuantity" label="数量"></el-table-column>
+      <el-table-column prop="rawMaterialCategory" label="原材料大类"/>
+      <el-table-column prop="specificProductName" label="具体品名"/>
+      <el-table-column prop="materialUnit" label="单位"/>
+      <el-table-column prop="materialQuantity" label="数量"/>
       <el-table-column label="含税总金额">
-        <el-table-column prop="materialPriceTax" label="单价"></el-table-column>
-        <el-table-column prop="materialAmountTax" label="金额"></el-table-column>
+        <el-table-column prop="materialPriceTax" label="单价"/>
+        <el-table-column prop="materialAmountTax" label="金额"/>
       </el-table-column>
       <el-table-column label="不含税总金额">
-        <el-table-column prop="materialPrice" label="单价"></el-table-column>
-        <el-table-column prop="materialAmount" label="金额"></el-table-column>
-        <el-table-column prop="tax" label="税额"></el-table-column>
-        <el-table-column prop="taxRate" label="税率"></el-table-column>
+        <el-table-column prop="materialPrice" label="单价"/>
+        <el-table-column prop="materialAmount" label="金额"/>
+        <el-table-column prop="tax" label="税额"/>
+        <el-table-column prop="taxRate" label="税率"/>
       </el-table-column>
-      <el-table-column prop="materialUser" label="用途"></el-table-column>
-      <el-table-column prop="receiptNumber" label="发票号"></el-table-column>
-      <el-table-column prop="supplier" label="供应商"></el-table-column>
-      <el-table-column prop="remark" label="备注"></el-table-column>
+      <el-table-column prop="materialUser" label="用途"/>
+      <el-table-column prop="receiptNumber" label="发票号"/>
+      <el-table-column prop="supplier" label="供应商"/>
+      <el-table-column prop="remark" label="备注"/>
+    </el-table>
+    <el-table
+      v-show="selectData.type[0] ==='辅材'" ref="auxiliaryTable"
+      :data="tableAuxiliaryData" border style="width: 100%" header-cell-class-name="top-table"  highlight-current-row
+      :show-summary="isSummary1" :summary-method="getSummaries" @filter-change="filterChange" @current-change="handleCurrentChange">
+      <el-table-column type="index" label="#" width="50"/>
+      <el-table-column prop="auxiliaryMaterialDate" label="日期"/>
+      <el-table-column prop="auxiliaryMaterialName" label="材料名称"/>
+      <el-table-column prop="auxiliaryMaterialUnit" label="单位"/>
+      <el-table-column prop="materialQuantity" label="数量"/>
+      <el-table-column label="含税总金额">
+        <el-table-column prop="materialPriceTax" label="单价"/>
+        <el-table-column prop="materialAmountTax" label="金额"/>
+      </el-table-column>
+      <el-table-column label="不含税总金额">
+        <el-table-column prop="materialPrice" label="单价"/>
+        <el-table-column prop="materialAmount" label="金额"/>
+        <el-table-column prop="tax" label="税额"/>
+        <el-table-column prop="taxRate" label="税率"/>
+      </el-table-column>
+      <el-table-column prop="useSort" label="用途" />
+      <el-table-column
+        prop="useDetail" label="详细用途" column-key="useDetail"
+        :filters="usages" :filter-multiple="false" :filter-method="filterTag" filter-placement="bottom-end"/>
+      <el-table-column prop="receiptNumber" label="发票号"/>
+      <el-table-column prop="supplierName" label="供应商" show-overflow-tooltip/>
+      <el-table-column prop="remark" label="备注"/>
     </el-table>
     <el-table v-if="surData.length > 0" style="margin-top: 15px; width: 802px"
       :data="surData" border header-cell-class-name="top-table" highlight-current-row>
-      <el-table-column prop="purchaseUser" label="#" width="100"></el-table-column>
-      <el-table-column prop="materialStatisticDate" label="日期" width="100"></el-table-column>
-      <el-table-column prop="rawMaterialCategory" label="原材料大类" width="100"></el-table-column>
-      <el-table-column prop="specificProductName" label="具体品名" width="100"></el-table-column>
-      <el-table-column prop="materialQuantity" label="数量" width="100"></el-table-column>
-      <el-table-column prop="materialAmountTax" label="含税金额" width="100"></el-table-column>
-      <el-table-column prop="materialAmount" label="不含税金额" width="100"></el-table-column>
-      <el-table-column prop="tax" label="税额" width="100"></el-table-column>
+      <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" />
     </el-table>
-    <el-dialog :title="isEdit ? `编辑${selectData.type}数据` : `新增${selectData.type}数据`" :visible.sync="showForm">
-      <material-material :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+    <el-dialog :title="isEdit ? `编辑 ${selectData.type} 数据` : `新增 ${selectData.type} 数据`" :visible.sync="showForm">
+      <material-material v-show="selectData.type[0] !=='辅材'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <material-auxiliary v-show="selectData.type[0] ==='辅材'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
     <el-dialog title="更新库存" :visible.sync="showSurForm">
       <material-real @cancel="handleSurHide" @primary="handleSurHideFresh"/>
@@ -68,17 +88,20 @@
 </template>
 
 <script>
+import thead from '@/util/materialThead'
 import MaterialMaterial from '../components/MaterialMaterial'
 import MaterialReal from '../components/MaterialReal'
+import MaterialAuxiliary from '../components/MaterialAuxiliary'
 export default {
   name: 'Material',
-  components: { MaterialReal, MaterialMaterial },
+  components: { MaterialAuxiliary, MaterialReal, MaterialMaterial },
   data () {
     return {
       selectData: {
         month: this.$utils.toDateString(new Date(), 'yyyy-MM'),
         type: ''
       },
+      tableHead: thead.normal,
       options: [],
       showForm: false,
       isEdit: false,
@@ -89,7 +112,11 @@ export default {
       isSummary: false, // 是否合计
       filterLength: 0, // 筛选后数据条数
       surData: [],
-      showSurForm: false
+      showSurForm: false,
+      tableAuxiliaryData: [], // 辅材
+      usages: [],
+      isSummary1: false,
+      filterLength1: 0
     }
   },
   created () {
@@ -99,6 +126,13 @@ export default {
   watch: {
     selectData: {
       handler (val, old) {
+        if (val.type[0] === '辅材') {
+          this.$refs.auxiliaryTable.clearFilter()
+          this.tableHead = thead.auxiliary
+        } else {
+          this.$refs.normalTable.clearFilter()
+          this.tableHead = thead.normal
+        }
         this.getList()
       },
       deep: true
@@ -142,6 +176,14 @@ export default {
           this.tableData = rsp.data
           this.surData = rsp.total
         })
+      } else if (this.selectData.type[0] === '辅材') {
+        this.$api.material.getAuxiliaryList({
+          auxiliaryMaterialDate: this.selectData.month
+        }).then(rsp => {
+          this.$message({ type: 'success', message: '查询成功', duration: 1000 })
+          this.tableAuxiliaryData = rsp.data
+          this.surData = rsp.total
+        })
       } else {
         // 其他
         this.$api.material.getList({
@@ -158,6 +200,11 @@ export default {
       this.$api.material.getKinds().then(rsp => {
         this.kinds = rsp.data.map((item) => {
           return { text: item.purchaseUser, value: item.purchaseUser }
+        })
+      })
+      this.$api.material.getUsages().then(rsp => {
+        this.usages = rsp.data.map((item) => {
+          return { text: item.useDetail, value: item.useDetail }
         })
       })
     },
@@ -193,7 +240,8 @@ export default {
       this.showSurForm = true
     },
     handleDelete () {
-      console.log(this.currentRow)
+      console.log(JSON.stringify(this.currentRow))
+      if (JSON.stringify(this.currentRow) === '{}') return
       this.$confirm('此操作将永久删除该条数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -206,18 +254,32 @@ export default {
       })
     },
     deleteItem (item) {
-      this.$api.material.delItem({
-        materialStatisticId: item.materialStatisticId
-      }).then(rsp => {
-        if (rsp.result === 200) {
-          this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
-          this.getList()
-        } else {
-          this.$message({ type: 'error', message: rsp.resultText })
-        }
-      })
+      if (this.selectData.type[0] !== '辅材') {
+        this.$api.material.delItem({
+          materialStatisticId: item.materialStatisticId
+        }).then(rsp => {
+          if (rsp.result === 200) {
+            this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
+            this.getList()
+          } else {
+            this.$message({ type: 'error', message: rsp.resultText })
+          }
+        })
+      } else {
+        this.$api.material.delAuxiliaryItem({
+          auxiliaryMaterialId: item.auxiliaryMaterialId
+        }).then(rsp => {
+          if (rsp.result === 200) {
+            this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
+            this.getList()
+          } else {
+            this.$message({ type: 'error', message: rsp.resultText })
+          }
+        })
+      }
     },
     getSummaries (params) {
+      console.log('get summary')
       const { columns, data } = params
       const sums = []
       let [demo, demo1, demo2, demo3] = [0, 0, 0, 0]
@@ -228,9 +290,7 @@ export default {
         demo3 = this.$utils.add(columns.materialQuantity, demo3)
       })
       columns.forEach((columns, index) => {
-        if (index === 0) {
-          sums[index] = '合计'
-        }
+        if (index === 0) sums[index] = '合计'
         switch (columns.property) {
           case 'materialAmountTax': sums[index] = demo
             break
@@ -245,17 +305,36 @@ export default {
       return sums
     },
     filterTag (value, row) {
-      if (row.purchaseUser === value) { this.filterLength++ }
-      return row.purchaseUser === value
+      if (this.selectData.type[0] !== '辅材') {
+        if (row.purchaseUser === value) {
+          this.filterLength++
+        }
+        return row.purchaseUser === value
+      } else {
+        console.log('filterTag')
+        if (row.useDetail === value) {
+          this.filterLength1++
+        }
+        return row.useDetail === value
+      }
     },
     filterChange (filters) {
-      this.isSummary = this.filterLength > 0 && filters.purchaseUser.length > 0
-      this.filterLength = 0
+      if (this.selectData.type[0] !== '辅材') {
+        this.isSummary = this.filterLength > 0 && filters.purchaseUser.length > 0
+        this.filterLength = 0
+      } else {
+        console.log(filters)
+        this.isSummary1 = this.filterLength1 > 0 && filters.useDetail.length > 0
+        console.log(this.isSummary1)
+        this.filterLength1 = 0
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-
+  .el-table .cell {
+  white-space: nowrap !important;
+}
 </style>

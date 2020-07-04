@@ -89,8 +89,8 @@ export default {
     formData: {
       handler (val, old) {
         if (val.attendance && (val.standardPersonal || val.standard)) {
-          const temp = this.$utils.subtract(this.$utils.multiply(val.attendance, val.standard), val.subtotalPersonal)
           this.formData.subtotalPersonal = this.$utils.multiply(val.attendance, val.standardPersonal).toFixed(2)
+          const temp = this.$utils.subtract(this.$utils.multiply(val.attendance, val.standard), val.subtotalPersonal)
           this.formData.foodAmount = temp.toFixed(2)
         }
       },

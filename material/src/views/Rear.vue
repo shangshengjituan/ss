@@ -34,9 +34,9 @@
       :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
       :show-summary="isSummary" :summary-method="getSummaries" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"></el-table-column>
-      <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label">
-        <el-table-column v-for="it in item.children" :key="it.prop" :prop="it.prop" :label="it.label">
-          <el-table-column v-for="i in it.children" :key="i.prop" :prop="i.prop" :label="i.label"/>
+      <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" show-overflow-tooltip>
+        <el-table-column v-for="it in item.children" :key="it.prop" :prop="it.prop" :label="it.label" show-overflow-tooltip>
+          <el-table-column v-for="i in it.children" :key="i.prop" :prop="i.prop" :label="i.label" show-overflow-tooltip/>
         </el-table-column>
       </el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>

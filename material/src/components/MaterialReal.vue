@@ -50,7 +50,7 @@
       </p>
     </div>
     <div v-else style="text-align: center">
-      暂无数据
+      {{msg}}
     </div>
     <div v-show="!showReal">
       <p class="text-divider">本期实际量：</p>
@@ -101,6 +101,7 @@ export default {
       subtotalData: {},
       showReal: true,
       formData: {},
+      msg: '暂无数据',
       rules: {
         materialQuantity: [{ required: true, message: '不可为空' }],
         materialAmountTax: [{ required: true, message: '不可为空' }],
@@ -116,6 +117,9 @@ export default {
   watch: {
     selectData: {
       handler (val, old) {
+        if (!val.materialStatisticDate || !val.materialId) {
+          this.msg = '暂无数据'
+        }
         if (val.materialStatisticDate && val.materialId) {
           this.getSubtotal()
         }
@@ -129,7 +133,12 @@ export default {
         materialStatisticDate: this.selectData.materialStatisticDate,
         materialId: this.selectData.materialId[1]
       }).then(rsp => {
-        this.subtotalData = rsp.data
+        if (rsp.result === 200) {
+          this.subtotalData = rsp.data
+        } else if (rsp.result === 500) {
+          this.subtotalData = {}
+          this.msg = rsp.resultText
+        }
       })
     },
     submitForm (formName) {

@@ -172,7 +172,7 @@ const thead = {
         { label: '税率', prop: 'taxRate' }
       ]
     },
-    { label: '发票号', prop: 'receiptNumber' }
+    { label: '发票号', prop: 'receiptName' }
   ],
   // 咨询费
   consultingFee: [

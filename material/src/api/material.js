@@ -54,6 +54,26 @@ const material = {
     return axios.get('/delInventory', {
       params: data
     })
+  },
+  // 辅材
+  getUseList () {
+    return axios.get('/useList')
+  },
+  addAuxiliaryItem (data) {
+    return axios.post('/insertAuxiliaryMaterial', data)
+  },
+  getUsages () {
+    return axios.get('/useDetail')
+  },
+  getAuxiliaryList (data) {
+    return axios.get('/auxiliaryMaterialList', {
+      params: data
+    })
+  },
+  delAuxiliaryItem (data) {
+    return axios.get('/delAuxiliaryMaterial', {
+      params: data
+    })
   }
 }
 

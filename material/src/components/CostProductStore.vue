@@ -146,13 +146,13 @@ export default {
         if (val.areaSale && val.priceSale) {
           this.formData.amountSale = this.$utils.multiply(val.areaSale, val.priceSale).toFixed(2)
         }
-        if (val.amountPast && val.amountCurrent && val.amountSale) {
+        if (val.amountPast || val.amountCurrent || val.amountSale) {
           this.formData.amountInventory = this.$utils.subtract(this.$utils.add(val.amountPast, val.amountCurrent), val.amountSale).toFixed(2)
         }
-        if (val.blockPast && val.blockCurrent && val.blockSale) {
+        if (val.blockPast || val.blockCurrent || val.blockSale) {
           this.formData.blockInventory = this.$utils.subtract(this.$utils.add(val.blockPast, val.blockCurrent), val.blockSale)
         }
-        if (val.areaPast && val.areaCurrent && val.areaSale) {
+        if (val.areaPast || val.areaCurrent || val.areaSale) {
           this.formData.areaInventory = this.$utils.subtract(this.$utils.add(val.areaPast, val.areaCurrent), val.areaSale).toFixed(3)
         }
       },

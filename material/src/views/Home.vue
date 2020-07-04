@@ -28,7 +28,7 @@ export default {
   components: { Toolbar, Material, Cost, Rear, Sale },
   data () {
     return {
-      activeIndex: '2'
+      activeIndex: '4'
     }
   },
   created () {
@@ -42,8 +42,8 @@ export default {
 </script>
 <style>
   .container {
-    width: 90%;
-    margin: 10px auto;
+    width: calc(100% - 20px);
+    margin: 10px;
   }
   .width-full {
     width: 100% !important;
