@@ -52,7 +52,7 @@
     <div v-else style="text-align: center">
       {{msg}}
     </div>
-    <div v-show="!showReal">
+    <div v-show="!showReal && subtotalData && Object.keys(subtotalData).length > 0">
       <p class="text-divider">本期实际量：</p>
       <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
         <el-input v-model="subtotalData.inventoryDate" style="display: none"></el-input>
@@ -119,6 +119,7 @@ export default {
       handler (val, old) {
         if (!val.materialStatisticDate || !val.materialId) {
           this.msg = '暂无数据'
+          this.showReal = true
         }
         if (val.materialStatisticDate && val.materialId) {
           this.getSubtotal()
@@ -160,6 +161,7 @@ export default {
       this.$emit('cancel')
       this.selectData = {}
       this.subtotalData = {}
+      this.formData = {}
     },
     addItem () {
       console.log('add')
@@ -177,6 +179,7 @@ export default {
           this.$emit('primary')
           this.selectData = {}
           this.subtotalData = {}
+          this.formData = {}
         } else {
           this.$message({ type: 'error', message: rsp.resultText })
         }
@@ -193,6 +196,7 @@ export default {
           this.$emit('primary')
           this.selectData = {}
           this.subtotalData = {}
+          this.formData = {}
         } else {
           this.$message({ type: 'error', message: rsp.resultText })
         }

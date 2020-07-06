@@ -19,7 +19,7 @@
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <div style="text-align: right" v-if="selectData.type === '固定资产投入' || selectData.type === '产品库存表'">
+    <div style="text-align: right" v-if="selectData.type === '产品库存表'">
       <el-button-group>
         <el-button @click="handleDelete" type="warning">删除选中行</el-button>
         <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
@@ -104,7 +104,7 @@ export default {
             break
           case '原材料库存表':
             this.tableHead = thead.materialStore
-            this.isSummary = false
+            this.isSummary = true
             break
         }
         this.getList()
@@ -162,7 +162,7 @@ export default {
           })
           break
         case '原材料库存表':
-          this.$api.cost.getTravelList({ travelDate: this.selectData.month }).then(rsp => {
+          this.$api.cost.getMaterialStore({ materialDate: this.selectData.month }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
@@ -258,14 +258,14 @@ export default {
             } else { this.$message.error(rsp.resultText) }
           })
           break
-        case '原材料库存表':
-          this.$api.cost.delTravelItem({ travelId: item.travelId }).then(rsp => {
-            if (rsp.result === 200) {
-              this.$message({ type: 'success', message: '删除成功', duration: 1000 })
-              this.getList()
-            } else { this.$message.error(rsp.resultText) }
-          })
-          break
+        // case '原材料库存表':
+        //   this.$api.cost.delTravelItem({ travelId: item.travelId }).then(rsp => {
+        //     if (rsp.result === 200) {
+        //       this.$message({ type: 'success', message: '删除成功', duration: 1000 })
+        //       this.getList()
+        //     } else { this.$message.error(rsp.resultText) }
+        //   })
+        //   break
       }
     },
     getSummaries (params) {
@@ -331,18 +331,18 @@ export default {
         case '原材料库存表':
           demo = []
           data.forEach((columns) => {
-            demo[0] = this.$utils.add(columns.currentPayment, demo[0])
-            demo[1] = this.$utils.add(columns.amountReceipt, demo[1])
-            demo[2] = this.$utils.add(columns.taxReceipt, demo[2])
+            demo[0] = this.$utils.add(columns.amountPurchaseReceipt, demo[0])
+            demo[1] = this.$utils.add(columns.amountPurchase, demo[1])
+            demo[2] = this.$utils.add(columns.amountInventory, demo[2])
           })
           columns.forEach((columns, index) => {
             if (index === 0) sums[index] = '合计'
             switch (columns.property) {
-              case 'currentPayment': sums[index] = demo[0]
+              case 'amountPurchaseReceipt': sums[index] = demo[0]
                 break
-              case 'amountReceipt': sums[index] = demo[1]
+              case 'amountPurchase': sums[index] = demo[1]
                 break
-              case 'taxReceipt': sums[index] = demo[2]
+              case 'amountInventory': sums[index] = demo[2]
                 break
             }
           })

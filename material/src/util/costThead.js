@@ -112,29 +112,29 @@ const thead = {
   ],
   // 原材料库存表
   materialStore: [
-    { label: '产品大类', prop: 'equipmentDate' },
-    { label: '具体品名', prop: 'beneficiary' },
-    { label: '单位', prop: 'equipmentName' },
+    { label: '产品大类', prop: 'rawMaterialCategory' },
+    { label: '具体品名', prop: 'specificProductName' },
+    { label: '单位', prop: 'materialUnit' },
     {
       label: '上期库存',
       children: [
-        { label: '数量', prop: 'equipmentAmount' },
-        { label: '余额', prop: 'taxRate' }
+        { label: '数量', prop: 'quantityLast' },
+        { label: '余额', prop: 'amountLast' }
       ]
     }, {
       label: '本期采购',
       children: [
-        { label: '数量', prop: 'equipmentAmount' },
+        { label: '数量', prop: 'quantityPurchase' },
         {
           label: '发票已到',
           children: [
-            { label: '金额', prop: 'equipmentAmount' }
+            { label: '金额', prop: 'amountPurchaseReceipt' }
           ]
         },
         {
           label: '发票未到',
           children: [
-            { label: '金额', prop: 'equipmentAmount' }
+            { label: '金额', prop: 'amountPurchase' }
           ]
         }
       ]
@@ -144,28 +144,16 @@ const thead = {
         {
           label: '陶粒板',
           children: [
-            { label: '数量', prop: 'equipmentAmount' },
-            { label: '金额', prop: 'equipmentAmount' }
-          ]
-        }, {
-          label: '路牙',
-          children: [
-            { label: '数量', prop: 'equipmentAmount' },
-            { label: '金额', prop: 'equipmentAmount' }
-          ]
-        }, {
-          label: '固定资产',
-          children: [
-            { label: '数量', prop: 'equipmentAmount' },
-            { label: '金额', prop: 'equipmentAmount' }
+            { label: '数量', prop: 'quantityUse' },
+            { label: '金额', prop: 'amountUse' }
           ]
         }
       ]
     }, {
       label: '本期库存',
       children: [
-        { label: '数量', prop: 'equipmentAmount' },
-        { label: '金额', prop: 'taxRate' }
+        { label: '数量', prop: 'quantityInventory' },
+        { label: '金额', prop: 'amountInventory' }
       ]
     }
   ]

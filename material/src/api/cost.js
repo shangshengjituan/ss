@@ -31,6 +31,12 @@ const cost = {
     return axios.get('/delProductInventory', {
       params: data
     })
+  },
+  // 原材料库存表
+  getMaterialStore (data) {
+    return axios.get('/selectMaterialInventory', {
+      params: data
+    })
   }
 }
 

@@ -35,7 +35,7 @@
       </el-col>
       <el-col :span="6">
         <el-form-item label="税金">
-          <el-input v-model="formData.tax" readonly><template slot="append">元</template></el-input>
+          <el-input v-model="formData.tax"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
@@ -87,20 +87,6 @@ export default {
     baseData: {
       handler (val, old) {
         this.formData = Object.assign({}, val)
-      },
-      deep: true
-    },
-    formData: {
-      handler (val, old) {
-        if (val.materialPriceTax && val.materialQuantity) {
-          this.formData.materialAmountTax = this.$utils.multiply(val.materialPriceTax, val.materialQuantity)
-          this.formData.hydropowerAmount = this.$utils.divide(this.formData.hydropowerAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(2)
-          this.formData.tax = this.$utils.multiply(this.formData.hydropowerAmount, this.$utils.divide(val.taxRate, 100)).toFixed(2)
-          this.formData.materialPrice = this.$utils.divide(this.formData.materialAmount, val.materialQuantity)
-        }
-        if (val.material) {
-          val.materialId = val.material[1]
-        }
       },
       deep: true
     }

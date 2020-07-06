@@ -19,7 +19,7 @@
       </el-button-group>
     </div>
     <el-table v-show="selectData.type[0] !=='辅材'" ref="normalTable"
-      :data="tableData" border style="width: 100%" header-cell-class-name="top-table"  highlight-current-row
+      :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
       :show-summary="isSummary" :summary-method="getSummaries" @filter-change="filterChange" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"/>
       <el-table-column prop="materialStatisticDate" label="日期"/>
@@ -43,7 +43,7 @@
       </el-table-column>
       <el-table-column prop="materialUser" label="用途"/>
       <el-table-column prop="receiptNumber" label="发票号"/>
-      <el-table-column prop="supplier" label="供应商"/>
+      <el-table-column prop="supplier" label="供应商" show-overflow-tooltip/>
       <el-table-column prop="remark" label="备注"/>
     </el-table>
     <el-table
@@ -73,10 +73,16 @@
       <el-table-column prop="supplierName" label="供应商" show-overflow-tooltip/>
       <el-table-column prop="remark" label="备注"/>
     </el-table>
-    <el-table v-if="surData.length > 0" style="margin-top: 15px; width: 802px"
+    <el-table
+      v-if="surData.length > 0" style="margin-top: 15px;width: 802px" @current-change="handleCurrentChangeSur"
       :data="surData" border header-cell-class-name="top-table" highlight-current-row>
       <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" />
     </el-table>
+    <div v-if="surData.length > 0 && currentRowSur && currentRowSur.purchaseUser === '实际量'">
+      <el-button-group>
+        <el-button @click="handleDeleteSur" type="warning">删除选中实际量</el-button>
+      </el-button-group>
+    </div>
     <el-dialog :title="isEdit ? `编辑 ${selectData.type} 数据` : `新增 ${selectData.type} 数据`" :visible.sync="showForm">
       <material-material v-show="selectData.type[0] !=='辅材'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <material-auxiliary v-show="selectData.type[0] ==='辅材'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
@@ -109,6 +115,7 @@ export default {
       kinds: [],
       tableData: [],
       currentRow: {},
+      currentRowSur: {},
       isSummary: false, // 是否合计
       filterLength: 0, // 筛选后数据条数
       surData: [],
@@ -148,8 +155,8 @@ export default {
             value: item.rawMaterialCategory
           })
           if (item.specificProductNameList) {
+            Object.assign(temp[index], { children: [] })
             item.specificProductNameList.forEach(it => {
-              Object.assign(temp[index], { children: [] })
               temp[index].children.push({
                 label: it.specificProductName,
                 value: it.materialId
@@ -277,6 +284,32 @@ export default {
           }
         })
       }
+    },
+    handleDeleteSur () {
+      console.log(JSON.stringify(this.currentRowSur))
+      if (JSON.stringify(this.currentRowSur) === '{}' || this.currentRowSur.purchaseUser !== '实际量') return
+      this.$confirm('此操作将永久删除该条实际量, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 删除
+        this.$api.material.delRealItem({
+          materialStatisticId: this.currentRowSur.materialStatisticId
+        }).then(rsp => {
+          if (rsp.result === 200) {
+            this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
+            this.getList()
+          } else {
+            this.$message({ type: 'error', message: rsp.resultText })
+          }
+        })
+      }).catch(() => {
+        this.$message({ type: 'info', message: '已取消删除', duration: 1000 })
+      })
+    },
+    handleCurrentChangeSur (val) {
+      this.currentRowSur = val
     },
     getSummaries (params) {
       console.log('get summary')

@@ -506,8 +506,14 @@ export default {
             }
           })
           break
-        // case '检测费':
-        //   break
+        case '检测费':
+          demo = 0
+          data.forEach((columns) => { demo = this.$utils.add(columns.detectPayment, demo) })
+          columns.forEach((columns, index) => {
+            if (index === 0) sums[index] = '合计'
+            if (columns.property === 'detectPayment') sums[index] = demo
+          })
+          break
         case '招待费':
           demo = 0
           data.forEach((columns) => { demo = this.$utils.add(columns.entertainAmount, demo) })
