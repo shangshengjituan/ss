@@ -14,18 +14,17 @@ const thead = {
   ],
   // 陶粒板产品表
   ceramsitePlate: [
-    { label: '项目', prop: 'hydropowerDate' },
-    { label: '类别', prop: 'receivingUnit' },
-    { label: '供应商', prop: 'hydropowerProject' },
-    { label: '品名', prop: 'hydropowerUnit' },
-    { label: '规格', prop: 'hydropowerDosage' },
-    { label: '单位', prop: 'hydropowerDosage' },
+    { label: '项目', prop: 'rawMaterialCategory' },
+    { label: '类别', prop: 'specificProductName' },
+    { label: '供应商', prop: 'supplier' },
+    { label: '品名', prop: 'specificProductName' },
+    { label: '单位', prop: 'materialUnit' },
     {
       label: '本月消耗',
       children: [
-        { label: '数量', prop: 'hydropowerPrice' },
-        { label: '单价', prop: 'hydropowerPrice' },
-        { label: '金额', prop: 'hydropowerAmount' }
+        { label: '数量', prop: 'materialQuantity' },
+        { label: '单价', prop: 'materialPrice' },
+        { label: '金额', prop: 'materialAmount' }
       ]
     }
   ],

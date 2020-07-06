@@ -35,7 +35,6 @@
           <el-table-column v-for="i in it.children" :key="i.prop" :prop="i.prop" :label="i.label"/>
         </el-table-column>
       </el-table-column>
-      <!--<el-table-column prop="remark" label="备注"></el-table-column>-->
     </el-table>
     <el-dialog :title="isEdit ? `编辑${selectData.type}数据` : `新增${selectData.type}数据`" :visible.sync="showForm">
     <cost-fixed v-if="selectData.type==='固定资产投入'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
@@ -45,7 +44,6 @@
 </template>
 
 <script>
-// import thead from '../util/costThead'
 import thead from '@/util/costThead'
 import CostFixed from '../components/CostFixed'
 import CostProductStore from '../components/CostProductStore'
@@ -132,7 +130,8 @@ export default {
           })
           break
         case '陶粒板产品成本表':
-          this.$api.cost.getUtilityList({ hydropowerDate: this.selectData.month }).then(rsp => {
+          this.$api.cost.getCeramsitePlate({ materialDate: this.selectData.month }).then(rsp => {
+            console.log(rsp.data)
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
@@ -192,13 +191,10 @@ export default {
     },
     handleDelete () {
       console.log(this.currentRow)
-      this.$confirm('此操作将永久删除该条数据, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.deleteItem(this.currentRow)
-      }).catch(() => { this.$message({ type: 'info', message: '已取消删除', duration: 1000 }) })
+      this.$confirm('此操作将永久删除该条数据, 是否继续?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' })
+        .then(() => {
+          this.deleteItem(this.currentRow)
+        }).catch(() => { this.$message({ type: 'info', message: '已取消删除', duration: 1000 }) })
     },
     deleteItem (item) {
       switch (this.selectData.type) {
@@ -218,14 +214,14 @@ export default {
             } else { this.$message.error(rsp.resultText) }
           })
           break
-        case '陶粒板产品成本表':
-          this.$api.cost.delUtilityItem({ hydropowerId: item.hydropowerId }).then(rsp => {
-            if (rsp.result === 200) {
-              this.$message({ type: 'success', message: '删除成功', duration: 1000 })
-              this.getList()
-            } else { this.$message.error(rsp.resultText) }
-          })
-          break
+        // case '陶粒板产品成本表':
+        //   this.$api.cost.delUtilityItem({ hydropowerId: item.hydropowerId }).then(rsp => {
+        //     if (rsp.result === 200) {
+        //       this.$message({ type: 'success', message: '删除成功', duration: 1000 })
+        //       this.getList()
+        //     } else { this.$message.error(rsp.resultText) }
+        //   })
+        //   break
         case '路牙、盖板成本':
           this.$api.cost.delTestingItem({ detectId: item.detectId }).then(rsp => {
             if (rsp.result === 200) {
@@ -285,10 +281,10 @@ export default {
           break
         case '陶粒板产品成本表':
           demo = 0
-          data.forEach((columns) => { demo = this.$utils.add(columns.officeAmount, demo) })
+          data.forEach((columns) => { demo = this.$utils.add(columns.materialAmount, demo) })
           columns.forEach((columns, index) => {
             if (index === 0) sums[index] = '合计'
-            if (columns.property === 'officeAmount') sums[index] = demo
+            if (columns.property === 'materialAmount') sums[index] = demo
           })
           break
         case '路牙、盖板成本':

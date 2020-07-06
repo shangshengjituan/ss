@@ -83,7 +83,7 @@
     </el-row>
     <el-form-item>
       <el-button @click="handleCancel('form')">取消</el-button>
-      <el-button type="primary" @click="submitForm('form')">确定</el-button>
+      <el-button type="primary" @click="submitForm('form')" :disabled="unClick">确定</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -108,6 +108,7 @@ export default {
         taxRate: [{ required: true, message: '不可为空' }],
         supplierId: [{ required: true, message: '不可为空' }]
       },
+      unClick: false,
       types: [{ value: '电费' }, { value: '天然气' }, { value: '自来水' }],
       units: [{ value: '千瓦时' }, { value: '立方米' }]
     }
@@ -167,8 +168,10 @@ export default {
     },
     addItem () {
       console.log('add')
+      this.unClick = true
       this.$api.rear.addUtilityItem(this.formData).then(rsp => {
         console.log(rsp)
+        this.unClick = false
         if (rsp.result === 200) {
           this.$message({ type: 'success', message: '新增成功!', duration: 1000 })
           this.$emit('primary')

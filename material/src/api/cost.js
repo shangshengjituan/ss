@@ -1,6 +1,12 @@
 import axios from '@/util/request'
 
 const cost = {
+  // 陶粒板产品成本表
+  getCeramsitePlate (data) {
+    return axios.get('/ceramsiteProductCost', {
+      params: data
+    })
+  },
   // 固定资产投入
   addFixedItem (data) {
     return axios.post('/insertFixAssetTable', data)

@@ -38,7 +38,7 @@
       <el-table-column prop="tax" label="税额"></el-table-column>
       <el-table-column prop="hitMoney" label="是否回款"></el-table-column>
       <el-table-column prop="receiptNumber" label="已开发票号"></el-table-column>
-      <el-table-column prop="clientName" label="客户"></el-table-column>
+      <el-table-column prop="clientName" label="客户" show-overflow-tooltip></el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
     </el-table>
     <el-dialog :title="isEdit ? '编辑数据' : '新增数据'" :visible.sync="showForm1">
@@ -79,7 +79,7 @@
         <el-table-column prop="taxRate" label="税率" />
       </el-table-column>
       <el-table-column prop="receiptNumber" label="发票号" />
-      <el-table-column prop="clientName" label="客户/承运商" />
+      <el-table-column prop="clientName" label="客户/承运商" show-overflow-tooltip/>
       <el-table-column prop="remark" label="备注" />
     </el-table>
     <el-dialog :title="isEdit ? '编辑数据' : '新增数据'" :visible.sync="showForm2">
@@ -315,5 +315,11 @@ export default {
   .el-table__footer-wrapper tbody td {
     /*background-color: #fff;*/
     font-weight: bold;
+  }
+  .el-table td {
+    padding: 6px 0;
+  }
+  .el-table .cell {
+    padding: 0 5px;
   }
 </style>

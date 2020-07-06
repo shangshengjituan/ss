@@ -84,7 +84,7 @@
     </div>
     <div v-if="subtotalData && Object.keys(subtotalData).length > 0" class="button-group">
       <el-button size="medium" @click="handleCancel('form')">取消</el-button>
-      <el-button size="medium" type="primary" @click="submitForm('form')">确定</el-button>
+      <el-button size="medium" type="primary" @click="submitForm('form')" :disabled="unClick">确定</el-button>
     </div>
   </div>
 </template>
@@ -108,6 +108,7 @@ export default {
         materialAmount: [{ required: true, message: '不可为空' }],
         tax: [{ required: true, message: '不可为空' }]
       },
+      unClick: false,
       materialTypes: []
     }
   },
@@ -171,8 +172,10 @@ export default {
         materialId: this.selectData.materialId[1]
       })
       console.log(this.formData)
+      this.unClick = true
       this.$api.material.addRealItem(this.formData).then(rsp => {
         console.log(rsp)
+        this.unClick = false
         if (rsp.result === 200) {
           this.$message({ type: 'success', message: '新增实际量成功!', duration: 1000 })
           // this.triggerItem()
@@ -186,11 +189,13 @@ export default {
       })
     },
     triggerItem () {
+      this.unClick = true
       this.$api.material.addTrigger({
         materialStatisticDate: this.selectData.materialStatisticDate,
         materialId: this.selectData.materialId[1]
       }).then(rsp => {
         console.log(rsp)
+        this.unClick = false
         if (rsp.result === 200) {
           this.$message({ type: 'success', message: '更新库存成功!', duration: 1000 })
           this.$emit('primary')
