@@ -2,25 +2,22 @@
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-form-item label="日期" prop="welfareDate">
+        <el-form-item label="日期" prop="costDetailDate">
           <el-date-picker
-            v-model="formData.welfareDate" value-format="yyyy-MM-dd" class="width-full"
-            type="date" placeholder="选择日期" :editable="false" :clearable="false"></el-date-picker>
+            v-model="formData.costDetailDate" value-format="yyyy-MM" class="width-full"
+            type="month" placeholder="选择月份" :editable="false" :clearable="false"></el-date-picker>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-form-item label="项目">
+          <el-input v-model="formData.projectDetail" />
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="姓名" prop="staffName">
-          <el-input v-model="formData.staffName" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="6">
-        <el-form-item label="事由">
-          <el-input v-model="formData.welfareCause" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="6">
-        <el-form-item label="金额" prop="welfareAmount">
-          <el-input v-model="formData.welfareAmount"><template slot="append">元</template></el-input>
+        <el-form-item label="金额">
+          <el-input v-model="formData.amount"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -40,7 +37,7 @@
 
 <script>
 export default {
-  name: 'RearWelfare',
+  name: 'CostManageFee',
   props: {
     baseData: Object,
     isEdit: Boolean
@@ -48,12 +45,10 @@ export default {
   data () {
     return {
       formData: {},
+      unClick: false,
       rules: {
-        welfareDate: [{ required: true, message: '不可为空' }],
-        staffName: [{ required: true, message: '不可为空' }],
-        welfareAmount: [{ required: true, message: '不可为空' }]
-      },
-      unClick: false
+        costDetailDate: [{ required: true, message: '不可为空' }]
+      }
     }
   },
   watch: {
@@ -82,7 +77,8 @@ export default {
     addItem () {
       console.log('add')
       this.unClick = true
-      this.$api.rear.addWelfareItem(this.formData).then(rsp => {
+      Object.assign(this.formData, { costType: '管理费用' })
+      this.$api.cost.addManageFee(this.formData).then(rsp => {
         console.log(rsp)
         this.unClick = false
         if (rsp.result === 200) {

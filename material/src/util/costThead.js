@@ -1,21 +1,22 @@
 const thead = {
   // 成本汇总表
   summarySheet: [
-    { label: '分类', prop: 'staffName' },
-    { label: '项目', prop: 'providentFundEnterprise' },
-    { label: '金额', prop: 'providentFundPersonal' }
+    { label: '分类', prop: 'costSort' },
+    { label: '项目', prop: 'costProject' },
+    { label: '金额', prop: 'costAmount' },
+    { label: '备注', prop: 'remark' }
   ],
   // 管理费用明细
   manageFee: [
-    { label: '费用类别', prop: 'staffName' },
-    { label: '项目', prop: 'providentFundEnterprise' },
-    { label: '金额', prop: 'providentFundPersonal' },
+    { label: '费用类别', prop: 'costType' },
+    { label: '项目', prop: 'projectDetail' },
+    { label: '金额', prop: 'amount' },
     { label: '备注', prop: 'remark' }
   ],
   // 陶粒板产品表
   ceramsitePlate: [
     { label: '项目', prop: 'rawMaterialCategory' },
-    { label: '类别', prop: 'specificProductName' },
+    // { label: '类别', prop: 'specificProductName' },
     { label: '供应商', prop: 'supplier' },
     { label: '品名', prop: 'specificProductName' },
     { label: '单位', prop: 'materialUnit' },
@@ -67,9 +68,10 @@ const thead = {
   ],
   // 车间制造费用明细表 复杂
   workshop: [
-    { label: '类别', prop: 'staffName' },
-    { label: '明细', prop: 'providentFundEnterprise' },
-    { label: '金额', prop: 'providentFundPersonal' }
+    { label: '类别', prop: 'costType' },
+    { label: '明细', prop: 'projectDetail' },
+    { label: '金额', prop: 'amount' },
+    { label: '备注', prop: 'remark' }
   ],
   // 产品库存表
   productStore: [

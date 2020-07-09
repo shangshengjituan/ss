@@ -11,15 +11,15 @@
           <el-radio-button label="成本汇总表">成本汇总表</el-radio-button>
           <el-radio-button label="管理费用明细">管理费用明细</el-radio-button>
           <el-radio-button label="陶粒板产品成本表">陶粒板产品成本表</el-radio-button>
-          <el-radio-button label="路牙、盖板成本">路牙、盖板成本</el-radio-button>
+          <!--<el-radio-button label="路牙、盖板成本">路牙、盖板成本</el-radio-button>-->
           <el-radio-button label="固定资产投入">固定资产投入</el-radio-button>
-          <el-radio-button label="车间制造费用明细表">车间制造费用明细表</el-radio-button>
+          <el-radio-button label="车间制造费用明细">车间制造费用明细</el-radio-button>
           <el-radio-button label="产品库存表">产品库存表</el-radio-button>
           <el-radio-button label="原材料库存表">原材料库存表</el-radio-button>
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <div style="text-align: right" v-if="selectData.type === '产品库存表'">
+    <div style="text-align: right" v-if="selectData.type==='成本汇总表' || selectData.type==='固定资产投入' || selectData.type === '产品库存表' || selectData.type === '管理费用明细' || selectData.type === '车间制造费用明细'">
       <el-button-group>
         <el-button @click="handleDelete" type="warning">删除选中行</el-button>
         <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
@@ -27,7 +27,7 @@
       </el-button-group>
     </div>
     <el-table
-      :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
+      ref="tableData" v-if="selectData.type!=='成本汇总表'" :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
       :show-summary="isSummary" :summary-method="getSummaries" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"></el-table-column>
       <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label">
@@ -36,9 +36,31 @@
         </el-table-column>
       </el-table-column>
     </el-table>
-    <el-dialog :title="isEdit ? `编辑${selectData.type}数据` : `新增${selectData.type}数据`" :visible.sync="showForm">
-    <cost-fixed v-if="selectData.type==='固定资产投入'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
-    <cost-product-store v-if="selectData.type==='产品库存表'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+    <el-table v-else
+      ref="tableDataRef" :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
+      row-key="costIndex" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+      :show-summary="isSummary" :summary-method="getSummaries" @current-change="handleCurrentChange">
+      <el-table-column type="index" label="#" width="50"></el-table-column>
+      <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label">
+      </el-table-column>
+      <div slot="append">
+        <div v-if="selectData.type==='成本汇总表'">
+          <div ref="subtotalRef" v-for="(item, index) in tableSubtotal" :key="index" class="sum-footer">
+            <div class="sum-footer-unit sum-footer-warn">小计</div>
+            <div class="sum-footer-unit">{{item.costProject}}</div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit">{{item.costAmount}}</div>
+            <div class="sum-footer-unit"></div>
+          </div>
+        </div>
+      </div>
+    </el-table>
+    <el-dialog :title="isEdit ? `编辑 ${selectData.type} 数据` : `新增 ${selectData.type} 数据`" :visible.sync="showForm">
+      <cost-fixed v-if="selectData.type==='固定资产投入'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <cost-product-store v-if="selectData.type==='产品库存表'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <cost-manage-fee v-if="selectData.type==='管理费用明细'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh" />
+      <cost-workshop v-if="selectData.type==='车间制造费用明细'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh" />
+      <cost-summary-sheet v-if="selectData.type==='成本汇总表'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
   </div>
 </template>
@@ -47,14 +69,17 @@
 import thead from '@/util/costThead'
 import CostFixed from '../components/CostFixed'
 import CostProductStore from '../components/CostProductStore'
+import CostManageFee from '../components/CostManageFee'
+import CostWorkshop from '../components/CostWorkshop'
+import CostSummarySheet from '../components/CostSummarySheet'
 export default {
   name: 'Cost',
-  components: { CostProductStore, CostFixed },
+  components: { CostSummarySheet, CostWorkshop, CostManageFee, CostProductStore, CostFixed },
   data () {
     return {
       selectData: {
         month: this.$utils.toDateString(new Date(), 'yyyy-MM'),
-        type: '固定资产投入'
+        type: '成本汇总表'
       },
       tableHead: thead.fixed,
       isSummary: true,
@@ -62,6 +87,7 @@ export default {
       isEdit: false,
       baseData: {},
       tableData: [],
+      tableSubtotal: [],
       currentRow: {}
     }
   },
@@ -74,7 +100,7 @@ export default {
         switch (val.type) {
           case '成本汇总表':
             this.tableHead = thead.summarySheet
-            this.isSummary = true
+            this.isSummary = false
             break
           case '管理费用明细':
             this.tableHead = thead.manageFee
@@ -92,13 +118,13 @@ export default {
             this.tableHead = thead.fixed
             this.isSummary = true
             break
-          case '车间制造费用明细表':
+          case '车间制造费用明细':
             this.tableHead = thead.workshop
             this.isSummary = true
             break
           case '产品库存表':
             this.tableHead = thead.productStore
-            this.isSummary = true
+            this.isSummary = false
             break
           case '原材料库存表':
             this.tableHead = thead.materialStore
@@ -108,9 +134,26 @@ export default {
         this.getList()
       },
       deep: true
+    },
+    tableData: {
+      handler (val, old) {
+      },
+      deep: true
     }
   },
   methods: {
+    adjustWidth () {
+      this.$nextTick(() => {
+        if (this.$refs && this.$refs.tableDataRef && this.$refs.subtotalRef) {
+          // const width = getComputedStyle(this.$refs.tableDataRef.$refs.headerWrapper.querySelector('table')).width
+          // this.$refs.subtotalRef.forEach(item => { item.style = 'width:' + width })
+          Array.from(this.$refs.tableDataRef.$refs.headerWrapper.querySelectorAll('col')).forEach((n, i) => {
+            if (n.getAttribute('width') === '0') return
+            this.$refs.subtotalRef.forEach(item => { item.children[i].style = 'width:' + n.getAttribute('width') + 'px' })
+          })
+        }
+      })
+    },
     getList () {
       if (!this.selectData.month || !this.selectData.type) {
         this.$message.warning('请选择查询类别')
@@ -118,15 +161,19 @@ export default {
       }
       switch (this.selectData.type) {
         case '成本汇总表':
-          this.$api.cost.getWageList({ wageDate: this.selectData.month }).then(rsp => {
+          this.$api.cost.getSummarySheet({ costSummaryDate: this.selectData.month }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
+            this.tableSubtotal = rsp.total.filter(item => !!item)
+            this.adjustWidth()
+            // this.$refs.tableDataRef.doLayout()
           })
           break
         case '管理费用明细':
-          this.$api.cost.getSSFundList({ socialSecurityDate: this.selectData.month }).then(rsp => {
+          this.$api.cost.getManageFee({ costDetailDate: this.selectData.month, costType: '管理费用' }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
+            // this.$refs.tableData.doLayout()
           })
           break
         case '陶粒板产品成本表':
@@ -148,8 +195,8 @@ export default {
             this.tableData = rsp.data
           })
           break
-        case '车间制造费用明细表':
-          this.$api.cost.getOfficeList({ officeDate: this.selectData.month }).then(rsp => {
+        case '车间制造费用明细':
+          this.$api.cost.getWorkshop({ costDetailDate: this.selectData.month, costType: '车间制造费用' }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
           })
@@ -199,7 +246,7 @@ export default {
     deleteItem (item) {
       switch (this.selectData.type) {
         case '成本汇总表':
-          this.$api.cost.delWageItem({ wageId: item.wageId }).then(rsp => {
+          this.$api.cost.delSummarySheet({ costSummaryId: item.costSummaryId }).then(rsp => {
             if (rsp.result === 200) {
               this.$message({ type: 'success', message: '删除成功', duration: 1000 })
               this.getList()
@@ -207,7 +254,7 @@ export default {
           })
           break
         case '管理费用明细':
-          this.$api.cost.delSSFundItem({ socialSecurityId: item.socialSecurityId }).then(rsp => {
+          this.$api.cost.delManageFee({ costDetailId: item.costDetailId }).then(rsp => {
             if (rsp.result === 200) {
               this.$message({ type: 'success', message: '删除成功', duration: 1000 })
               this.getList()
@@ -238,8 +285,8 @@ export default {
             } else { this.$message.error(rsp.resultText) }
           })
           break
-        case '车间制造费用明细表':
-          this.$api.cost.delOfficeItem({ officeId: item.officeId }).then(rsp => {
+        case '车间制造费用明细':
+          this.$api.cost.delWorkshop({ costDetailId: item.costDetailId }).then(rsp => {
             if (rsp.result === 200) {
               this.$message({ type: 'success', message: '删除成功', duration: 1000 })
               this.getList()
@@ -273,10 +320,10 @@ export default {
         //   break
         case '管理费用明细':
           demo = 0
-          data.forEach((columns) => { demo = this.$utils.add(columns.officeAmount, demo) })
+          data.forEach((columns) => { demo = this.$utils.add(columns.amount, demo) })
           columns.forEach((columns, index) => {
             if (index === 0) sums[index] = '合计'
-            if (columns.property === 'officeAmount') sums[index] = demo
+            if (columns.property === 'amount') sums[index] = demo
           })
           break
         case '陶粒板产品成本表':
@@ -314,12 +361,12 @@ export default {
             }
           })
           break
-        case '车间制造费用明细表':
+        case '车间制造费用明细':
           demo = 0
-          data.forEach((columns) => { demo = this.$utils.add(columns.officeAmount, demo) })
+          data.forEach((columns) => { demo = this.$utils.add(columns.amount, demo) })
           columns.forEach((columns, index) => {
             if (index === 0) sums[index] = '合计'
-            if (columns.property === 'officeAmount') sums[index] = demo
+            if (columns.property === 'amount') sums[index] = demo
           })
           break
         // case '产品库存表':

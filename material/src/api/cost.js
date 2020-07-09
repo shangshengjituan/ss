@@ -1,6 +1,37 @@
 import axios from '@/util/request'
 
 const cost = {
+  // 成本汇总表
+  getSummarySheet (data) {
+    return axios.get('/costSummaryList', {
+      params: data
+    })
+  },
+  getSort () {
+    return axios.get('/costSort')
+  },
+  addSummarySheet (data) {
+    return axios.post('/insertCostSummary', data)
+  },
+  delSummarySheet (data) {
+    return axios.get('/delCostSummary', {
+      params: data
+    })
+  },
+  // 管理费用
+  getManageFee (data) {
+    return axios.get('/costDetailList', {
+      params: data
+    })
+  },
+  addManageFee (data) {
+    return axios.post('/insertCostDetail', data)
+  },
+  delManageFee (data) {
+    return axios.get('/delCostDetail', {
+      params: data
+    })
+  },
   // 陶粒板产品成本表
   getCeramsitePlate (data) {
     return axios.get('/ceramsiteProductCost', {
@@ -18,6 +49,20 @@ const cost = {
   },
   delFixedItem (data) {
     return axios.get('/delFixAsset', {
+      params: data
+    })
+  },
+  // 车间明细
+  getWorkshop (data) {
+    return axios.get('/costDetailList', {
+      params: data
+    })
+  },
+  addWorkshop (data) {
+    return axios.post('/insertCostDetail', data)
+  },
+  delWorkshop (data) {
+    return axios.get('/delCostDetail', {
       params: data
     })
   },

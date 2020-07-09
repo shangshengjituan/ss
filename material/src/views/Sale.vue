@@ -3,7 +3,7 @@
   <el-form :inline="true" class="top-form">
     <el-form-item label="月份">
       <el-date-picker
-        v-model="selectData.month" format="yyyy年MM月" value-format="yyyy-MM"
+        v-model="selectData.month" format="yyyy年MM月" value-format="yyyy-MM" size="small"
         type="month" placeholder="选择月" :editable="false" :clearable="false"></el-date-picker>
     </el-form-item>
     <el-form-item>

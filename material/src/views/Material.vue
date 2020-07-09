@@ -3,16 +3,16 @@
     <el-form :inline="true" class="top-form">
       <el-form-item label="月份">
         <el-date-picker
-          v-model="selectData.month" format="yyyy年MM月" value-format="yyyy-MM"
+          v-model="selectData.month" format="yyyy年MM月" value-format="yyyy-MM" size="small"
           type="month" placeholder="选择月" :editable="false" :clearable="false"></el-date-picker>
       </el-form-item>
       <el-form-item label="分类">
-        <el-cascader v-model="selectData.type" :options="options" :show-all-levels="false"></el-cascader>
+        <el-cascader v-model="selectData.type" :options="options" :show-all-levels="false" size="small"></el-cascader>
       </el-form-item>
     </el-form>
     <div style="text-align: right">
       <el-button-group>
-        <el-button @click="handleUpdate" type="danger" plain>更新库存</el-button>
+        <el-button v-show="selectData.type[0] !=='辅材'" @click="handleUpdate" type="danger" plain>更新库存</el-button>
         <el-button @click="handleDelete" type="warning">删除选中行</el-button>
         <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
         <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
@@ -83,7 +83,7 @@
         <el-button @click="handleDeleteSur" type="warning">删除选中实际量</el-button>
       </el-button-group>
     </div>
-    <el-dialog :title="isEdit ? `编辑 ${selectData.type} 数据` : `新增 ${selectData.type} 数据`" :visible.sync="showForm">
+    <el-dialog :title="isEdit ? `编辑 ${selectData.type[0]} 数据` : `新增 ${selectData.type[0]} 数据`" :visible.sync="showForm">
       <material-material v-show="selectData.type[0] !=='辅材'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <material-auxiliary v-show="selectData.type[0] ==='辅材'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
@@ -122,7 +122,7 @@ export default {
       showSurForm: false,
       tableAuxiliaryData: [], // 辅材
       usages: [],
-      isSummary1: false,
+      isSummary1: true,
       filterLength1: 0
     }
   },
@@ -357,8 +357,8 @@ export default {
         this.filterLength = 0
       } else {
         console.log(filters)
-        this.isSummary1 = this.filterLength1 > 0 && filters.useDetail.length > 0
-        console.log(this.isSummary1)
+        // this.isSummary1 = this.filterLength1 > 0 && filters.useDetail.length > 0
+        // console.log(this.isSummary1)
         this.filterLength1 = 0
       }
     }

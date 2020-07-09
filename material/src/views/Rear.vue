@@ -204,8 +204,8 @@ export default {
     adjustWidth () {
       this.$nextTick(() => {
         if (this.$refs && this.$refs.tableDataRef && this.$refs.subtotalRef) {
-          const width = getComputedStyle(this.$refs.tableDataRef.$refs.headerWrapper.querySelector('table')).width
-          this.$refs.subtotalRef.forEach(item => { item.style = 'width:' + width })
+          // const width = getComputedStyle(this.$refs.tableDataRef.$refs.headerWrapper.querySelector('table')).width
+          // this.$refs.subtotalRef.forEach(item => { item.style = 'width:' + width })
           Array.from(this.$refs.tableDataRef.$refs.headerWrapper.querySelectorAll('col')).forEach((n, i) => {
             if (n.getAttribute('width') === '0') return
             this.$refs.subtotalRef.forEach(item => { item.children[i].style = 'width:' + n.getAttribute('width') + 'px' })
@@ -584,7 +584,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .el-dialog {
   margin-top: 5vh;
 }
@@ -603,7 +603,7 @@ export default {
   .sum-footer-unit {
     flex-grow:1;
     -webkit-flex-grow:1;
-    text-indent:10px;
+    text-indent:5px;
     font-size:14px;
     font-weight: bold;
     background: #FFEFD5;

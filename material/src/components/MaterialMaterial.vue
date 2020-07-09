@@ -137,10 +137,10 @@ export default {
     formData: {
       handler (val, old) {
         if (val.materialPriceTax && val.materialQuantity) {
-          this.formData.materialAmountTax = this.$utils.multiply(val.materialPriceTax, val.materialQuantity)
-          this.formData.materialAmount = this.$utils.divide(this.formData.materialAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(2)
+          this.formData.materialAmountTax = this.$utils.multiply(val.materialPriceTax, val.materialQuantity).toFixed(2)
+          this.formData.materialAmount = this.$utils.divide(this.formData.materialAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(3)
           this.formData.tax = this.$utils.multiply(this.formData.materialAmount, this.$utils.divide(val.taxRate, 100)).toFixed(2)
-          this.formData.materialPrice = this.$utils.divide(this.formData.materialAmount, val.materialQuantity)
+          this.formData.materialPrice = this.$utils.divide(this.formData.materialAmount, val.materialQuantity).toFixed(3)
         }
         if (val.material) {
           val.materialId = val.material[1]
@@ -190,6 +190,9 @@ export default {
         } else {
           this.$message({ type: 'error', message: rsp.resultText })
         }
+      }).catch(err => {
+        this.unClick = false
+        this.$message({ type: 'error', message: err })
       })
     },
     editItem () {

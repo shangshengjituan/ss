@@ -2,25 +2,28 @@
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-form-item label="日期" prop="welfareDate">
+        <el-form-item label="日期" prop="costSummaryDate">
           <el-date-picker
-            v-model="formData.welfareDate" value-format="yyyy-MM-dd" class="width-full"
-            type="date" placeholder="选择日期" :editable="false" :clearable="false"></el-date-picker>
+            v-model="formData.costSummaryDate" value-format="yyyy-MM" class="width-full"
+            type="month" placeholder="选择月份" :editable="false" :clearable="false"></el-date-picker>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="姓名" prop="staffName">
-          <el-input v-model="formData.staffName" />
+        <el-form-item label="分类" prop="costSort">
+          <el-cascader v-model="formData.costSort" :options="sort" :props="{ expandTrigger: 'hover' }" class="width-full"></el-cascader>
+          <!--<el-input v-model="formData.costSortId" />-->
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-form-item label="项目" prop="costProject">
+          <el-input v-model="formData.costProject" />
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="事由">
-          <el-input v-model="formData.welfareCause" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="6">
-        <el-form-item label="金额" prop="welfareAmount">
-          <el-input v-model="formData.welfareAmount"><template slot="append">元</template></el-input>
+        <el-form-item label="金额" prop="costAmount">
+          <el-input v-model="formData.costAmount"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -40,7 +43,7 @@
 
 <script>
 export default {
-  name: 'RearWelfare',
+  name: 'CostSummarySheet',
   props: {
     baseData: Object,
     isEdit: Boolean
@@ -48,12 +51,14 @@ export default {
   data () {
     return {
       formData: {},
+      unClick: false,
       rules: {
-        welfareDate: [{ required: true, message: '不可为空' }],
-        staffName: [{ required: true, message: '不可为空' }],
-        welfareAmount: [{ required: true, message: '不可为空' }]
+        costSummaryDate: [{ required: true, message: '不可为空' }],
+        costSort: [{ required: true, message: '不可为空' }],
+        costProject: [{ required: true, message: '不可为空' }],
+        costAmount: [{ required: true, message: '不可为空' }]
       },
-      unClick: false
+      sort: []
     }
   },
   watch: {
@@ -62,7 +67,18 @@ export default {
         this.formData = Object.assign({}, val)
       },
       deep: true
+    },
+    formData: {
+      handler (val, old) {
+        if (val.costSort) {
+          val.costSortId = val.costSort[1]
+        }
+      },
+      deep: true
     }
+  },
+  created () {
+    this.getBase()
   },
   methods: {
     submitForm (formName) {
@@ -82,7 +98,7 @@ export default {
     addItem () {
       console.log('add')
       this.unClick = true
-      this.$api.rear.addWelfareItem(this.formData).then(rsp => {
+      this.$api.cost.addSummarySheet(this.formData).then(rsp => {
         console.log(rsp)
         this.unClick = false
         if (rsp.result === 200) {
@@ -98,6 +114,28 @@ export default {
     },
     editItem () {
       this.$emit('primary')
+    },
+    getBase () {
+      this.$api.cost.getSort().then(rsp => {
+        const temp = []
+        rsp.data.forEach((item, index) => {
+          temp.push({
+            label: item.costSort,
+            value: item.costSort,
+            children: []
+          })
+          if (item.costSortList) {
+            item.costSortList.forEach(it => {
+              temp[index].children.push({
+                label: it.costProject,
+                value: it.costSortId
+              })
+            })
+          }
+        })
+        this.sort = temp
+        // this.sort = rsp.data
+      })
     }
   }
 }

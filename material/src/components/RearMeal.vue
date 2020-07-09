@@ -125,6 +125,9 @@ export default {
         } else {
           this.$message.error(rsp.resultText)
         }
+      }).catch(err => {
+        this.unClick = false
+        this.$message({ type: 'error', message: err })
       })
     },
     editItem () {

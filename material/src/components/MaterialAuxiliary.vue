@@ -110,7 +110,7 @@ export default {
       },
       unClick: false,
       usages: [],
-      units: [{ value: '只' }, { value: '台' }, { value: '条' }, { value: '把' }, { value: '支' }, { value: '根' }],
+      units: [{ value: '台' }, { value: '套' }, { value: '车' }, { value: '付' }, { value: '把' }, { value: '元' }],
       supplier: [{ value: '零星采购' }, { value: '南京珏德新材料科技有限公司' }]
     }
   },
@@ -118,6 +118,7 @@ export default {
     baseData: {
       handler (val, old) {
         this.formData = Object.assign({}, val)
+        this.unClick = false
       },
       deep: true
     },
@@ -125,9 +126,9 @@ export default {
       handler (val, old) {
         if (val.materialPriceTax && val.materialQuantity) {
           this.formData.materialAmountTax = this.$utils.multiply(val.materialPriceTax, val.materialQuantity)
-          this.formData.materialAmount = this.$utils.divide(this.formData.materialAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(2)
+          this.formData.materialAmount = this.$utils.divide(this.formData.materialAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(3)
           this.formData.tax = this.$utils.multiply(this.formData.materialAmount, this.$utils.divide(val.taxRate, 100)).toFixed(2)
-          this.formData.materialPrice = this.$utils.divide(this.formData.materialAmount, val.materialQuantity)
+          this.formData.materialPrice = this.$utils.divide(this.formData.materialAmount, val.materialQuantity).toFixed(3)
         }
         this.formData.materialAmount = this.$utils.divide(this.formData.materialAmountTax, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(2)
         if (val.use) {
@@ -184,6 +185,9 @@ export default {
         } else {
           this.$message({ type: 'error', message: rsp.resultText })
         }
+      }).catch(err => {
+        this.unClick = false
+        this.$message({ type: 'error', message: err })
       })
     },
     editItem () {
