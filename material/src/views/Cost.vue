@@ -41,8 +41,11 @@
       row-key="costIndex" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       :show-summary="isSummary" :summary-method="getSummaries" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"></el-table-column>
-      <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label">
-      </el-table-column>
+      <el-table-column label="分类" class-name="icon" prop="costSort"></el-table-column>
+      <el-table-column label="项目" prop="costProject"></el-table-column>
+      <el-table-column label="项目" prop="costAmount"></el-table-column>
+      <el-table-column label="备注" prop="remark"></el-table-column>
+      <!--<el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" />-->
       <div slot="append">
         <div v-if="selectData.type==='成本汇总表'">
           <div ref="subtotalRef" v-for="(item, index) in tableSubtotal" :key="index" class="sum-footer">
@@ -147,7 +150,7 @@ export default {
         if (this.$refs && this.$refs.tableDataRef && this.$refs.subtotalRef) {
           // const width = getComputedStyle(this.$refs.tableDataRef.$refs.headerWrapper.querySelector('table')).width
           // this.$refs.subtotalRef.forEach(item => { item.style = 'width:' + width })
-          Array.from(this.$refs.tableDataRef.$refs.headerWrapper.querySelectorAll('col')).forEach((n, i) => {
+          this.$refs.tableDataRef.$refs.headerWrapper.querySelectorAll('col').forEach((n, i) => {
             if (n.getAttribute('width') === '0') return
             this.$refs.subtotalRef.forEach(item => { item.children[i].style = 'width:' + n.getAttribute('width') + 'px' })
           })
@@ -397,8 +400,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .el-dialog {
     margin-top: 5vh;
+  }
+  .el-table__expand-icon {
+    float: right;
   }
 </style>

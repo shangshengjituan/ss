@@ -43,7 +43,7 @@ export default {
 <style>
   .container {
     width: calc(100% - 20px);
-    margin: 10px;
+    margin: 10px 10px 60px;
   }
   .width-full {
     width: 100% !important;

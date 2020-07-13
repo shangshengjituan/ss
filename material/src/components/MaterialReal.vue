@@ -65,13 +65,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="金额(含税)" prop="materialAmountTax">
-              <el-input v-model="formData.materialAmountTax"><template slot="append">元</template></el-input>
+            <el-form-item label="金额(含税)" prop="materialAmount">
+              <el-input v-model="formData.materialAmount"><template slot="append">元</template></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="金额(不含税)" prop="materialAmount">
-              <el-input v-model="formData.materialAmount"><template slot="append">元</template></el-input>
+            <el-form-item label="金额(不含税)" prop="materialAmountTax">
+              <el-input v-model="formData.materialAmountTax"><template slot="append">元</template></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -222,7 +222,7 @@ export default {
           if (item.specificProductNameList) {
             item.specificProductNameList.forEach(it => {
               temp[index].children.push({
-                label: it.specificProductName,
+                label: it.specificProductName || item.rawMaterialCategory,
                 value: it.materialId
               })
             })

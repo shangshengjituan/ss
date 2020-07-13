@@ -210,7 +210,7 @@ export default {
           if (item.specificProductNameList) {
             item.specificProductNameList.forEach(it => {
               temp[index].children.push({
-                label: it.specificProductName,
+                label: it.specificProductName || item.rawMaterialCategory,
                 value: it.materialId
               })
             })

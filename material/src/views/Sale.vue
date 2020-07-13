@@ -99,7 +99,7 @@ export default {
     return {
       selectData: {
         month: this.$utils.toDateString(new Date(), 'yyyy-MM'),
-        type: '2'
+        type: '1'
       },
       showForm1: false,
       isEdit: false,
