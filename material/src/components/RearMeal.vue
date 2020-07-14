@@ -9,6 +9,15 @@
         </el-form-item>
       </el-col>
       <el-col :span="6">
+        <el-form-item label="类别" prop="staffType">
+          <el-select v-model="formData.staffType" placeholder="请选择" class="width-full">
+            <el-option key="管理人员" label="管理人员" value="管理人员" />
+            <el-option key="职工" label="职工" value="职工" />
+            <el-option key="其他人员" label="其他人员" value="其他人员" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
         <el-form-item label="姓名" prop="staffName">
           <el-input v-model="formData.staffName" />
         </el-form-item>
@@ -71,6 +80,7 @@ export default {
       rules: {
         foodDate: [{ required: true, message: '不可为空' }],
         staffName: [{ required: true, message: '不可为空' }],
+        staffType: [{ required: true, message: '不可为空' }],
         basePayPersonal: [{ required: true, message: '不可为空' }],
         attendance: [{ required: true, message: '不可为空' }]
       },

@@ -35,6 +35,20 @@
           <el-table-column v-for="i in it.children" :key="i.prop" :prop="i.prop" :label="i.label"/>
         </el-table-column>
       </el-table-column>
+      <div slot="append">
+        <div v-if="selectData.type==='陶粒板产品成本表'">
+          <div ref="subtotalRef" v-for="(item, index) in tableSubtotal" :key="index" class="sum-footer">
+            <div class="sum-footer-unit sum-footer-warn">小计</div>
+            <div class="sum-footer-unit">{{item.costSource}}</div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit"></div>
+            <div class="sum-footer-unit">{{item.cost}}</div>
+          </div>
+        </div>
+      </div>
     </el-table>
     <el-table v-else
       ref="tableDataRef" :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
@@ -155,6 +169,14 @@ export default {
             this.$refs.subtotalRef.forEach(item => { item.children[i].style = 'width:' + n.getAttribute('width') + 'px' })
           })
         }
+        if (this.$refs && this.$refs.tableData && this.$refs.subtotalRef) {
+          // const width = getComputedStyle(this.$refs.tableData.$refs.headerWrapper.querySelector('table')).width
+          // this.$refs.subtotalRef.forEach(item => { item.style = 'width:' + width })
+          this.$refs.tableData.$refs.headerWrapper.querySelectorAll('col').forEach((n, i) => {
+            if (n.getAttribute('width') === '0') return
+            this.$refs.subtotalRef.forEach(item => { item.children[i].style = 'width:' + n.getAttribute('width') + 'px' })
+          })
+        }
       })
     },
     getList () {
@@ -184,6 +206,8 @@ export default {
             console.log(rsp.data)
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
+            this.tableSubtotal = rsp.total.filter(item => !!item)
+            this.adjustWidth()
           })
           break
         case '路牙、盖板成本':

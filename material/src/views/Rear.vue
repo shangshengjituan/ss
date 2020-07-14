@@ -242,7 +242,12 @@ export default {
         case '检测费':
           this.$api.rear.getTestingList({ detectDate: this.selectData.month }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-            this.tableData = rsp.data
+            this.tableData = rsp.data.map(item => {
+              for (const key in item) {
+                if (item[key] === 0) item[key] = ''
+              }
+              return item
+            })
           })
           break
         case '招待费':
@@ -256,7 +261,10 @@ export default {
         case '办公费用':
           this.$api.rear.getOfficeList({ officeDate: this.selectData.month }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-            this.tableData = rsp.data
+            this.tableData = rsp.data.map(item => {
+              for (const key in item) { if (item[key] === 0) item[key] = '' }
+              return item
+            })
             this.tableSubtotal = rsp.total.filter(item => !!item)
             this.adjustWidth()
           })

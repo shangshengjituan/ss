@@ -139,7 +139,12 @@ export default {
         freightDate: this.selectData.month
       }).then(rsp => {
         this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-        this.tableData2 = rsp.data
+        this.tableData2 = rsp.data.map(item => {
+          for (const key in item) {
+            if (item[key] === 0) item[key] = ''
+          }
+          return item
+        })
       })
     },
     handleShow () {
