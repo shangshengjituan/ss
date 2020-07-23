@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'Toolbar',
+  name: 'Tool',
   data () {
     return {
       materialTypes: [],

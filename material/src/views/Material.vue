@@ -95,9 +95,9 @@
 
 <script>
 import thead from '@/util/materialThead'
-import MaterialMaterial from '../components/MaterialMaterial'
-import MaterialReal from '../components/MaterialReal'
-import MaterialAuxiliary from '../components/MaterialAuxiliary'
+import MaterialMaterial from '../components/Material/MaterialMaterial'
+import MaterialReal from '../components/Material/MaterialReal'
+import MaterialAuxiliary from '../components/Material/MaterialAuxiliary'
 export default {
   name: 'Material',
   components: { MaterialAuxiliary, MaterialReal, MaterialMaterial },

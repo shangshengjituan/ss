@@ -6,7 +6,7 @@ import { Message } from 'element-ui'
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 const instance = axios.create({
   // baseURL: 'http://192.168.20.100:8093'
-  baseURL: 'http://njssjt.wicp.vip'
+  baseURL: 'http://njssjt.wicp.vip:26296'
 })
 
 // 请求拦截器
@@ -40,7 +40,7 @@ instance.interceptors.response.use(
     Message({
       message: error,
       type: 'error',
-      duration: 5 * 1000
+      duration: 1000
     })
     console.log('response error:', error)
     return Promise.reject(error)

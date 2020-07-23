@@ -84,11 +84,11 @@
 
 <script>
 import thead from '@/util/costThead'
-import CostFixed from '../components/CostFixed'
-import CostProductStore from '../components/CostProductStore'
-import CostManageFee from '../components/CostManageFee'
-import CostWorkshop from '../components/CostWorkshop'
-import CostSummarySheet from '../components/CostSummarySheet'
+import CostFixed from '../components/Cost/CostFixed'
+import CostProductStore from '../components/Cost/CostProductStore'
+import CostManageFee from '../components/Cost/CostManageFee'
+import CostWorkshop from '../components/Cost/CostWorkshop'
+import CostSummarySheet from '../components/Cost/CostSummarySheet'
 export default {
   name: 'Cost',
   components: { CostSummarySheet, CostWorkshop, CostManageFee, CostProductStore, CostFixed },

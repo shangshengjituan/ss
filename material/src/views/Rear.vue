@@ -112,17 +112,17 @@
 
 <script>
 import thead from '@/util/rearThead'
-import RearWage from '../components/RearWage'
-import RearSSFund from '../components/RearSSFund'
-import RearUtilityFee from '../components/RearUtilityFee'
-import RearTestingFee from '../components/RearTestingFee'
-import RearEntertain from '../components/RearEntertain'
-import RearOffice from '../components/RearOffice'
-import RearMeal from '../components/RearMeal'
-import RearTravel from '../components/RearTravel'
-import RearConsultingFee from '../components/RearConsultingFee'
-import RearWelfare from '../components/RearWelfare'
-import RearEquipment from '../components/RearEquipment'
+import RearWage from '../components/Rear/RearWage'
+import RearSSFund from '../components/Rear/RearSSFund'
+import RearUtilityFee from '../components/Rear/RearUtilityFee'
+import RearTestingFee from '../components/Rear/RearTestingFee'
+import RearEntertain from '../components/Rear/RearEntertain'
+import RearOffice from '../components/Rear/RearOffice'
+import RearMeal from '../components/Rear/RearMeal'
+import RearTravel from '../components/Rear/RearTravel'
+import RearConsultingFee from '../components/Rear/RearConsultingFee'
+import RearWelfare from '../components/Rear/RearWelfare'
+import RearEquipment from '../components/Rear/RearEquipment'
 export default {
   name: 'Rear',
   components: { RearEquipment, RearWelfare, RearConsultingFee, RearTravel, RearMeal, RearOffice, RearEntertain, RearTestingFee, RearUtilityFee, RearSSFund, RearWage },
