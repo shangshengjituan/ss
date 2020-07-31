@@ -18,9 +18,16 @@
           </el-select>
         </el-form-item>
       </el-col>
+    </el-row>
+    <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="凭证号" prop="voucherNumber">
           <el-input v-model="formData.voucherNumber" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="录入日期">
+          <el-input v-model="formData.inputDate" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -31,13 +38,20 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="税率">
-          <el-input v-model="formData.taxRate"/>
+        <el-form-item label="税额">
+          <el-input v-model="formData.tax"/>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="总金额">
-          <el-input v-model="formData.totalAmount"><template slot="append">元</template></el-input>
+          <el-input v-model="formData.totalAmount" readonly><template slot="append">元</template></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="24">
+        <el-form-item label="备注">
+          <el-input v-model="formData.remark"/>
         </el-form-item>
       </el-col>
     </el-row>
@@ -72,6 +86,12 @@
 			baseData: {
 				handler (val) {
 					this.formData = Object.assign({}, val)
+				},
+				deep: true
+			},
+			formData: {
+				handler (val) {
+					val.totalAmount = this.$utils.add(val.receiptAmount, val.tax)
 				},
 				deep: true
 			}

@@ -5,6 +5,9 @@ const api = {
 	getProjects () {
 		return axios.get('/projectList')
 	},
+	getProjectsAndAll () {
+		return axios.get('/projectLists')
+	},
 	addProject (data) {
 		return axios.post('/insertProjectCode', data)
 	},

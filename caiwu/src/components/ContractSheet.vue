@@ -13,7 +13,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="甲方单位名称">
-          <el-select v-model="formData.partyAId" placeholder="请选择">
+          <el-select v-model="formData.partyAId" filterable placeholder="请选择">
             <el-option
               v-for="item in parties" :key="item.partyAId"
               :label="item.partyAName" :value="item.partyAId">

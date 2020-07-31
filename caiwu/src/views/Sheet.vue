@@ -8,15 +8,21 @@
           <el-radio-button label="合同价款">合同价款</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item v-if="this.searchData.type !== '合同价款'">
-        <el-date-picker
-          v-model="searchData.range" type="daterange" size="small" value-format="yyyy-MM-dd"
-          range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-        </el-date-picker>
-        <!--<el-date-picker-->
-          <!--v-model="searchData.month" format="yyyy年MM月" value-format="yyyy-MM" size="small"-->
-          <!--type="month" placeholder="选择月" :editable="false" :clearable="false"></el-date-picker>-->
+      <el-form-item>
+        <el-select v-model="searchData.projectId" size="small" filterable placeholder="选择项目">
+          <el-option
+            v-for="item in projects" :key="item.projectId"
+            :label="item.projectName" :value="item.projectId">
+          </el-option>
+        </el-select>
       </el-form-item>
+      <!--<el-form-item v-if="this.searchData.type !== '合同价款'">-->
+        <!--<el-date-picker-->
+          <!--v-model="searchData.range" type="daterange" size="small" value-format="yyyy-MM-dd"-->
+          <!--range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">-->
+        <!--</el-date-picker>-->
+      <!--</el-form-item>-->
+      <el-button style="float: right" @click="handleOutput" size="small" type="primary">导出数据</el-button>
     </el-form>
     <div style="text-align: right">
       <el-button-group>
@@ -26,20 +32,22 @@
       </el-button-group>
     </div>
     <el-table
-      ref="tableData" :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
+      ref="tableData" id="tableData" :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
       @current-change="handleCurrentChange">
       <el-table-column  type="index"/>
       <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" />
     </el-table>
     <el-dialog width="80%" :title="isEdit ? `编辑 ${searchData.type} 数据` : `新增 ${searchData.type} 数据`" :visible.sync="showForm">
-      <invoice-sheet v-if="searchData.type==='发票情况'" :projects="projects" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
-      <receipt-sheet v-if="searchData.type==='收款情况'" :projects="projects" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
-      <contract-sheet v-if="searchData.type==='合同价款'" :projects="projects" :parties="parties" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <invoice-sheet v-if="searchData.type==='发票情况'" :projects="projectsNotAll" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <receipt-sheet v-if="searchData.type==='收款情况'" :projects="projectsNotAll" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <contract-sheet v-if="searchData.type==='合同价款'" :projects="projectsNotAll" :parties="parties" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
   </div>
 </template>
 
 <script>
+	import FileSaver from 'file-saver'
+	import XLSX from 'xlsx'
   import thead from '../util/theadData'
 	import InvoiceSheet from "../components/InvoiceSheet";
 	import ReceiptSheet from "../components/ReceiptSheet";
@@ -53,19 +61,50 @@
 					range: '',
 					type: '发票情况'
 				},
-        selectData: {},
-        projects: [],
+        selectData: {
+					projectId: ''
+        },
+        projectsNotAll: [],
+				projectsAndAll: [],
+				projects: [],
 				parties: [],
 				tableHead: thead.invoice,
 				showForm: false,
 				isEdit: false,
 				baseData: {},
 				tableData: [],
+				pickerOptions: {
+					shortcuts: [{
+						text: '最近一月',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date();
+							start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+							picker.$emit('pick', [start, end]);
+						}
+					}, {
+						text: '今年',
+						onClick(picker) {
+							const now = new Date();
+							const start = now.getFullYear()+ '-01-01';
+							picker.$emit('pick', [new Date(start), now]);
+						}
+					}, {
+						text: '去年',
+						onClick(picker) {
+							const now = new Date();
+							const end = now.getFullYear()-1+ '-12-31';
+							const start = now.getFullYear()-1+ '-01-01';
+							picker.$emit('pick', [new Date(start), new Date(end)]);
+						}
+					}]
+				},
 				currentRow: {}
       }
     },
 		created () {
 			this.getProjects()
+			// this.projects = this.projectsNotAll
 		},
 		watch: {
 			searchData: {
@@ -73,18 +112,23 @@
 					switch (val.type) {
 						case '发票情况':
 							this.tableHead = thead.invoice
+              this.projects = this.projectsNotAll
 							break
 						case '收款情况':
 							this.tableHead = thead.receipt
+							this.projects = this.projectsNotAll
 							break
 						case '合同价款':
 							this.tableHead = thead.contract
+							this.projects = this.projectsAndAll
 							break
 					}
 					this.tableData = []
 					console.log(val)
-					this.selectData = Object.assign({}, {startTime: val.range[0], endTime: val.range[1]})
-					this.getList()
+					this.selectData.projectId = val.projectId
+          if (this.selectData.projectId|| this.selectData.projectId === 0) {
+						this.getList()
+          }
 				},
 				deep: true
 			}
@@ -92,32 +136,36 @@
 		methods: {
 			getProjects () {
 				this.$api.getProjects().then(rsp => {
-					this.projects = rsp.data
+					this.projectsNotAll = rsp.data
+					this.projects = this.projectsNotAll
 				})
 				this.$api.getParties().then(rsp => {
 					this.parties = rsp.data
+				})
+				this.$api.getProjectsAndAll().then(rsp => {
+					this.projectsAndAll = rsp.data
 				})
       },
 			getList () {
 				switch (this.searchData.type) {
 					case '发票情况':
-						if (this.searchData.range) {
+						// if (this.searchData.range) {
 							this.$api.getInvoices(this.selectData).then(rsp => {
 								this.$message({ type: 'success', message: '查询成功', duration: 1000 })
 								this.tableData = rsp.data
 							})
-						}
+						// }
 						break
 					case '收款情况':
-						if (this.searchData.range) {
+						// if (this.searchData.range) {
 							this.$api.getReceipts(this.selectData).then(rsp => {
 								this.$message({ type: 'success', message: '查询成功', duration: 1000 })
 								this.tableData = rsp.data
 							})
-						}
+						// }
 						break
 					case '合同价款':
-						this.$api.getContracts().then(rsp => {
+						this.$api.getContracts(this.selectData).then(rsp => {
 							this.$message({ type: 'success', message: '查询成功', duration: 1000 })
 							this.tableData = rsp.data
 						})
@@ -141,7 +189,9 @@
 			},
 			handleHideFresh () {
 				this.handleHide()
-				this.getList()
+				if (this.selectData.projectId|| this.selectData.projectId === 0) {
+					this.getList()
+				}
 			},
 			handleCurrentChange (val) {
 				this.currentRow = val
@@ -160,7 +210,9 @@
 						this.$api.deleteInvoice({ invoiceId: item.invoiceId }).then(rsp => {
 							if (rsp.result === 200) {
 								this.$message({ type: 'success', message: '删除成功', duration: 1000 })
-								this.getList()
+								if (this.selectData.projectId|| this.selectData.projectId === 0) {
+									this.getList()
+								}
 							} else { this.$message.error(rsp.resultText) }
 						})
 						break
@@ -168,7 +220,9 @@
 						this.$api.deleteReceipt({ receiptId: item.receiptId }).then(rsp => {
 							if (rsp.result === 200) {
 								this.$message({ type: 'success', message: '删除成功', duration: 1000 })
-								this.getList()
+								if (this.selectData.projectId|| this.selectData.projectId === 0) {
+									this.getList()
+								}
 							} else { this.$message.error(rsp.resultText) }
 						})
 						break
@@ -176,11 +230,32 @@
 						this.$api.deleteContract({ contractId: item.contractId }).then(rsp => {
 							if (rsp.result === 200) {
 								this.$message({ type: 'success', message: '删除成功', duration: 1000 })
-								this.getList()
+								if (this.selectData.projectId|| this.selectData.projectId === 0) {
+									this.getList()
+								}
 							} else { this.$message.error(rsp.resultText) }
 						})
 						break
 				}
+			},
+			handleOutput () {
+				// const temp = this.selectData.startTime + '至'+ this.selectData.endTime
+				// console.log(temp)
+				const xlsxParam = { raw: true }
+				const wb = XLSX.utils.table_to_book(document.querySelector('#tableData'), xlsxParam) // 表格的id名
+				console.log(wb)
+				/* 获取二进制字符串作为输出 */
+				const wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+				console.log(wbout)
+				try {
+					FileSaver.saveAs(
+						new Blob([wbout], { type: 'application/octet-stream' }),
+						this.searchData.type + '.xlsx'
+					)
+				} catch (e) {
+					if (typeof console !== 'undefined') console.log(e, wbout)
+				}
+				return wbout
 			}
     }
 	}

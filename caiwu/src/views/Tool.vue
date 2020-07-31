@@ -14,10 +14,10 @@
             </el-form>
           </div>
           <el-table
-            :data="projects.filter(data => !search || data.projectName.includes(search))"
+            :data="projects.filter(data => !search || data.projectName.indexOf(search) !==-1)"
             max-height="650">
             <el-table-column type="index" width="60px"/>
-            <el-table-column label="项目名称" width="250px" prop="projectName" />
+            <el-table-column label="项目名称" width="300px" prop="projectName" />
             <el-table-column label="项目号" width="100px" prop="projectNumber" />
             <el-table-column label="操作" align="right" width="120px">
               <template slot-scope="scope">
@@ -29,18 +29,29 @@
         </el-card>
       </el-tab-pane>
       <el-tab-pane label="甲方" name="甲方">
-        <el-card shadow="hover" style="width: 400px">
-          <div slot="header" class="card-header">
-            <!--<span>甲方</span>-->
-            <el-button  type="primary" size="mini" icon="el-icon-plus" @click="handleShow">新增数据</el-button></div>
-          <div v-for="(item, index) in parties" :key="item.partyAId" class="text item">
-            {{index+1 + '. '+ item.partyAName }}
-            <div style="float: right">
-              <el-button style="padding: 0" type="text" @click="handleEditShow(item)">编辑</el-button>
-              <el-button style="padding: 0" type="text" @click="handleDelete(item)">删除</el-button>
-            </div>
+        <el-card shadow="hover">
+          <div slot="header">
+            <el-form :inline="true">
+              <el-form-item>
+                <el-button type="primary" size="mini" @click="handleShow" icon="el-icon-plus">新增数据</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-input v-model="search1" size="mini" placeholder="输入甲方名称关键字搜索"></el-input>
+              </el-form-item>
+            </el-form>
           </div>
-          <!--<el-tree :data="parties" @node-click="handleNodeClick"></el-tree>-->
+          <el-table
+            :data="parties.filter(data => !search1 || data.partyAName.includes(search1))"
+            max-height="650">
+            <el-table-column type="index" width="60px"/>
+            <el-table-column label="甲方名称" width="300px" prop="partyAName" />
+            <el-table-column label="操作" align="right" width="120px">
+              <template slot-scope="scope">
+                <el-button type="text" @click="handleEditShow(scope.row)">编辑</el-button>
+                <el-button type="text" @click="handleDelete(scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-card>
       </el-tab-pane>
     </el-tabs>
@@ -75,6 +86,7 @@
 				projects: [],
 				parties: [],
 				search: '',
+				search1: '',
 				showForm: false,
 				isEdit: false,
 				baseData: {},
