@@ -11,9 +11,25 @@ const api = {
 	modifyProject (data) {
 		return axios.post('/updateProjectCode', data)
 	},
+	deleteProject (data) {
+		return axios.get('/delProject', {
+			params: data
+		})
+	},
 	// 甲方
 	getParties () {
 		return axios.get('/partyAList')
+	},
+	addParty (data) {
+		return axios.post('/insertPartyA', data)
+	},
+	modifyParty (data) {
+		return axios.post('/updatePartyA', data)
+	},
+	deleteParty (data) {
+		return axios.get('/delPartyA', {
+			params: data
+		})
 	},
 	// 发票
 	addInvoice (data) {
@@ -66,6 +82,12 @@ const api = {
 			params: data
 		})
 	},
+	// 汇总
+	getSummary (data) {
+		return axios.get('/statisticList', {
+			params: data
+		})
+	}
 }
 
 export default api

@@ -1,22 +1,16 @@
 <template>
   <div>
     <el-form :inline="true" class="top-form">
-      <el-form-item label="月份">
-        <!--<el-date-picker-->
-        <!--v-model="searchData.month" format="yyyy年MM月" value-format="yyyy-MM" size="small"-->
-        <!--type="month" placeholder="选择月" :editable="false" :clearable="false"></el-date-picker>-->
-      </el-form-item>
+      <el-date-picker
+        v-model="searchData.range"
+        type="daterange"
+        range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+        size="small" value-format="yyyy-MM-dd" :picker-options="pickerOptions">
+      </el-date-picker>
+      <el-button style="float: right" @click="handleOutput" size="small" type="primary">导出数据</el-button>
     </el-form>
-    <div style="text-align: right">
-      <el-button-group>
-        <el-button @click="handleDelete" type="warning">删除选中行</el-button>
-        <el-button @click="handleEditShow" type="warning">编辑选中行</el-button>
-        <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
-      </el-button-group>
-    </div>
     <el-table
-      ref="tableData" :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
-      @current-change="handleCurrentChange">
+      ref="tableData" id="tableData" :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row>
       <el-table-column type="index"/>
       <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" />
     </el-table>
@@ -24,6 +18,8 @@
 </template>
 
 <script>
+	import FileSaver from 'file-saver'
+	import XLSX from 'xlsx'
 	import thead from '../util/theadData'
 	export default {
 		name: "SummarySheet",
@@ -33,85 +29,76 @@
 					range: '',
 				},
 				selectData: {},
-				projects: [],
-				parties: [],
 				tableHead: thead.summary,
-				showForm: false,
-				isEdit: false,
-				baseData: {},
 				tableData: [],
-				currentRow: {}
+				pickerOptions: {
+					shortcuts: [{
+						text: '最近一月',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date();
+							start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+							picker.$emit('pick', [start, end]);
+						}
+					}, {
+						text: '今年',
+						onClick(picker) {
+							const now = new Date();
+							const start = now.getFullYear()+ '-01-01';
+							picker.$emit('pick', [new Date(start), now]);
+						}
+					}, {
+						text: '去年',
+						onClick(picker) {
+							const now = new Date();
+							const end = now.getFullYear()-1+ '-12-31';
+							const start = now.getFullYear()-1+ '-01-01';
+							picker.$emit('pick', [new Date(start), new Date(end)]);
+						}
+					}]
+				}
 			}
 		},
 		created () {
-			this.getProjects()
+			// this.getSummary()
 		},
 		watch: {
 			searchData: {
 				handler (val) {
 					console.log(val)
 					this.selectData = Object.assign({}, {startTime: val.range[0], endTime: val.range[1]})
-					this.getList()
+					this.getSummary()
 				},
 				deep: true
 			}
 		},
 		methods: {
-			getProjects () {
-				this.$api.getProjects().then(rsp => {
-					this.projects = rsp.data
-				})
-				this.$api.getParties().then(rsp => {
-					this.parties = rsp.data
-				})
-			},
-			getList () {
-				if (!this.searchData.range || !this.searchData.type) {
-					this.$message.warning('请选择查询类别')
-					return
+			getSummary () {
+				if (this.searchData.range) {
+					this.$api.getSummary(this.selectData).then(rsp => {
+						this.$message({ type: 'success', message: '查询成功', duration: 1000 })
+						this.tableData = rsp.data
+					})
 				}
-				this.$api.getInvoices(this.selectData).then(rsp => {
-					this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-					this.tableData = rsp.data
-				})
 			},
-			handleShow () {
-				this.showForm = true
-				this.isEdit = false
-				this.baseData = {}
-				console.log(JSON.stringify(this.baseData))
-			},
-			handleEditShow () {
-				this.showForm = true
-				this.isEdit = true
-				this.baseData = this.currentRow
-				console.log(JSON.stringify(this.baseData))
-			},
-			handleHide () {
-				this.showForm = false
-			},
-			handleHideFresh () {
-				this.handleHide()
-				this.getList()
-			},
-			handleCurrentChange (val) {
-				this.currentRow = val
-			},
-			handleDelete () {
-				console.log(this.currentRow)
-				if (JSON.stringify(this.currentRow) === '{}') return
-				this.$confirm('此操作将永久删除该条数据, 是否继续?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' })
-					.then(() => {
-						this.deleteItem(this.currentRow)
-					}).catch(() => { this.$message({ type: 'info', message: '已取消删除', duration: 1000 }) })
-			},
-			deleteItem (item) {
-				this.$api.deleteInvoice({ invoiceId: item.invoiceId }).then(rsp => {
-					if (rsp.result === 200) {
-						this.$message({ type: 'success', message: '删除成功', duration: 1000 })
-						this.getList()
-					} else { this.$message.error(rsp.resultText) }
-				})
+			handleOutput () {
+				const temp = this.selectData.startTime + '至'+ this.selectData.endTime
+        console.log(temp)
+				const xlsxParam = { raw: true }
+				const wb = XLSX.utils.table_to_book(document.querySelector('#tableData'), xlsxParam) // 表格的id名
+				console.log(wb)
+				/* 获取二进制字符串作为输出 */
+				const wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+        console.log(wbout)
+				try {
+					FileSaver.saveAs(
+						new Blob([wbout], { type: 'application/octet-stream' }),
+						temp + '应收工程款汇总表.xlsx'
+					)
+				} catch (e) {
+					if (typeof console !== 'undefined') console.log(e, wbout)
+				}
+				return wbout
 			}
 		}
 	}

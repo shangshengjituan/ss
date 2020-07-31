@@ -1,4 +1,5 @@
 const thead = {
+	// 发票
 	invoice: [
 		{ label: '项目', prop: 'projectName' },
 		{ label: '项目号', prop: 'projectNumber' },
@@ -18,6 +19,7 @@ const thead = {
 		{ label: '税率', prop: 'taxRate' },
 		{ label: '总金额', prop: 'totalAmount' }
 	],
+	// 合同价款
 	contract: [
 		{ label: '项目', prop: 'projectName' },
 		{ label: '项目号', prop: 'projectNumber' },
@@ -26,15 +28,16 @@ const thead = {
 		{ label: '结算价款', prop: 'settlementPrice' },
 		{ label: '累计产值', prop: 'cumulativeOutputValue' }
 	],
+	// 汇总
 	summary: [
-		{ label: '项目', prop: 'materialQuantity' },
-		{ label: '项目号', prop: 'materialQuantity' },
-		{ label: '甲方单位名称', prop: 'materialStatisticDate' },
-		{ label: '合同价', prop: 'rawMaterialCategory' },
-		{ label: '上报结算价', prop: 'specificProductName' },
-		{ label: '累计产值', prop: 'materialQuantity' },
-		{ label: '开票合计', prop: 'materialQuantity' },
-		{ label: '已收款合计', prop: 'materialQuantity' }
+		{ label: '项目', prop: 'projectName' },
+		{ label: '项目号', prop: 'projectNumber' },
+		{ label: '甲方单位名称', prop: 'partyAName' },
+		{ label: '合同价', prop: 'contractPrice' },
+		{ label: '上报结算价', prop: 'settlementPrice' },
+		{ label: '累计产值', prop: 'cumulativeOutputValue' },
+		{ label: '开票合计', prop: 'invoiceTotal' },
+		{ label: '已收款合计', prop: 'receiptTotal' }
 	]
 }
 

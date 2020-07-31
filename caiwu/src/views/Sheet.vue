@@ -1,18 +1,6 @@
 <template>
   <div>
     <el-form :inline="true" class="top-form">
-      <el-form-item label="月份">
-        <el-date-picker
-          v-model="searchData.range"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期" size="small" value-format="yyyy-MM-dd">
-        </el-date-picker>
-        <!--<el-date-picker-->
-          <!--v-model="searchData.month" format="yyyy年MM月" value-format="yyyy-MM" size="small"-->
-          <!--type="month" placeholder="选择月" :editable="false" :clearable="false"></el-date-picker>-->
-      </el-form-item>
       <el-form-item>
         <el-radio-group v-model="searchData.type" size="small">
           <el-radio-button label="发票情况">发票情况</el-radio-button>
@@ -20,12 +8,21 @@
           <el-radio-button label="合同价款">合同价款</el-radio-button>
         </el-radio-group>
       </el-form-item>
+      <el-form-item v-if="this.searchData.type !== '合同价款'">
+        <el-date-picker
+          v-model="searchData.range" type="daterange" size="small" value-format="yyyy-MM-dd"
+          range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+        </el-date-picker>
+        <!--<el-date-picker-->
+          <!--v-model="searchData.month" format="yyyy年MM月" value-format="yyyy-MM" size="small"-->
+          <!--type="month" placeholder="选择月" :editable="false" :clearable="false"></el-date-picker>-->
+      </el-form-item>
     </el-form>
     <div style="text-align: right">
       <el-button-group>
-        <el-button @click="handleDelete" type="warning">删除选中行</el-button>
-        <el-button @click="handleEditShow" type="warning">编辑选中行</el-button>
-        <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
+        <el-button @click="handleDelete" size="small" type="warning">删除选中行</el-button>
+        <el-button @click="handleEditShow" size="small" type="warning">编辑选中行</el-button>
+        <el-button @click="handleShow" size="small" type="primary" icon="el-icon-plus">新增数据</el-button>
       </el-button-group>
     </div>
     <el-table
@@ -34,7 +31,7 @@
       <el-table-column  type="index"/>
       <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" />
     </el-table>
-    <el-dialog :title="isEdit ? `编辑 ${searchData.type} 数据` : `新增 ${searchData.type} 数据`" :visible.sync="showForm">
+    <el-dialog width="80%" :title="isEdit ? `编辑 ${searchData.type} 数据` : `新增 ${searchData.type} 数据`" :visible.sync="showForm">
       <invoice-sheet v-if="searchData.type==='发票情况'" :projects="projects" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <receipt-sheet v-if="searchData.type==='收款情况'" :projects="projects" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <contract-sheet v-if="searchData.type==='合同价款'" :projects="projects" :parties="parties" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
@@ -84,6 +81,7 @@
 							this.tableHead = thead.contract
 							break
 					}
+					this.tableData = []
 					console.log(val)
 					this.selectData = Object.assign({}, {startTime: val.range[0], endTime: val.range[1]})
 					this.getList()
@@ -101,25 +99,25 @@
 				})
       },
 			getList () {
-				if (!this.searchData.range || !this.searchData.type) {
-					this.$message.warning('请选择查询类别')
-					return
-				}
 				switch (this.searchData.type) {
 					case '发票情况':
-						this.$api.getInvoices(this.selectData).then(rsp => {
-							this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-							this.tableData = rsp.data
-						})
+						if (this.searchData.range) {
+							this.$api.getInvoices(this.selectData).then(rsp => {
+								this.$message({ type: 'success', message: '查询成功', duration: 1000 })
+								this.tableData = rsp.data
+							})
+						}
 						break
 					case '收款情况':
-						this.$api.getReceipts(this.selectData).then(rsp => {
-							this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-							this.tableData = rsp.data
-						})
+						if (this.searchData.range) {
+							this.$api.getReceipts(this.selectData).then(rsp => {
+								this.$message({ type: 'success', message: '查询成功', duration: 1000 })
+								this.tableData = rsp.data
+							})
+						}
 						break
 					case '合同价款':
-						this.$api.getContracts(this.selectData).then(rsp => {
+						this.$api.getContracts().then(rsp => {
 							this.$message({ type: 'success', message: '查询成功', duration: 1000 })
 							this.tableData = rsp.data
 						})
@@ -205,9 +203,9 @@
     background-color: #FFFFE0;
 
   }
-  .el-dialog {
-    width: 80%;
-  }
+  /*.el-dialog {*/
+    /*width: 80%;*/
+  /*}*/
   .el-table__header-wrapper tbody td {
     text-align: center;
   }

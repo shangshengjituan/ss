@@ -1,45 +1,43 @@
 <template>
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
-    <el-row :gutter="20">
+    <el-row :gutter="8">
       <el-col :span="12">
         <el-form-item label="开票日期" prop="invoiceDate">
           <el-date-picker
-            v-model="formData.invoiceDate" value-format="yyyy-MM-dd" class="width-full"
+            v-model="formData.invoiceDate" value-format="yyyy-MM-dd"
             type="date" placeholder="选择日期" :editable="false" :clearable="false"></el-date-picker>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="8">
         <el-form-item label="项目" prop="projectId">
           <el-select v-model="formData.projectId" filterable placeholder="请选择">
             <el-option
-              v-for="item in projects"
-              :key="item.projectId"
-              :label="item.projectName"
-              :value="item.projectId">
+              v-for="item in projects" :key="item.projectId"
+              :label="item.projectName" :value="item.projectId">
             </el-option>
           </el-select>
         </el-form-item>
       </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="6">
+      <el-col :span="8">
         <el-form-item label="凭证号" prop="voucherNumber">
           <el-input v-model="formData.voucherNumber" />
         </el-form-item>
       </el-col>
-      <el-col :span="6">
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="8">
         <el-form-item label="发票金额">
-          <el-input v-model="formData.invoiceAmount" />
+          <el-input v-model="formData.invoiceAmount"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="8">
         <el-form-item label="税率">
           <el-input v-model="formData.taxRate" />
         </el-form-item>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="8">
         <el-form-item label="总金额">
-          <el-input v-model="formData.totalAmount" />
+          <el-input v-model="formData.totalAmount"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>

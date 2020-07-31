@@ -1,45 +1,41 @@
 <template>
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
     <el-row :gutter="20">
-      <el-col :span="12">
+      <el-col :span="8">
         <el-form-item label="项目" prop="projectId">
           <el-select v-model="formData.projectId" filterable placeholder="请选择">
             <el-option
-              v-for="item in projects"
-              :key="item.projectId"
-              :label="item.projectName"
-              :value="item.projectId">
+              v-for="item in projects" :key="item.projectId"
+              :label="item.projectName" :value="item.projectId">
             </el-option>
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
-        <el-form-item label="甲方单位名称" prop="partyAId">
+      <el-col :span="8">
+        <el-form-item label="甲方单位名称">
           <el-select v-model="formData.partyAId" placeholder="请选择">
             <el-option
-              v-for="item in parties"
-              :key="item.partyAId"
-              :label="item.partyAName"
-              :value="item.partyAId">
+              v-for="item in parties" :key="item.partyAId"
+              :label="item.partyAName" :value="item.partyAId">
             </el-option>
           </el-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="6">
+      <el-col :span="8">
         <el-form-item label="合同价款">
-          <el-input v-model="formData.contractPrice" />
+          <el-input v-model="formData.contractPrice"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="8">
         <el-form-item label="结算价款">
-          <el-input v-model="formData.settlementPrice" />
+          <el-input v-model="formData.settlementPrice"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="8">
         <el-form-item label="累计产值">
-          <el-input v-model="formData.cumulativeOutputValue" />
+          <el-input v-model="formData.cumulativeOutputValue"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -65,7 +61,6 @@
 				unClick: false,
 				rules: {
 					invoiceDate: [{ required: true, message: '不可为空' }],
-					partyAId: [{ required: true, message: '不可为空' }],
 					equipmentName: [{ required: true, message: '不可为空' }],
 					detectPayment: [{ required: true, message: '不可为空' }]
 				}
