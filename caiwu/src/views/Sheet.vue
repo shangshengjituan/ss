@@ -152,7 +152,14 @@
 						// if (this.searchData.range) {
 							this.$api.getInvoices(this.selectData).then(rsp => {
 								this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-								this.tableData = rsp.data
+								this.tableData = rsp.data.map(item => {
+									Object.assign(item, {
+										invoiceAmountDemo: this.$utils.commafy(item.invoiceAmount, {digits: 2}),
+										taxDemo: this.$utils.commafy(item.tax, {digits: 2}),
+										totalAmountDemo: this.$utils.commafy(item.totalAmount, {digits: 2})
+									})
+									return item
+								})
 							})
 						// }
 						break
@@ -160,14 +167,27 @@
 						// if (this.searchData.range) {
 							this.$api.getReceipts(this.selectData).then(rsp => {
 								this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-								this.tableData = rsp.data
+								this.tableData = rsp.data.map(item => {
+									Object.assign(item, {
+										receiptAmountDemo: this.$utils.commafy(item.receiptAmount, {digits: 2}),
+										taxDemo: this.$utils.commafy(item.tax, {digits: 2}),
+										totalAmountDemo: this.$utils.commafy(item.totalAmount, {digits: 2})
+									})
+                  return item
+                })
 							})
 						// }
 						break
 					case '合同价款':
 						this.$api.getContracts(this.selectData).then(rsp => {
 							this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-							this.tableData = rsp.data
+							this.tableData = rsp.data.map(item => {
+								Object.assign(item, {
+									contractPriceDemo: this.$utils.commafy(item.contractPrice, {digits: 2}),
+									settlementPriceDemo: this.$utils.commafy(item.settlementPrice, {digits: 2}),
+								})
+								return item
+							})
 						})
 						break
 				}

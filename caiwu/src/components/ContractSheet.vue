@@ -57,7 +57,7 @@
 		},
 		data () {
 			return {
-				formData: {},
+				formData: Object.assign({}, this.baseData),
 				unClick: false,
 				rules: {
 					invoiceDate: [{ required: true, message: '不可为空' }],

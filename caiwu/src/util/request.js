@@ -4,6 +4,7 @@ import { Message } from 'element-ui'
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 const instance = axios.create({
 	baseURL: 'http://192.168.20.100:8094'
+	// baseURL: 'http://2e56198e61.zicp.vip:40574'
 })
 
 // 请求拦截器

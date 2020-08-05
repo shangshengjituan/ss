@@ -22,11 +22,11 @@
       <el-table-column prop="projectName" label="项目"/>
       <el-table-column prop="projectNumber" label="项目号" />
       <el-table-column prop="partyAName" label="甲方单位名称" />
-      <el-table-column prop="contractPrice" label="合同价" />
-      <el-table-column prop="settlementPrice" label="上报结算价" />
+      <el-table-column prop="contractPriceDemo" label="合同价" />
+      <el-table-column prop="settlementPriceDemo" label="上报结算价" />
       <el-table-column prop="cumulativeOutputValue" label="累计产值" />
-      <el-table-column prop="invoiceTotal" label="开票合计" />
-      <el-table-column prop="receiptTotal" label="已收款合计" />
+      <el-table-column prop="invoiceTotalDemo" label="开票合计" />
+      <el-table-column prop="receiptTotalDemo" label="已收款合计" />
     </el-table>
   </div>
 </template>
@@ -41,7 +41,7 @@
 			return {
 				searchData: {
 					// range: '',
-					projectId: 0
+					projectId: ''
 				},
 				selectData: {
 					projectId: 0
@@ -85,13 +85,22 @@
 			getProjects () {
 				this.$api.getProjectsAndAll().then(rsp => {
 					this.projects = rsp.data
+          this.searchData.projectId = 0
 				})
 			},
 			getSummary () {
 				// if (this.searchData.range) {
 					this.$api.getSummary({projectId: this.selectData.projectId}).then(rsp => {
 						this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-						this.tableData = rsp.data
+						this.tableData = rsp.data.map(item => {
+							Object.assign(item, {
+								contractPriceDemo: this.$utils.commafy(item.contractPrice, {digits: 2}),
+								invoiceTotalDemo: this.$utils.commafy(item.invoiceTotal, {digits: 2}),
+								receiptTotalDemo: this.$utils.commafy(item.receiptTotal, {digits: 2}),
+								settlementPriceDemo: this.$utils.commafy(item.settlementPrice, {digits: 2})
+							})
+							return item
+						})
 					})
 				// }
 			},
@@ -109,29 +118,33 @@
 				const { columns, data } = param;
 				console.log(columns, data)
         if (columns.length === 0) return false
-				let sums = [], demo = [0,0,0,0];
+				let sums = [], demo = [0,0,0,0,0];
 				data.forEach((columns) => {
 					console.log(columns)
 					demo[0] = this.$utils.add(columns.contractPrice, demo[0])
 					demo[1] = this.$utils.add(columns.settlementPrice, demo[1])
 					demo[2] = this.$utils.add(columns.invoiceTotal, demo[2])
 					demo[3] = this.$utils.add(columns.receiptTotal, demo[3])
+					demo[4] = this.$utils.add(columns.cumulativeOutputValue, demo[4])
 				})
         console.log(demo)
 				columns.forEach((columns, index) => {
 					if (index === 0) sums[index] = '合计'
 					switch (columns.property) {
-						case 'contractPrice':
-							sums[index] = demo[0]
+						case 'contractPriceDemo':
+							sums[index] = this.$utils.commafy(demo[0], {digits: 2})
 							break
-						case 'settlementPrice':
-							sums[index] = demo[1]
+						case 'settlementPriceDemo':
+							sums[index] = this.$utils.commafy(demo[1], {digits: 2})
 							break
-						case 'invoiceTotal':
-							sums[index] = demo[2]
+						case 'invoiceTotalDemo':
+							sums[index] = this.$utils.commafy(demo[2], {digits: 2})
 							break
-						case 'receiptTotal':
-							sums[index] = demo[3]
+						case 'receiptTotalDemo':
+							sums[index] = this.$utils.commafy(demo[3], {digits: 2})
+							break
+						case 'cumulativeOutputValue':
+							sums[index] = this.$utils.commafy(demo[4], {digits: 2})
 							break
 					}
 				})

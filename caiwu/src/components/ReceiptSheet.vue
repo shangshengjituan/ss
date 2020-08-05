@@ -2,10 +2,10 @@
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="开票日期" prop="receiptDate">
+        <el-form-item label="收款日期" prop="receiptDate">
           <el-date-picker
             v-model="formData.receiptDate" value-format="yyyy-MM-dd"
-            type="date" placeholder="选择日期" :editable="false" :clearable="false"></el-date-picker>
+            type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -21,19 +21,21 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="凭证号" prop="voucherNumber">
+        <el-form-item label="凭证号">
           <el-input v-model="formData.voucherNumber" />
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="录入日期">
-          <el-input v-model="formData.inputDate" />
+          <el-date-picker
+            v-model="formData.inputDate" value-format="yyyy-MM-dd"
+            type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="发票金额">
+        <el-form-item label="收款金额">
           <el-input v-model="formData.receiptAmount"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
@@ -72,13 +74,11 @@
 		},
 		data () {
 			return {
-				formData: {},
+				formData: Object.assign({}, this.baseData),
 				unClick: false,
 				rules: {
 					receiptDate: [{ required: true, message: '不可为空' }],
-					voucherNumber: [{ required: true, message: '不可为空' }],
-					equipmentName: [{ required: true, message: '不可为空' }],
-					detectPayment: [{ required: true, message: '不可为空' }]
+					projectId: [{ required: true, message: '不可为空' }]
 				}
 			}
 		},
