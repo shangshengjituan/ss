@@ -34,6 +34,10 @@ const api = {
 			params: data
 		})
 	},
+	// 工程性质
+	getEngineer () {
+		return axios.get('/selectEngineering')
+	},
 	// 发票
 	addInvoice (data) {
 		return axios.post('/insertInvoiceTable', data)

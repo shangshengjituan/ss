@@ -9,19 +9,21 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item>
-        <el-select v-model="searchData.projectId" size="small" filterable placeholder="选择项目">
+        <el-select v-model="searchData.projectId" size="small" clearable filterable placeholder="选择项目">
           <el-option
             v-for="item in projects" :key="item.projectId"
             :label="item.projectName" :value="item.projectId">
           </el-option>
         </el-select>
       </el-form-item>
-      <!--<el-form-item v-if="this.searchData.type !== '合同价款'">-->
-        <!--<el-date-picker-->
-          <!--v-model="searchData.range" type="daterange" size="small" value-format="yyyy-MM-dd"-->
-          <!--range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">-->
-        <!--</el-date-picker>-->
-      <!--</el-form-item>-->
+      <el-form-item v-if="this.searchData.type === '合同价款'">
+        <el-select v-model="searchData.engineeringId" size="small" clearable filterable placeholder="选择工程性质">
+          <el-option
+            v-for="item in types" :key="item.engineeringId"
+            :label="item.engineeringNature" :value="item.engineeringId">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-button style="float: right" @click="handleOutput" size="small" type="primary">导出数据</el-button>
     </el-form>
     <div style="text-align: right">
@@ -40,7 +42,7 @@
     <el-dialog width="80%" :title="isEdit ? `编辑 ${searchData.type} 数据` : `新增 ${searchData.type} 数据`" :visible.sync="showForm">
       <invoice-sheet v-if="searchData.type==='发票情况'" :projects="projectsNotAll" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <receipt-sheet v-if="searchData.type==='收款情况'" :projects="projectsNotAll" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
-      <contract-sheet v-if="searchData.type==='合同价款'" :projects="projectsNotAll" :parties="parties" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <contract-sheet v-if="searchData.type==='合同价款'" :types="types" :projects="projectsNotAll" :parties="parties" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
   </div>
 </template>
@@ -62,12 +64,14 @@
 					type: '发票情况'
 				},
         selectData: {
-					projectId: ''
+					projectId: '',
+					engineeringId: 0
         },
         projectsNotAll: [],
 				projectsAndAll: [],
 				projects: [],
 				parties: [],
+				types: [],
 				tableHead: thead.invoice,
 				showForm: false,
 				isEdit: false,
@@ -125,10 +129,9 @@
 					}
 					this.tableData = []
 					console.log(val)
-					this.selectData.projectId = val.projectId
-          if (this.selectData.projectId|| this.selectData.projectId === 0) {
-						this.getList()
-          }
+					this.selectData.projectId = val.projectId || 0
+					this.selectData.engineeringId = val.engineeringId || 0
+          this.getList()
 				},
 				deep: true
 			}
@@ -145,12 +148,15 @@
 				this.$api.getProjectsAndAll().then(rsp => {
 					this.projectsAndAll = rsp.data
 				})
+				this.$api.getEngineer().then(rsp => {
+					this.types = rsp.data
+				})
       },
 			getList () {
 				switch (this.searchData.type) {
 					case '发票情况':
-						// if (this.searchData.range) {
-							this.$api.getInvoices(this.selectData).then(rsp => {
+						if (this.searchData.projectId) {
+							this.$api.getInvoices({projectId: this.selectData.projectId}).then(rsp => {
 								this.$message({ type: 'success', message: '查询成功', duration: 1000 })
 								this.tableData = rsp.data.map(item => {
 									Object.assign(item, {
@@ -161,11 +167,11 @@
 									return item
 								})
 							})
-						// }
+						}
 						break
 					case '收款情况':
-						// if (this.searchData.range) {
-							this.$api.getReceipts(this.selectData).then(rsp => {
+						if (this.searchData.projectId) {
+							this.$api.getReceipts({projectId: this.selectData.projectId}).then(rsp => {
 								this.$message({ type: 'success', message: '查询成功', duration: 1000 })
 								this.tableData = rsp.data.map(item => {
 									Object.assign(item, {
@@ -176,7 +182,7 @@
                   return item
                 })
 							})
-						// }
+						}
 						break
 					case '合同价款':
 						this.$api.getContracts(this.selectData).then(rsp => {
@@ -199,6 +205,7 @@
 				console.log(JSON.stringify(this.baseData))
 			},
 			handleEditShow () {
+				if (JSON.stringify(this.currentRow) === '{}') return false
 				this.showForm = true
 				this.isEdit = true
 				this.baseData = this.currentRow
@@ -214,6 +221,7 @@
 				}
 			},
 			handleCurrentChange (val) {
+				console.log(JSON.stringify(val))
 				this.currentRow = val
 			},
 			handleDelete () {

@@ -27,6 +27,7 @@ const thead = {
 		{ label: '项目', prop: 'projectName' },
 		{ label: '项目号', prop: 'projectNumber' },
 		{ label: '甲方单位名称', prop: 'partyAName' },
+		{ label: '工程性质', prop: 'engineeringNature' },
 		{ label: '合同价款', prop: 'contractPriceDemo' },
 		{ label: '结算价款', prop: 'settlementPriceDemo' },
 		{ label: '累计产值', prop: 'cumulativeOutputValue' }
@@ -36,6 +37,7 @@ const thead = {
 		{ label: '项目', prop: 'projectName' },
 		{ label: '项目号', prop: 'projectNumber' },
 		{ label: '甲方单位名称', prop: 'partyAName' },
+		{ label: '工程性质', prop: 'engineeringNature' },
 		{ label: '合同价', prop: 'contractPrice' },
 		{ label: '上报结算价', prop: 'settlementPrice' },
 		{ label: '累计产值', prop: 'cumulativeOutputValue' },

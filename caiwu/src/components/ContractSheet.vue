@@ -21,6 +21,16 @@
           </el-select>
         </el-form-item>
       </el-col>
+      <el-col :span="8">
+        <el-form-item label="工程性质" prop="engineeringId">
+          <el-select v-model="formData.engineeringId" placeholder="请选择">
+            <el-option
+              v-for="item in types" :key="item.engineeringId"
+              :label="item.engineeringNature" :value="item.engineeringId">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
@@ -52,6 +62,7 @@
 		props: {
 			projects: Array,
 			parties: Array,
+      types: Array,
 			baseData: Object,
 			isEdit: Boolean
 		},
@@ -59,9 +70,10 @@
 			return {
 				formData: Object.assign({}, this.baseData),
 				unClick: false,
+				// types: [],
 				rules: {
-					invoiceDate: [{ required: true, message: '不可为空' }],
-					equipmentName: [{ required: true, message: '不可为空' }],
+					projectId: [{ required: true, message: '不可为空' }],
+					engineeringId: [{ required: true, message: '不可为空' }],
 					detectPayment: [{ required: true, message: '不可为空' }]
 				}
 			}
@@ -72,7 +84,7 @@
 					this.formData = Object.assign({}, val)
 				},
 				deep: true
-			}
+			},
 		},
 		methods: {
 			submitForm (formName) {

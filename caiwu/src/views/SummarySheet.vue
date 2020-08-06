@@ -7,6 +7,12 @@
           :label="item.projectName" :value="item.projectId">
         </el-option>
       </el-select>
+      <el-select v-model="searchData.engineeringId" size="small" clearable filterable placeholder="选择工程性质" @change="changeOption">
+        <el-option
+          v-for="item in types" :key="item.engineeringId"
+          :label="item.engineeringNature" :value="item.engineeringId">
+        </el-option>
+      </el-select>
       <!--<el-date-picker-->
         <!--v-model="searchData.range"-->
         <!--type="daterange"-->
@@ -22,6 +28,7 @@
       <el-table-column prop="projectName" label="项目"/>
       <el-table-column prop="projectNumber" label="项目号" />
       <el-table-column prop="partyAName" label="甲方单位名称" />
+      <el-table-column prop="engineeringNature" label="工程性质" />
       <el-table-column prop="contractPriceDemo" label="合同价" />
       <el-table-column prop="settlementPriceDemo" label="上报结算价" />
       <el-table-column prop="cumulativeOutputValue" label="累计产值" />
@@ -44,11 +51,13 @@
 					projectId: ''
 				},
 				selectData: {
-					projectId: 0
+					projectId: 0,
+					engineeringId: 0
         },
 				tableHead: thead.summary,
 				tableData: [],
 				projects: [],
+				types: [],
 				pickerOptions: {
 					shortcuts: [{
 						text: '最近一月',
@@ -87,10 +96,14 @@
 					this.projects = rsp.data
           this.searchData.projectId = 0
 				})
+				this.$api.getEngineer().then(rsp => {
+					this.types = rsp.data
+					// this.searchData.engineeringId = 0
+				})
 			},
 			getSummary () {
 				// if (this.searchData.range) {
-					this.$api.getSummary({projectId: this.selectData.projectId}).then(rsp => {
+					this.$api.getSummary(this.selectData).then(rsp => {
 						this.$message({ type: 'success', message: '查询成功', duration: 1000 })
 						this.tableData = rsp.data.map(item => {
 							Object.assign(item, {
@@ -104,23 +117,16 @@
 					})
 				// }
 			},
-			changeOption(id) {
-				console.log(id)
-				// console.log(this.projects.find(item => {
-				// 	console.log(item)
-				// 	return item.projectId = id
-        // }))
-        // console.log(obj)
+			changeOption() {
         this.selectData.projectId = this.searchData.projectId
+				this.selectData.engineeringId = this.searchData.engineeringId || 0
         this.getSummary()
       },
 			getSummaries (param) {
 				const { columns, data } = param;
-				console.log(columns, data)
         if (columns.length === 0) return false
 				let sums = [], demo = [0,0,0,0,0];
 				data.forEach((columns) => {
-					console.log(columns)
 					demo[0] = this.$utils.add(columns.contractPrice, demo[0])
 					demo[1] = this.$utils.add(columns.settlementPrice, demo[1])
 					demo[2] = this.$utils.add(columns.invoiceTotal, demo[2])
