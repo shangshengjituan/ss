@@ -35,8 +35,6 @@ export default {
       activeIndex: '1'
     }
   },
-  created () {
-  },
   methods: {
     handleSelect (key, keyPath) {
       this.activeIndex = keyPath[0]

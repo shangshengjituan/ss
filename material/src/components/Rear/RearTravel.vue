@@ -67,7 +67,7 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       unClick: false,
       rules: {
         travelDate: [{ required: true, message: '不可为空' }],

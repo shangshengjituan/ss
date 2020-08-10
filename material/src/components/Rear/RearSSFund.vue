@@ -135,7 +135,7 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       rules: {
         socialSecurityDate: [{ required: true, message: '不可为空' }],
         staffName: [{ required: true, message: '不可为空' }],

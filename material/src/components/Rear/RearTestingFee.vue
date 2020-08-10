@@ -74,7 +74,7 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       unClick: false,
       rules: {
         detectDate: [{ required: true, message: '不可为空' }],

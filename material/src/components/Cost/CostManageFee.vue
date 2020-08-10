@@ -44,7 +44,7 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       unClick: false,
       rules: {
         costDetailDate: [{ required: true, message: '不可为空' }]

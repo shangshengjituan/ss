@@ -97,7 +97,7 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       rules: {
         materialStatisticDate: [{ required: true, message: '不可为空' }],
         purchaseUserId: [{ required: true, message: '不可为空' }],

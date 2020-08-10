@@ -73,7 +73,7 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       rules: {
         officeDate: [{ required: true, message: '不可为空' }],
         category: [{ required: true, message: '不可为空' }],

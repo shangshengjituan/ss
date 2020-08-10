@@ -23,7 +23,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="数量">
-          <el-input-number v-model="formData.materialQuantity" controls-position="right" :min="0" class="width-full"></el-input-number>
+          <el-input-number v-model="formData.materialQuantity" controls-position="right" class="width-full"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
@@ -101,7 +101,7 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       rules: {
         auxiliaryMaterialDate: [{ required: true, message: '不可为空' }],
         auxiliaryMaterialName: [{ required: true, message: '不可为空' }],

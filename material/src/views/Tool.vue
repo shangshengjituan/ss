@@ -3,19 +3,16 @@
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>材料供应商信息({{materialProviders.length}}个)</span>
-        <!--<el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>-->
       </div>
       <el-tree :data="materialProviders" @node-click="handleNodeClick"></el-tree>
-      <!--<p v-for="(item, index) in materialProviders" :key="item.supplierId" class="item">-->
-        <!--{{ index+1}}、{{item.supplier }}-->
-      <!--</p>-->
     </el-card>
     <el-card class="box-card" shadow="hover">
-      <div slot="header" class="clearfix">
-        <span>材料</span>
-        <!--<el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>-->
-      </div>
+      <div slot="header" class="clearfix"><span>材料</span></div>
       <el-tree :data="materialTypes" @node-click="handleNodeClick"></el-tree>
+    </el-card>
+    <el-card class="box-card" shadow="hover">
+      <div slot="header" class="clearfix"><span>辅材用途</span></div>
+      <el-tree :data="usages" @node-click="handleNodeClick"></el-tree>
     </el-card>
   </div>
 </template>
@@ -26,7 +23,8 @@ export default {
   data () {
     return {
       materialTypes: [],
-      materialProviders: []
+      materialProviders: [],
+      usages: []
     }
   },
   created () {
@@ -52,7 +50,6 @@ export default {
           }
         })
         this.materialTypes = temp
-        // this.materialTypes = rsp.materialType
       })
       this.$api.material.getProviders().then(rsp => {
         const temp = []
@@ -63,6 +60,25 @@ export default {
           })
         })
         this.materialProviders = temp
+      })
+      this.$api.material.getUseList().then(rsp => {
+        const temp = []
+        rsp.data.forEach((item, index) => {
+          temp.push({
+            label: item.useSort,
+            value: item.useSort,
+            children: []
+          })
+          if (item.detailList) {
+            item.detailList.forEach(it => {
+              temp[index].children.push({
+                label: it.useDetail,
+                value: it.useId
+              })
+            })
+          }
+        })
+        this.usages = temp
       })
     },
     handleNodeClick (data) {

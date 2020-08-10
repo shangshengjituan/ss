@@ -146,7 +146,7 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       rules: {
         wageDate: [{ required: true, message: '不可为空' }],
         staffType: [{ required: true, message: '不可为空' }],

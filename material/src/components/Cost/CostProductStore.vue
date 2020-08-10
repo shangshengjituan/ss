@@ -121,7 +121,7 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: Object.assign({}, this.baseData),
       productTypes: [],
       unClick: false,
       rules: {
