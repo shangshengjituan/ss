@@ -83,7 +83,7 @@
         <el-button @click="handleDeleteSur" type="warning">删除选中实际量</el-button>
       </el-button-group>
     </div>
-    <el-dialog :title="isEdit ? `编辑 ${selectData.type[0]} 数据` : `新增 ${selectData.type[0]} 数据`" :visible.sync="showForm">
+    <el-dialog :title="isEdit ? `编辑 ${selectData.type[0]|| ''} 数据` : `新增 ${selectData.type[0] || '' } 数据`" :visible.sync="showForm">
       <material-material v-show="selectData.type[0] !=='辅材'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <material-auxiliary v-show="selectData.type[0] ==='辅材'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>

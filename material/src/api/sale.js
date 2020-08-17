@@ -40,6 +40,26 @@ const sale = {
     return axios.get('/delFreight', {
       params: data
     })
+  },
+  // 生产记录
+  addRecord (data) {
+    return axios.post('/insertProduceTable', data)
+  },
+  getRecord (data) {
+    return axios.get('/produceList', {
+      params: data
+    })
+  },
+  delRecord (data) {
+    return axios.get('/delProduce', {
+      params: data
+    })
+  },
+  // 生产销售汇总
+  getSummary (data) {
+    return axios.get('/produceInventory', {
+      params: data
+    })
   }
 }
 

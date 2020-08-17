@@ -7,6 +7,7 @@ const cost = {
       params: data
     })
   },
+  // 分类
   getSort () {
     return axios.get('/costSort')
   },

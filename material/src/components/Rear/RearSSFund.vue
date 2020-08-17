@@ -210,6 +210,6 @@ export default {
     color: #409EFF;
     /*font-weight: bold;*/
     font-style: italic;
-    margin-top: 0;
+    margin: 0;
   }
 </style>

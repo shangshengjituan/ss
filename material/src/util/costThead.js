@@ -46,22 +46,27 @@ const thead = {
       ]
     }
   ],
-  // 固定资产投入
+  // 固定资产成本 改动
   fixed: [
-    { label: '日期', prop: 'fixAssetDate' },
-    { label: '收款单位', prop: 'beneficiary' },
-    { label: '设备名称', prop: 'equipmentName' },
-    { label: '合同金额（元）', prop: 'contractAmount' },
-    { label: '累计付款（元）', prop: 'cumulativePayment' },
-    { label: '上期付款（元）', prop: 'lastPayment' },
-    { label: '本期付款（元）', prop: 'currentPayment' },
-    { label: '发票号', prop: 'receiptNumber' },
+    { label: '项目', prop: 'rawMaterialCategory' },
+    { label: '日期', prop: 'specificProductName' },
+    { label: '供应商', prop: 'supplier' },
+    { label: '品名/作业项目', prop: 'specificProductName' },
+    { label: '单位', prop: 'materialUnit' },
+    { label: '合同金额', prop: 'materialUnit' },
     {
-      label: '发票金额',
+      label: '本月投入（含税）',
       children: [
-        { label: '金额', prop: 'amountReceipt' },
-        { label: '税金', prop: 'taxReceipt' },
-        { label: '税率', prop: 'taxRate' }
+        { label: '数量', prop: 'materialQuantity' },
+        { label: '金额', prop: 'materialAmount' }
+      ]
+    },
+    {
+      label: '本月投入（不含税）',
+      children: [
+        { label: '金额', prop: 'materialAmount' },
+        { label: '税额', prop: 'materialAmount' },
+        { label: '税率', prop: 'materialAmount' }
       ]
     },
     { label: '备注', prop: 'remark' }
@@ -72,6 +77,14 @@ const thead = {
     { label: '明细', prop: 'projectDetail' },
     { label: '金额', prop: 'amount' },
     { label: '备注', prop: 'remark' }
+  ],
+  // 产品销售利润表 加表
+  saleProfit: [
+    { label: '类别', prop: 'costType' },
+    { label: '备注', prop: 'remark' },
+    { label: '数量', prop: 'projectDetail' },
+    { label: '单价', prop: 'projectDetail' },
+    { label: '金额', prop: 'amount' }
   ],
   // 产品库存表
   productStore: [
