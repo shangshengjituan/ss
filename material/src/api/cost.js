@@ -39,7 +39,7 @@ const cost = {
       params: data
     })
   },
-  // 固定资产投入
+  // 固定资产成本
   addFixedItem (data) {
     return axios.post('/insertFixAssetTable', data)
   },
@@ -68,6 +68,11 @@ const cost = {
     })
   },
   // 产品库存表
+  getProductStorePre (data) {
+    return axios.get('/returnProduceInventory', {
+      params: data
+    })
+  },
   getProductCate () {
     return axios.get('/productCategoryList')
   },

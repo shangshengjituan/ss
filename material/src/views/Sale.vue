@@ -8,25 +8,24 @@
     </el-form-item>
     <el-form-item>
       <el-radio-group v-model="selectData.type" size="small">
+        <el-radio-button label="生产出版记录">生产出版记录</el-radio-button>
         <el-radio-button label="销售收入">销售收入</el-radio-button>
         <el-radio-button label="运费">运费</el-radio-button>
-        <el-radio-button label="生产出版记录">生产出版记录</el-radio-button>
         <el-radio-button label="生产销售汇总">生产销售汇总</el-radio-button>
       </el-radio-group>
     </el-form-item>
+    <el-form-item style="float: right;">
+      <el-button-group>
+        <el-button @click="handleDelete" size="small" type="warning">删除选中行</el-button>
+        <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
+        <el-button @click="handleShow" size="small" type="primary" icon="el-icon-plus">新增数据</el-button>
+      </el-button-group>
+    </el-form-item>
   </el-form>
-  <div style="text-align: right">
-    <el-button-group>
-      <el-button @click="handleDelete" type="warning">删除选中行</el-button>
-      <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
-      <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
-      <!--<el-button @click="handleOutput" type="primary">导出</el-button>-->
-    </el-button-group>
-  </div>
-  <div v-if="selectData.type !== '2'">
+  <div v-if="selectData.type !== '运费'">
     <el-table
       id="table1"
-      :data="tableData" border highlight-current-row style="width: 100%"
+      :data="tableData" border highlight-current-row style="width: 100%;max-height: 750px"
       header-cell-class-name="top-table" :show-summary="isSummary" :summary-method="getSummaries1" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"></el-table-column>
       <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" show-overflow-tooltip>
@@ -39,7 +38,7 @@
     <!---->
     <el-table
       id="table2"
-      :data="tableData" border highlight-current-row style="width: 100%" header-cell-class-name="top-table"
+      :data="tableData" border highlight-current-row style="width: 100%;max-height: 750px" header-cell-class-name="top-table"
       :show-summary="isSummary" :summary-method="getSummaries2" @filter-change="filterChange" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50" />
       <el-table-column prop="freightDate" label="日期" />
@@ -381,7 +380,10 @@ export default {
   .el-table .top-table {
     /*background-color: #F5F7FA;*/
     background-color: #FFFFE0;
-
+  }
+  .el-table .top-table-extra {
+    /*background-color: #F5F7FA;*/
+    background-color: #D8BFD8;
   }
   .el-dialog {
     width: 80%;

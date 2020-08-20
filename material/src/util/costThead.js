@@ -13,10 +13,17 @@ const thead = {
     { label: '金额', prop: 'amount' },
     { label: '备注', prop: 'remark' }
   ],
-  // 陶粒板产品表
+  // 车间制造费用明细表 复杂
+  workshop: [
+    { label: '类别', prop: 'costType' },
+    { label: '明细', prop: 'projectDetail' },
+    { label: '金额', prop: 'amount' },
+    { label: '备注', prop: 'remark' }
+  ],
+  // 陶粒板产品成本
   ceramsitePlate: [
+    { label: '类别', prop: 'projectName' },
     { label: '项目', prop: 'rawMaterialCategory' },
-    // { label: '类别', prop: 'specificProductName' },
     { label: '供应商', prop: 'supplier' },
     { label: '品名', prop: 'specificProductName' },
     { label: '单位', prop: 'materialUnit' },
@@ -29,54 +36,29 @@ const thead = {
       ]
     }
   ],
-  // 路牙、盖板产品表
-  roadBoard: [
-    { label: '项目', prop: 'hydropowerDate' },
-    { label: '类别', prop: 'receivingUnit' },
-    { label: '供应商', prop: 'hydropowerProject' },
-    { label: '品名', prop: 'hydropowerUnit' },
-    { label: '规格', prop: 'hydropowerDosage' },
-    { label: '单位', prop: 'hydropowerDosage' },
-    {
-      label: '本月消耗',
-      children: [
-        { label: '数量', prop: 'hydropowerPrice' },
-        { label: '单价', prop: 'hydropowerPrice' },
-        { label: '金额', prop: 'hydropowerAmount' }
-      ]
-    }
-  ],
   // 固定资产成本 改动
   fixed: [
-    { label: '项目', prop: 'rawMaterialCategory' },
-    { label: '日期', prop: 'specificProductName' },
-    { label: '供应商', prop: 'supplier' },
-    { label: '品名/作业项目', prop: 'specificProductName' },
-    { label: '单位', prop: 'materialUnit' },
-    { label: '合同金额', prop: 'materialUnit' },
+    { label: '项目', prop: 'projectName' },
+    { label: '日期', prop: 'fixAssetDate' },
+    { label: '供应商', prop: 'beneficiary' },
+    { label: '品名/作业项目', prop: 'equipmentName' },
+    { label: '单位', prop: 'fixAssetUnit' },
+    { label: '合同金额', prop: 'contractAmount' },
     {
       label: '本月投入（含税）',
       children: [
-        { label: '数量', prop: 'materialQuantity' },
-        { label: '金额', prop: 'materialAmount' }
+        { label: '数量', prop: 'fixAssetQuantity' },
+        { label: '金额', prop: 'amountTax' }
       ]
     },
     {
       label: '本月投入（不含税）',
       children: [
-        { label: '金额', prop: 'materialAmount' },
-        { label: '税额', prop: 'materialAmount' },
-        { label: '税率', prop: 'materialAmount' }
+        { label: '金额', prop: 'amount' },
+        { label: '税额', prop: 'tax' },
+        { label: '税率', prop: 'taxRate' }
       ]
-    },
-    { label: '备注', prop: 'remark' }
-  ],
-  // 车间制造费用明细表 复杂
-  workshop: [
-    { label: '类别', prop: 'costType' },
-    { label: '明细', prop: 'projectDetail' },
-    { label: '金额', prop: 'amount' },
-    { label: '备注', prop: 'remark' }
+    }
   ],
   // 产品销售利润表 加表
   saleProfit: [
@@ -121,8 +103,7 @@ const thead = {
         { label: '面积（㎡）', prop: 'areaInventory' },
         { label: '金额', prop: 'amountInventory' }
       ]
-    },
-    { label: '备注', prop: 'remark' }
+    }
   ],
   // 原材料库存表
   materialStore: [
@@ -170,6 +151,24 @@ const thead = {
         { label: '金额', prop: 'amountInventory' }
       ]
     }
+  ],
+  // 收付款
+  receiptAndPay: [
+    { label: '供应商', prop: 'rawMaterialCategory' },
+    { label: '类型', prop: 'specificProductName' },
+    { label: '发票号', prop: 'rawMaterialCategory' },
+    { label: '发票日期', prop: 'specificProductName' },
+    { label: '金额（含税）', prop: 'rawMaterialCategory' },
+    { label: '金额（不含税）', prop: 'specificProductName' },
+    { label: '税额', prop: 'materialUnit' }
+  ],
+  // 合同
+  contract: [
+    { label: '供应商', prop: 'rawMaterialCategory' },
+    { label: '签订日期', prop: 'specificProductName' },
+    { label: '金额', prop: 'rawMaterialCategory' },
+    { label: '税率', prop: 'specificProductName' },
+    { label: '合同说明', prop: 'materialUnit' }
   ]
 }
 

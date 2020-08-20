@@ -2,6 +2,14 @@
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
     <el-row :gutter="20">
       <el-col :span="6">
+        <el-form-item label="项目" prop="projectName">
+          <el-select v-model="formData.projectName" placeholder="请选择">
+            <el-option key="机械设备" label="机械设备" value="机械设备"></el-option>
+            <el-option key="专业分包" label="专业分包" value="专业分包"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
         <el-form-item label="日期" prop="fixAssetDate">
           <el-date-picker
             v-model="formData.fixAssetDate" value-format="yyyy-MM-dd" class="width-full"
@@ -9,60 +17,56 @@
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="收款单位" prop="beneficiary">
+        <el-form-item label="供应商" prop="beneficiary">
           <el-input v-model="formData.beneficiary" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="6">
-        <el-form-item label="设备名称" prop="equipmentName">
-          <el-input v-model="formData.equipmentName" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
+      <el-col :span="6">
+        <el-form-item label="品名/作业项目" prop="equipmentName">
+          <el-input v-model="formData.equipmentName" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
+        <el-form-item label="单位">
+          <el-input v-model="formData.fixAssetUnit"></el-input>
+        </el-form-item>
+      </el-col>
       <el-col :span="6">
         <el-form-item label="合同金额">
           <el-input v-model="formData.contractAmount"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="6">
-        <el-form-item label="上期付款">
-          <el-input v-model="formData.lastPayment"><template slot="append">元</template></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="6">
-        <el-form-item label="本期付款">
-          <el-input v-model="formData.currentPayment"><template slot="append">元</template></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="6">
-        <el-form-item label="累计付款">
-          <el-input v-model="formData.cumulativePayment"><template slot="append">元</template></el-input>
-        </el-form-item>
-      </el-col>
     </el-row>
+    <p class="text-divider">本月投入（含税）</p>
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-form-item label="发票号">
-          <el-input v-model="formData.receiptNumber" />
+        <el-form-item label="数量">
+          <el-input v-model="formData.fixAssetQuantity"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
+        <el-form-item label="金额">
+          <el-input v-model="formData.amountTax"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
-    <p class="text-divider">发票金额</p>
+    <p class="text-divider">本月投入（不含税）</p>
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="金额">
-          <el-input v-model="formData.amountReceipt"><template slot="append">元</template></el-input>
+          <el-input v-model="formData.amount"><template slot="append">元</template></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
+        <el-form-item label="税额">
+          <el-input v-model="formData.tax"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="税率">
           <el-input v-model="formData.taxRate"><template slot="append">%</template></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="6">
-        <el-form-item label="税金">
-          <el-input v-model="formData.taxReceipt"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -94,8 +98,7 @@ export default {
       rules: {
         fixAssetDate: [{ required: true, message: '不可为空' }],
         beneficiary: [{ required: true, message: '不可为空' }],
-        equipmentName: [{ required: true, message: '不可为空' }],
-        detectPayment: [{ required: true, message: '不可为空' }]
+        equipmentName: [{ required: true, message: '不可为空' }]
       }
     }
   },

@@ -69,8 +69,14 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="用途">
-          <el-input v-model="formData.materialUser"></el-input>
+        <el-form-item label="用途" prop="materialUse">
+          <!--<el-cascader v-model="formData.materialUseId" :options="options"></el-cascader>-->
+          <el-cascader v-model="formData.materialUse" :options="uses" :props="{ expandTrigger: 'hover' }" class="width-full"></el-cascader>
+
+          <!--<el-select v-model="formData.materialUseId" placeholder="请选择" class="width-full">-->
+            <!--<el-option v-for="item in uses" :key="item.materialUseId" :label="item.materialUseDetail" :value="item.materialUseId" />-->
+          <!--</el-select>-->
+          <!--<el-input v-model="formData.materialUser"></el-input>-->
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -79,8 +85,8 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="供应商"  prop="supplierId">
-          <el-select v-model="formData.supplierId" placeholder="请选择" class="width-full">
+        <el-form-item label="供应商" prop="supplierId">
+          <el-select v-model="formData.supplierId" placeholder="请选择" class="width-full" filterable >
             <el-option v-for="item in providers" :key="item.supplierId" :label="item.supplier" :value="item.supplierId" />
           </el-select>
         </el-form-item>
@@ -124,7 +130,8 @@ export default {
       units: [{ value: '吨' }, { value: 'kg' }, { value: '片' }],
       materialTypes: [],
       kinds: [],
-      providers: []
+      providers: [],
+      uses: []
     }
   },
   watch: {
@@ -144,6 +151,9 @@ export default {
         }
         if (val.material) {
           val.materialId = val.material[1]
+        }
+        if (val.materialUse) {
+          val.materialUseId = val.materialUse[1]
         }
       },
       deep: true
@@ -181,6 +191,8 @@ export default {
     addItem () {
       console.log('add')
       this.unClick = true
+      delete this.formData.material
+      delete this.formData.materialUse
       this.$api.material.addItem(this.formData).then(rsp => {
         console.log(rsp)
         this.unClick = false
@@ -223,6 +235,26 @@ export default {
       })
       this.$api.material.getProviders().then(rsp => {
         this.providers = rsp.data
+      })
+      this.$api.material.getMaterialUses().then(rsp => {
+        const temp = []
+        console.log(rsp.data)
+        rsp.data.forEach((item, index) => {
+          temp.push({
+            label: item.materialUseSort,
+            value: index,
+            children: []
+          })
+          if (item.materialDetailList) {
+            item.materialDetailList.forEach(it => {
+              temp[index].children.push({
+                label: it.materialUseDetail || item.materialUseSort,
+                value: it.materialUseId
+              })
+            })
+          }
+        })
+        this.uses = temp
       })
     }
   }

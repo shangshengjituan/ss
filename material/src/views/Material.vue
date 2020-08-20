@@ -9,17 +9,25 @@
       <el-form-item label="分类">
         <el-cascader v-model="selectData.type" :options="options" :show-all-levels="false" size="small"></el-cascader>
       </el-form-item>
+      <el-form-item style="float: right">
+        <el-button-group>
+          <el-button v-show="selectData.type[0] !=='辅材'" @click="handleUpdate" size="small" type="danger" plain>更新库存</el-button>
+          <el-button @click="handleDelete" size="small" type="warning">删除选中行</el-button>
+          <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
+          <el-button @click="handleShow" size="small" type="primary" icon="el-icon-plus">新增数据</el-button>
+        </el-button-group>
+      </el-form-item>
+      <!--<div style="text-align: right">-->
+        <!--<el-button-group>-->
+          <!--<el-button v-show="selectData.type[0] !=='辅材'" @click="handleUpdate" type="danger" plain>更新库存</el-button>-->
+          <!--<el-button @click="handleDelete" type="warning">删除选中行</el-button>-->
+          <!--&lt;!&ndash;<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>&ndash;&gt;-->
+          <!--<el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>-->
+        <!--</el-button-group>-->
+      <!--</div>-->
     </el-form>
-    <div style="text-align: right">
-      <el-button-group>
-        <el-button v-show="selectData.type[0] !=='辅材'" @click="handleUpdate" type="danger" plain>更新库存</el-button>
-        <el-button @click="handleDelete" type="warning">删除选中行</el-button>
-        <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
-        <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
-      </el-button-group>
-    </div>
     <el-table v-show="selectData.type[0] !=='辅材'" ref="normalTable"
-      :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
+      :data="tableData" border style="width: 100%;max-height: 750px" header-cell-class-name="top-table"
       :show-summary="isSummary" :summary-method="getSummaries" @filter-change="filterChange" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"/>
       <el-table-column prop="materialStatisticDate" label="日期"/>
@@ -41,14 +49,15 @@
         <el-table-column prop="tax" label="税额"/>
         <el-table-column prop="taxRate" label="税率"/>
       </el-table-column>
-      <el-table-column prop="materialUser" label="用途"/>
+      <!--<el-table-column prop="materialUseSort" label="用途"/>-->
+      <el-table-column prop="materialUseDetail" label="详细用途"/>
       <el-table-column prop="receiptNumber" label="发票号"/>
       <el-table-column prop="supplier" label="供应商" show-overflow-tooltip/>
       <el-table-column prop="remark" label="备注"/>
     </el-table>
     <el-table
       v-show="selectData.type[0] ==='辅材'" ref="auxiliaryTable"
-      :data="tableAuxiliaryData" border style="width: 100%" header-cell-class-name="top-table"  highlight-current-row
+      :data="tableAuxiliaryData" border style="width: 100%;max-height: 750px" header-cell-class-name="top-table"  highlight-current-row
       :show-summary="isSummary1" :summary-method="getSummaries" @filter-change="filterChange" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"/>
       <el-table-column prop="auxiliaryMaterialDate" label="日期"/>
@@ -75,7 +84,7 @@
     </el-table>
     <el-table
       v-if="surData.length > 0" style="margin-top: 15px;width: 802px" @current-change="handleCurrentChangeSur"
-      :data="surData" border header-cell-class-name="top-table" highlight-current-row>
+      :data="surData" border header-cell-class-name="top-table-extra" highlight-current-row>
       <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" />
     </el-table>
     <div v-if="surData.length > 0 && currentRowSur && currentRowSur.purchaseUser === '实际量'">

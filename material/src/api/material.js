@@ -13,6 +13,10 @@ const material = {
   getKinds () {
     return axios.get('/purchaseOrUser')
   },
+  // 返回材料用途
+  getMaterialUses () {
+    return axios.get('/materialUseList')
+  },
   // 返回供应商信息
   getProviders () {
     return axios.get('/supplierType')
@@ -21,11 +25,13 @@ const material = {
   addItem (data) {
     return axios.post('/insertMaterialTable', data)
   },
+  // 普通材料
   getList (data) {
     return axios.get('/materialStatisticList', {
       params: data
     })
   },
+  // 外加剂
   getAddList (data) {
     return axios.get('/additiveStatisticsList', {
       params: data
