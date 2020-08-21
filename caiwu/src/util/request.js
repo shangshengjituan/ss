@@ -16,6 +16,7 @@ instance.interceptors.request.use(
 	error => {
 		// 对请求错误做些什么
 		console.log('request error:', error)
+		Message({message: error, type: 'error', duration: 1000})
 		return Promise.reject(error)
 	}
 )

@@ -7,7 +7,7 @@
           :label="item.projectName" :value="item.projectId">
         </el-option>
       </el-select>
-      <el-select v-model="searchData.engineeringId" size="small" clearable filterable placeholder="选择工程性质" @change="changeOption">
+      <el-select v-model="searchData.engineeringId" size="small" placeholder="选择工程性质" @change="changeOption">
         <el-option
           v-for="item in types" :key="item.engineeringId"
           :label="item.engineeringNature" :value="item.engineeringId">
@@ -22,7 +22,7 @@
       <el-button style="float: right" @click="handleOutput" size="small" type="primary">导出数据</el-button>
     </el-form>
     <el-table
-      ref="tableData" id="tableData" :data="tableData" show-summary :summary-method="getSummaries"
+      ref="tableData" :data="tableData" show-summary :summary-method="getSummaries"
       border style="width: 100%" header-cell-class-name="top-table" highlight-current-row>
       <el-table-column type="index"/>
       <el-table-column prop="projectName" label="项目"/>
@@ -34,6 +34,20 @@
       <el-table-column prop="cumulativeOutputValue" label="累计产值" />
       <el-table-column prop="invoiceTotalDemo" label="开票合计" />
       <el-table-column prop="receiptTotalDemo" label="已收款合计" />
+    </el-table>
+    <el-table
+      ref="tableData" id="tableData" :data="tableData" show-summary :summary-method="getSummaries"
+      border style="display: none">
+      <el-table-column type="index"/>
+      <el-table-column prop="projectName" label="项目"/>
+      <el-table-column prop="projectNumber" label="项目号" />
+      <el-table-column prop="partyAName" label="甲方单位名称" />
+      <el-table-column prop="engineeringNature" label="工程性质" />
+      <el-table-column prop="contractPrice" label="合同价" />
+      <el-table-column prop="settlementPrice" label="上报结算价" />
+      <el-table-column prop="cumulativeOutputValue" label="累计产值" />
+      <el-table-column prop="invoiceTotal" label="开票合计" />
+      <el-table-column prop="receiptTotal" label="已收款合计" />
     </el-table>
   </div>
 </template>
@@ -52,7 +66,7 @@
 				},
 				selectData: {
 					projectId: 0,
-					engineeringId: 0
+					engineeringId: ''
         },
 				tableHead: thead.summary,
 				tableData: [],
@@ -88,7 +102,7 @@
 		},
 		created () {
 			this.getProjects()
-      this.getSummary()
+      // this.getSummary()
 		},
 		methods: {
 			getProjects () {
@@ -96,7 +110,7 @@
 					this.projects = rsp.data
           this.searchData.projectId = 0
 				})
-				this.$api.getEngineer().then(rsp => {
+				this.$api.getEngineerAddAll().then(rsp => {
 					this.types = rsp.data
 					// this.searchData.engineeringId = 0
 				})
@@ -140,14 +154,26 @@
 						case 'contractPriceDemo':
 							sums[index] = this.$utils.commafy(demo[0], {digits: 2})
 							break
+						case 'contractPrice':
+							sums[index] = demo[0]
+							break
 						case 'settlementPriceDemo':
 							sums[index] = this.$utils.commafy(demo[1], {digits: 2})
+							break
+						case 'settlementPrice':
+							sums[index] = demo[1]
 							break
 						case 'invoiceTotalDemo':
 							sums[index] = this.$utils.commafy(demo[2], {digits: 2})
 							break
+						case 'invoiceTotal':
+							sums[index] = demo[2]
+							break
 						case 'receiptTotalDemo':
 							sums[index] = this.$utils.commafy(demo[3], {digits: 2})
+							break
+						case 'receiptTotal':
+							sums[index] = demo[3]
 							break
 						case 'cumulativeOutputValue':
 							sums[index] = this.$utils.commafy(demo[4], {digits: 2})

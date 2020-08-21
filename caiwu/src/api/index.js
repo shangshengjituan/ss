@@ -38,6 +38,9 @@ const api = {
 	getEngineer () {
 		return axios.get('/selectEngineering')
 	},
+	getEngineerAddAll () {
+		return axios.get('/selectEngineerings')
+	},
 	// 发票
 	addInvoice (data) {
 		return axios.post('/insertInvoiceTable', data)

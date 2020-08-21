@@ -17,7 +17,7 @@
         </el-select>
       </el-form-item>
       <el-form-item v-if="this.searchData.type === '合同价款'">
-        <el-select v-model="searchData.engineeringId" size="small" clearable filterable placeholder="选择工程性质">
+        <el-select v-model="searchData.engineeringId" size="small" placeholder="选择工程性质">
           <el-option
             v-for="item in types" :key="item.engineeringId"
             :label="item.engineeringNature" :value="item.engineeringId">
@@ -42,7 +42,7 @@
     <el-dialog width="80%" :title="isEdit ? `编辑 ${searchData.type} 数据` : `新增 ${searchData.type} 数据`" :visible.sync="showForm">
       <invoice-sheet v-if="searchData.type==='发票情况'" :projects="projectsNotAll" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <receipt-sheet v-if="searchData.type==='收款情况'" :projects="projectsNotAll" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
-      <contract-sheet v-if="searchData.type==='合同价款'" :types="types" :projects="projectsNotAll" :parties="parties" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <contract-sheet v-if="searchData.type==='合同价款'" :types="typesNotAll" :projects="projectsNotAll" :parties="parties" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
   </div>
 </template>
@@ -61,17 +61,17 @@
 			return {
 				searchData: {
 					range: '',
-					type: '发票情况'
-				},
-        selectData: {
-					projectId: '',
+					type: '发票情况',
 					engineeringId: 0
-        },
+				},
+        selectData: {},
         projectsNotAll: [],
 				projectsAndAll: [],
 				projects: [],
 				parties: [],
-				types: [],
+				typesNotAll: [],
+        typesAddAll: [],
+        types: [],
 				tableHead: thead.invoice,
 				showForm: false,
 				isEdit: false,
@@ -149,7 +149,11 @@
 					this.projectsAndAll = rsp.data
 				})
 				this.$api.getEngineer().then(rsp => {
-					this.types = rsp.data
+					this.typesNotAll = rsp.data
+				})
+				this.$api.getEngineerAddAll().then(rsp => {
+					this.typesAddAll = rsp.data
+					this.types = this.typesAddAll
 				})
       },
 			getList () {
