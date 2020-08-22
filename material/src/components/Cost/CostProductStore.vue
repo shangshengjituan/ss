@@ -85,17 +85,17 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="块数">
-            <el-input v-model="formData.blockInventory"><template slot="append">块</template></el-input>
+            <el-input v-model="formData.blockInventory" readonly><template slot="append">块</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="面积">
-            <el-input v-model="formData.areaInventory"><template slot="append">㎡</template></el-input>
+            <el-input v-model="formData.areaInventory" readonly><template slot="append">㎡</template></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="金额">
-            <el-input v-model="formData.amountInventory"><template slot="append">元</template></el-input>
+            <el-input v-model="formData.amountInventory" readonly><template slot="append">元</template></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -147,7 +147,13 @@ export default {
         if (val.priceSale) {
           this.formData.amountSale = this.$utils.multiply(val.areaSale, val.priceSale).toFixed(2)
         }
-        this.showForm = !val
+        if (val.amountCurrent && val.amountSale) {
+          this.formData.amountInventory = this.$utils.subtract(this.$utils.add(val.amountPast, val.amountCurrent), val.amountSale).toFixed(2)
+        }
+        if (!!val !== !!old) {
+          this.showForm = !val
+        }
+        // this.showForm = !val
       },
       deep: true
     }
@@ -159,9 +165,13 @@ export default {
     getPre (data) {
       this.$api.cost.getProductStorePre(data).then(rsp => {
         if (!rsp.data) {
+          this.formData = {}
+          // this.formData = Object.assign({ productInventoryDate: this.formData.productInventoryDate, productCategoryId: this.formData.productCategoryId }, {})
           this.$message({ type: 'error', message: '该月暂无库存、生产、销售数据', duration: 1000 })
           return
         }
+        rsp.data.blockInventory = this.$utils.subtract(this.$utils.add(rsp.data.blockPast, rsp.data.blockCurrent), rsp.data.blockSale).toFixed(2)
+        rsp.data.areaInventory = this.$utils.subtract(this.$utils.add(rsp.data.areaPast, rsp.data.areaCurrent), rsp.data.areaSale).toFixed(2)
         Object.assign(this.formData, rsp.data)
         console.log('1111')
         console.log(this.formData)

@@ -25,7 +25,7 @@
   <div v-if="selectData.type !== '运费'">
     <el-table
       id="table1"
-      :data="tableData" border highlight-current-row style="width: 100%;max-height: 750px"
+      :data="tableData" border highlight-current-row style="width: 100%;" max-height="750"
       header-cell-class-name="top-table" :show-summary="isSummary" :summary-method="getSummaries1" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"></el-table-column>
       <el-table-column v-for="item in tableHead" :key="item.prop" :prop="item.prop" :label="item.label" show-overflow-tooltip>
@@ -38,7 +38,7 @@
     <!---->
     <el-table
       id="table2"
-      :data="tableData" border highlight-current-row style="width: 100%;max-height: 750px" header-cell-class-name="top-table"
+      :data="tableData" border highlight-current-row style="width: 100%;" max-height="750" header-cell-class-name="top-table"
       :show-summary="isSummary" :summary-method="getSummaries2" @filter-change="filterChange" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50" />
       <el-table-column prop="freightDate" label="日期" />

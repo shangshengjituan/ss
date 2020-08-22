@@ -53,6 +53,12 @@ const cost = {
       params: data
     })
   },
+  // 产品销售利润
+  getSaleProfit (data) {
+    return axios.get('/fixAssetList', {
+      params: data
+    })
+  },
   // 车间明细
   getWorkshop (data) {
     return axios.get('/costDetailList', {

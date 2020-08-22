@@ -144,6 +144,10 @@ export default {
             this.tableHead = thead.fixed
             this.isSummary = true
             break
+          case '产品销售利润':
+            this.tableHead = thead.saleProfit
+            this.isSummary = false
+            break
           case '车间制造费用明细':
             this.tableHead = thead.workshop
             this.isSummary = true
@@ -235,6 +239,13 @@ export default {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.partA
             this.tableDataOnly = rsp.data
+            this.tableDataExtra = rsp.total.filter(item => !!item)
+          })
+          break
+        case '产品销售利润':
+          this.$api.cost.getSaleProfit({ fixAssetDate: this.selectData.month }).then(rsp => {
+            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
+            this.tableData = rsp.partA
             this.tableDataExtra = rsp.total.filter(item => !!item)
           })
           break
@@ -373,7 +384,7 @@ export default {
         //   break
       }
     },
-    flitterData (arr) {
+    filterData (arr) {
       const spanOneArr = []
       let concatOne = 0
       arr.forEach((item, index) => {
@@ -398,7 +409,7 @@ export default {
       const { rowIndex, columnIndex } = params
       if (columnIndex === 1) {
         // this.tableData  修改
-        const _row = (this.flitterData(this.tableData).one)[rowIndex]
+        const _row = (this.filterData(this.tableData).one)[rowIndex]
         const _col = _row > 0 ? 1 : 0
         return {
           rowspan: _row,
@@ -429,14 +440,14 @@ export default {
             if (columns.property === 'materialAmount') sums[index] = demo
           })
           break
-        case '路牙、盖板成本':
-          demo = 0
-          data.forEach((columns) => { demo = this.$utils.add(columns.officeAmount, demo) })
-          columns.forEach((columns, index) => {
-            if (index === 0) sums[index] = '合计'
-            if (columns.property === 'officeAmount') sums[index] = demo
-          })
-          break
+        // case '路牙、盖板成本':
+        //   demo = 0
+        //   data.forEach((columns) => { demo = this.$utils.add(columns.officeAmount, demo) })
+        //   columns.forEach((columns, index) => {
+        //     if (index === 0) sums[index] = '合计'
+        //     if (columns.property === 'officeAmount') sums[index] = demo
+        //   })
+        //   break
         case '固定资产成本':
           demo = []
           data.forEach((columns) => {

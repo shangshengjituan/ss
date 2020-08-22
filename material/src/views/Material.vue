@@ -27,7 +27,7 @@
       <!--</div>-->
     </el-form>
     <el-table v-show="selectData.type[0] !=='辅材'" ref="normalTable"
-      :data="tableData" border style="width: 100%;max-height: 750px" header-cell-class-name="top-table"
+      :data="tableData" border style="width: 100%;" max-height="750" header-cell-class-name="top-table"
       :show-summary="isSummary" :summary-method="getSummaries" @filter-change="filterChange" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"/>
       <el-table-column prop="materialStatisticDate" label="日期"/>
@@ -57,7 +57,7 @@
     </el-table>
     <el-table
       v-show="selectData.type[0] ==='辅材'" ref="auxiliaryTable"
-      :data="tableAuxiliaryData" border style="width: 100%;max-height: 750px" header-cell-class-name="top-table"  highlight-current-row
+      :data="tableAuxiliaryData" border style="width: 100%" max-height="750" header-cell-class-name="top-table"  highlight-current-row
       :show-summary="isSummary1" :summary-method="getSummaries" @filter-change="filterChange" @current-change="handleCurrentChange">
       <el-table-column type="index" label="#" width="50"/>
       <el-table-column prop="auxiliaryMaterialDate" label="日期"/>
