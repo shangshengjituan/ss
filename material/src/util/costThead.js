@@ -62,10 +62,11 @@ const thead = {
   ],
   // 产品销售利润表 加表
   saleProfit: [
-    { label: '类别', prop: 'costType' },
+    { label: '类别', prop: 'projectName' },
+    { label: '类别', prop: 'productName' },
     { label: '备注', prop: 'remark' },
-    { label: '数量', prop: 'projectDetail' },
-    { label: '单价', prop: 'projectDetail' },
+    { label: '数量', prop: 'quantity' },
+    { label: '单价', prop: 'price' },
     { label: '金额', prop: 'amount' }
   ],
   // 产品库存表

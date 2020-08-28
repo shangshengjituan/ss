@@ -5,6 +5,17 @@ const sale = {
   getProjects () {
     return axios.get('/projectCode')
   },
+  addProject (data) {
+    return axios.post('/insertProject', data)
+  },
+  updateProject (data) {
+    return axios.post('/updateProject', data)
+  },
+  delProject (data) {
+    return axios.get('/delProject', {
+      params: data
+    })
+  },
   // 返回品名+规格
   getCommodities () {
     return axios.get('/commodityCode')
@@ -12,6 +23,17 @@ const sale = {
   // 返回客户/承运商信息
   getClients () {
     return axios.get('/clientCode')
+  },
+  addClient (data) {
+    return axios.post('/insertClient', data)
+  },
+  updateClient (data) {
+    return axios.post('/updateClient', data)
+  },
+  delClient (data) {
+    return axios.get('/delClient', {
+      params: data
+    })
   },
   // 增删改查sale
   addSale (data) {

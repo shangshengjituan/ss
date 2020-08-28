@@ -3,85 +3,92 @@
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>项目({{saleProject.length}}个)</span>
-        <el-button style="float: right; padding: 3px 0" type="text">新增</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='项目')">新增</el-button>
       </div>
       <el-tree :data="saleProject">
-        <div slot-scope="{ data }" class="tree-item">
+        <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
-          <el-button style="float: right" type="text" size="mini" @click="showUpdate(data, type='项目')">修改</el-button>
+          <el-button style="float: right" type="text" size="mini" @click="handleDelete(data, type='项目')">删除</el-button>
+          <el-button style="float: right" type="text" size="mini" @click="handleShow(node, type='项目')">修改</el-button>
         </div>
       </el-tree>
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>品名规格</span>
-        <el-button style="float: right; padding: 3px 0" type="text">新增</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='品名规格')">新增</el-button>
       </div>
       <el-tree :data="saleCommodity">
-        <div slot-scope="{ data }" class="tree-item">
+        <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
-          <el-button type="text" size="mini" @click="showUpdate(data, type='品名')">修改</el-button>
+          <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleDelete(data, type='品名')">删除</el-button>-->
+          <el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='品名')">修改</el-button>
         </div>
       </el-tree>
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>客户/承运商({{saleClient.length}}个)</span>
-        <el-button style="float: right; padding: 3px 0" type="text">新增</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='客户/承运商')">新增</el-button>
       </div>
       <el-tree :data="saleClient">
-        <span slot-scope="{ data }">
+        <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
-          <el-button type="text" size="mini" @click="showUpdate(data, type='客户/承运商')">修改</el-button>
-        </span>
+          <el-button style="float: right" type="text" size="mini" @click="handleDelete(data, type='客户/承运商')">删除</el-button>
+          <el-button style="float: right" type="text" size="mini" @click="handleShow(node, type='客户/承运商')">修改</el-button>
+        </div>
       </el-tree>
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>材料</span>
-        <el-button style="float: right; padding: 3px 0" type="text">新增</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='材料')">新增</el-button>
       </div>
       <el-tree :data="materialTypes">
-        <span slot-scope="{ data }">
+        <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
-          <el-button type="text" size="mini" @click="showUpdate(data, type='材料')">修改</el-button>
-        </span>
+          <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleDelete(data, type='材料')">删除</el-button>-->
+          <el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='材料')">修改</el-button>
+        </div>
       </el-tree>
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>材料用途</span>
-        <el-button style="float: right; padding: 3px 0" type="text">新增</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='材料用途')">新增</el-button>
       </div>
       <el-tree :data="materialUse">
-        <div slot-scope="{ data }" class="tree-item">
+        <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
-          <el-button style="float: right" type="text" size="mini" @click="showUpdate(data, type='材料用途')">修改</el-button>
+          <el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleDelete(data, type='材料用途')">删除</el-button>
+          <el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='材料用途')">修改</el-button>
         </div>
       </el-tree>
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>材料供应商信息({{materialProviders.length}}个)</span>
-        <el-button style="float: right; padding: 3px 0" type="text">新增</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='材料供应商信息')">新增</el-button>
       </div>
       <el-tree :data="materialProviders">
         <div slot-scope="{ data }" class="tree-item">
           <span>{{ data.label }}</span>
-          <el-button style="float: right" type="text" size="mini" @click="showUpdate(data, type='材料供应商信息')">修改</el-button>
+          <!--<el-button style="float: right" type="text" size="mini" @click="handleDelete(data, type='材料供应商信息')">删除</el-button>-->
+          <el-button style="float: right" type="text" size="mini" @click="handleShow(node, type='材料供应商信息')">修改</el-button>
         </div>
       </el-tree>
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>辅材用途</span>
-        <el-button style="float: right; padding: 3px 0" type="text">新增</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='辅材用途')">新增</el-button>
       </div>
       <el-tree :data="materialSubUse">
-        <span slot-scope="{ data }">
+        <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
-          <el-button type="text" size="mini" @click="showUpdate(data, type='辅材用途')">修改</el-button>
-        </span>
+          <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleDelete(data, type='辅材用途')">删除</el-button>-->
+          <el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='辅材用途')">修改</el-button>
+        </div>
       </el-tree>
     </el-card>
     <!--<el-card class="box-card" shadow="hover">-->
@@ -92,27 +99,25 @@
       <!--<el-tree :data="costSort">-->
         <!--<span slot-scope="{ data }">-->
           <!--<span>{{ data.label }}</span>-->
-          <!--<el-button type="text" size="mini" @click="showUpdate(data)">修改</el-button>-->
+          <!--<el-button type="text" size="mini" @click="handleShow(data)">修改</el-button>-->
         <!--</span>-->
       <!--</el-tree>-->
     <!--</el-card>-->
     <el-dialog :title="isEdit ? `编辑 ${selectType} 数据` : `新增 ${selectType} 数据`" :visible.sync="showForm">
-      <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
-        <el-form-item label="名称">
-          <el-input v-model="formData.value" />
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="handleCancel('form')">取消</el-button>
-          <el-button type="primary" @click="submitForm('form')" :disabled="unClick">确定</el-button>
-        </el-form-item>
-      </el-form>
+      <material-use v-if="selectType==='材料用途'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <sale-commodity v-if="selectType==='客户/承运商'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <sale-project v-if="selectType==='项目'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import MaterialUse from '../components/Tool/MaterialUse'
+import SaleCommodity from '../components/Tool/SaleCommodity'
+import SaleProject from '../components/Tool/SaleProject'
 export default {
   name: 'Tool',
+  components: { SaleProject, SaleCommodity, MaterialUse },
   data () {
     return {
       saleProject: [],
@@ -126,9 +131,8 @@ export default {
       costProduct: [],
       selectType: '',
       showForm: false,
+      baseData: {},
       isEdit: false,
-      unClick: false,
-      formData: {},
       rules: {
         value: [{ required: true, message: '不可为空' }]
       }
@@ -275,24 +279,78 @@ export default {
         this.costProduct = temp
       })
     },
-    showUpdate (data, type) {
-      console.log('修改', data, type)
+    handleShow (data, type) {
+      console.log(data)
       this.selectType = type
-      this.formData = data
+      this.showForm = true
+      this.isEdit = !!Object.keys(data).length
+      if (data.parent && data.parent.data) {
+        this.baseData = {
+          label: data.parent.data.label,
+          value: data.data.label,
+          id: data.data.value
+        }
+      } else if (!data.parent && data.data) {
+        this.baseData = {
+          value: data.data.label,
+          id: data.data.value
+        }
+      } else {
+        this.baseData = data
+      }
+      console.log(JSON.stringify(this.baseData))
     },
-    updateBase () {
-      switch (this.selectType) {
+    handleDelete (data, type) {
+      this.$confirm('确定删除该条数据吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteNode(data, type)
+      }).catch(() => {
+        this.$message({ type: 'info', message: '已取消删除', duration: 1000 })
+      })
+    },
+    deleteNode (data, type) {
+      switch (type) {
         case '项目':
-          // 修改
+          this.$api.sale.delProject({ projectId: data.value }).then(rsp => {
+            if (rsp.result === 200) {
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
+              this.getBase()
+            } else {
+              this.$message({ type: 'error', message: rsp.resultText })
+            }
+          })
+          break
+        case '客户/承运商':
+          this.$api.sale.delClient({ clientId: data.value }).then(rsp => {
+            if (rsp.result === 200) {
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
+              this.getBase()
+            } else {
+              this.$message({ type: 'error', message: rsp.resultText })
+            }
+          })
+          break
+        case '材料用途':
+          this.$api.material.delMaterialUse({ materialUseId: data.value }).then(rsp => {
+            if (rsp.result === 200) {
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
+              this.getBase()
+            } else {
+              this.$message({ type: 'error', message: rsp.resultText })
+            }
+          })
           break
       }
     },
-    addBase () {
-      switch (this.selectType) {
-        case '项目':
-          // 新增
-          break
-      }
+    handleHide () {
+      this.showForm = false
+    },
+    handleHideFresh () {
+      this.handleHide()
+      this.getBase()
     }
   }
 }
@@ -309,6 +367,9 @@ export default {
   margin: 0 10px 10px 0;
   /*flex: 1;*/
 }
+  .box-card .el-button {
+    float: right;
+  }
   .el-card__body {
     padding: 10px;
   }

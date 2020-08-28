@@ -48,7 +48,7 @@
           </el-table-column>
         </el-table-column>
       </el-table>
-      <el-table v-show="tableDataExtra.length" :data="tableDataExtra" border header-cell-class-name="top-table-extra" show-summary>
+      <el-table v-show="tableDataExtra.length" :data="tableDataExtra" border header-cell-class-name="top-table-extra" :show-summary="isTotal">
         <el-table-column type="index" label="" width="50"></el-table-column>
         <el-table-column prop="costSource" label="项目" width="160"></el-table-column>
         <el-table-column prop="cost" label="小计" width="160"></el-table-column>
@@ -112,6 +112,7 @@ export default {
       baseData: {},
       tableData: [],
       tableDataExtra: [],
+      isTotal: true,
       tableDataOnly: [],
       tableSubtotal: [],
       currentRow: {}
@@ -231,6 +232,7 @@ export default {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
             this.tableDataExtra = rsp.total.filter(item => !!item)
+            this.isTotal = true
             // this.adjustWidth()
           })
           break
@@ -240,13 +242,15 @@ export default {
             this.tableData = rsp.partA
             this.tableDataOnly = rsp.data
             this.tableDataExtra = rsp.total.filter(item => !!item)
+            this.isTotal = true
           })
           break
         case '产品销售利润':
-          this.$api.cost.getSaleProfit({ fixAssetDate: this.selectData.month }).then(rsp => {
+          this.$api.cost.getSaleProfit({ saleProfitDate: this.selectData.month }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-            this.tableData = rsp.partA
+            this.tableData = rsp.data
             this.tableDataExtra = rsp.total.filter(item => !!item)
+            this.isTotal = false
           })
           break
         case '路牙、盖板成本':
@@ -414,7 +418,7 @@ export default {
         return {
           rowspan: _row,
           colspan: _col
-        };
+        }
       }
     },
     getSummaries (params) {

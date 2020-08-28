@@ -17,6 +17,17 @@ const material = {
   getMaterialUses () {
     return axios.get('/materialUseList')
   },
+  addMaterialUse (data) {
+    return axios.post('/insertMaterialUse', data)
+  },
+  updateMaterialUse (data) {
+    return axios.post('/updateMaterialUse', data)
+  },
+  delMaterialUse (data) {
+    return axios.get('/delMaterialUse', {
+      params: data
+    })
+  },
   // 返回供应商信息
   getProviders () {
     return axios.get('/supplierType')

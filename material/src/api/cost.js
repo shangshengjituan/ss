@@ -55,7 +55,7 @@ const cost = {
   },
   // 产品销售利润
   getSaleProfit (data) {
-    return axios.get('/fixAssetList', {
+    return axios.get('/saleProfitList', {
       params: data
     })
   },
