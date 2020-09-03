@@ -6,6 +6,7 @@
       <el-menu-item index="2">材料统计台账</el-menu-item>
       <el-menu-item index="3">行政后勤台账</el-menu-item>
       <el-menu-item index="4">成本汇总报表</el-menu-item>
+      <el-menu-item index="7">发票付款汇总</el-menu-item>
       <el-menu-item index="6">常用工具</el-menu-item>
       <!--<el-menu-item index="5">人员管理</el-menu-item>-->
     </el-menu>
@@ -15,6 +16,7 @@
     <cost v-if="activeIndex === '4'"/>
     <toolbar v-if="activeIndex === '6'"/>
     <admin v-if="activeIndex === '5'"/>
+    <invoice v-if="activeIndex === '7'"/>
   </div>
 </template>
 
@@ -27,9 +29,10 @@ import Cost from './Cost'
 import Material from './Material'
 import Toolbar from './Tool'
 import Admin from './Admin'
+import Invoice from './Invoice'
 export default {
   name: 'Home',
-  components: { Admin, Toolbar, Material, Cost, Rear, Sale },
+  components: { Invoice, Admin, Toolbar, Material, Cost, Rear, Sale },
   data () {
     return {
       activeIndex: '1'

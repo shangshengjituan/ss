@@ -124,6 +124,7 @@ export default {
         materialQuantity: [{ required: true, message: '不可为空' }],
         materialPriceTax: [{ required: true, message: '不可为空' }],
         taxRate: [{ required: true, message: '不可为空' }],
+        materialUse: [{ required: true, message: '不可为空' }],
         supplierId: [{ required: true, message: '不可为空' }]
       },
       unClick: false,

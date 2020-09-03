@@ -152,24 +152,6 @@ const thead = {
         { label: '金额', prop: 'amountInventory' }
       ]
     }
-  ],
-  // 收付款
-  receiptAndPay: [
-    { label: '供应商', prop: 'rawMaterialCategory' },
-    { label: '类型', prop: 'specificProductName' },
-    { label: '发票号', prop: 'rawMaterialCategory' },
-    { label: '发票日期', prop: 'specificProductName' },
-    { label: '金额（含税）', prop: 'rawMaterialCategory' },
-    { label: '金额（不含税）', prop: 'specificProductName' },
-    { label: '税额', prop: 'materialUnit' }
-  ],
-  // 合同
-  contract: [
-    { label: '供应商', prop: 'rawMaterialCategory' },
-    { label: '签订日期', prop: 'specificProductName' },
-    { label: '金额', prop: 'rawMaterialCategory' },
-    { label: '税率', prop: 'specificProductName' },
-    { label: '合同说明', prop: 'materialUnit' }
   ]
 }
 

@@ -14,7 +14,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="板厚">
+        <el-form-item label="板厚" prop="thickness">
           <el-input v-model="formData.thickness"></el-input>
         </el-form-item>
       </el-col>
@@ -34,7 +34,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="面积">
+        <el-form-item label="面积"  prop="pouringArea">
           <el-input-number v-model="formData.pouringArea" controls-position="right" class="width-full"></el-input-number>
         </el-form-item>
       </el-col>
@@ -54,7 +54,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="面积">
+        <el-form-item label="面积" prop="warehousingArea">
           <el-input-number v-model="formData.warehousingArea" controls-position="right" class="width-full"></el-input-number>
         </el-form-item>
       </el-col>
@@ -94,6 +94,9 @@ export default {
         pouringDate: [{ required: true, message: '不可为空' }],
         pouringQuantity: [{ required: true, message: '不可为空' }],
         warehousingDate: [{ required: true, message: '不可为空' }],
+        thickness: [{ required: true, message: '不可为空' }],
+        pouringArea: [{ required: true, message: '不可为空' }],
+        warehousingArea: [{ required: true, message: '不可为空' }],
         warehousingQuantity: [{ required: true, message: '不可为空' }]
       },
       unClick: false,

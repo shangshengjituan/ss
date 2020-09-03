@@ -17,8 +17,6 @@
           <el-radio-button label="产品销售利润">产品销售利润</el-radio-button>
           <el-radio-button label="产品库存表">产品库存表</el-radio-button>
           <el-radio-button label="原材料库存表">原材料库存表</el-radio-button>
-          <el-radio-button label="收付款表">收付款表</el-radio-button>
-          <el-radio-button label="合同表">合同表</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item style="float: right;" v-if="selectData.type==='成本汇总表' || selectData.type==='固定资产成本' || selectData.type === '产品库存表' || selectData.type === '管理费用明细' || selectData.type === '车间制造费用明细'">
@@ -161,14 +159,6 @@ export default {
             this.tableHead = thead.materialStore
             this.isSummary = true
             break
-          case '收付款表':
-            this.tableHead = thead.receiptAndPay
-            this.isSummary = false
-            break
-          case '合同表':
-            this.tableHead = thead.contract
-            this.isSummary = false
-            break
         }
         this.tableData = []
         this.tableDataExtra = []
@@ -272,18 +262,6 @@ export default {
           })
           break
         case '原材料库存表':
-          this.$api.cost.getMaterialStore({ materialDate: this.selectData.month }).then(rsp => {
-            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-            this.tableData = rsp.data
-          })
-          break
-        case '收付款表':
-          this.$api.cost.getProductStoreList({ productInventoryDate: this.selectData.month }).then(rsp => {
-            this.$message({ type: 'success', message: '查询成功', duration: 1000 })
-            this.tableData = rsp.data
-          })
-          break
-        case '合同表':
           this.$api.cost.getMaterialStore({ materialDate: this.selectData.month }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.data
@@ -396,12 +374,49 @@ export default {
           spanOneArr.push(1)
         } else {
           // name 修改
-          if (item.name === arr[index - 1].name) { // 第一列需合并相同内容的判断条件
-            spanOneArr[concatOne] += 1
-            spanOneArr.push(0)
-          } else {
-            spanOneArr.push(1)
-            concatOne = index
+          console.log(item)
+          switch (this.selectData.type) {
+            case '原材料库存表':
+              if (item.rawMaterialCategory === arr[index - 1].rawMaterialCategory) { // 第一列需合并相同内容的判断条件
+                spanOneArr[concatOne] += 1
+                spanOneArr.push(0)
+              } else {
+                spanOneArr.push(1)
+                concatOne = index
+              }
+              break
+            case '产品销售利润':
+            case '陶粒板产品成本':
+              if (item.projectName === arr[index - 1].projectName) { // 第一列需合并相同内容的判断条件
+                spanOneArr[concatOne] += 1
+                spanOneArr.push(0)
+              } else {
+                spanOneArr.push(1)
+                concatOne = index
+              }
+              break
+            case '产品库存表':
+              if (item.productCategory === arr[index - 1].productCategory) { // 第一列需合并相同内容的判断条件
+                spanOneArr[concatOne] += 1
+                spanOneArr.push(0)
+              } else {
+                spanOneArr.push(1)
+                concatOne = index
+              }
+              break
+            case '车间制造费用明细':
+            case '管理费用明细':
+              if (item.costType === arr[index - 1].costType) { // 第一列需合并相同内容的判断条件
+                spanOneArr[concatOne] += 1
+                spanOneArr.push(0)
+              } else {
+                spanOneArr.push(1)
+                concatOne = index
+              }
+              break
+            default:
+              spanOneArr.push(1)
+              concatOne = index
           }
         }
       })
