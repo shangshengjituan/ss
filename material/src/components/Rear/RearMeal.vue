@@ -22,6 +22,8 @@
           <el-input v-model="formData.staffName" />
         </el-form-item>
       </el-col>
+    </el-row>
+    <el-row>
       <el-col :span="6">
         <el-form-item label="考勤" prop="attendance">
           <el-input v-model="formData.attendance"><template slot="append">天</template></el-input>

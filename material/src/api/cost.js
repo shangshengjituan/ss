@@ -39,6 +39,10 @@ const cost = {
       params: data
     })
   },
+  // 返回材料 固定资产 的用途
+  getMaterialUses () {
+    return axios.get('/fixAssetUse')
+  },
   // 固定资产成本
   addFixedItem (data) {
     return axios.post('/insertFixAssetTable', data)
@@ -56,6 +60,14 @@ const cost = {
   // 产品销售利润
   getSaleProfit (data) {
     return axios.get('/saleProfitList', {
+      params: data
+    })
+  },
+  addSaleProfit (data) {
+    return axios.post('/insertProfitTable', data)
+  },
+  delSaleProfit (data) {
+    return axios.get('/delProfit', {
       params: data
     })
   },

@@ -2,9 +2,9 @@
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="日期" prop="costDetailDate">
+        <el-form-item label="日期" prop="profitDate">
           <el-date-picker
-            v-model="formData.costDetailDate" value-format="yyyy-MM" class="width-full"
+            v-model="formData.profitDate" value-format="yyyy-MM" class="width-full"
             type="month" placeholder="选择月份" :editable="false" :clearable="false"></el-date-picker>
         </el-form-item>
       </el-col>
@@ -12,19 +12,20 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="项目">
-          <el-input v-model="formData.projectDetail" />
+          <el-select v-model="formData.projectName" class="width-full">
+            <el-option label="商品销售收入" value="商品销售收入"></el-option>
+            <el-option label="商品销售成本" value="商品销售成本"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="类别">
+          <el-input v-model="formData.productName" />
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="金额">
-          <el-input v-model="formData.amount"><template slot="append">元</template></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="24">
-        <el-form-item label="备注">
-          <el-input v-model="formData.remark"></el-input>
+          <el-input v-model="formData.profitAmount"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -37,7 +38,7 @@
 
 <script>
 export default {
-  name: 'CostWorkshop',
+  name: 'CostSaleProfit',
   props: {
     baseData: Object,
     isEdit: Boolean
@@ -47,7 +48,10 @@ export default {
       formData: Object.assign({}, this.baseData),
       unClick: false,
       rules: {
-        costDetailDate: [{ required: true, message: '不可为空' }]
+        profitDate: [{ required: true, message: '不可为空' }],
+        projectName: [{ required: true, message: '不可为空' }],
+        productName: [{ required: true, message: '不可为空' }],
+        profitAmount: [{ required: true, message: '不可为空' }]
       }
     }
   },
@@ -77,9 +81,7 @@ export default {
     addItem () {
       console.log('add')
       this.unClick = true
-      Object.assign(this.formData, { costType: '车间制造费用' })
-      this.$api.cost.addWorkshop(this.formData).then(rsp => {
-        console.log(rsp)
+      this.$api.cost.addSaleProfit(this.formData).then(rsp => {
         this.unClick = false
         if (rsp.result === 200) {
           this.$message({ type: 'success', message: '新增成功!', duration: 1000 })

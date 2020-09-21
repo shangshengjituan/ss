@@ -1,7 +1,7 @@
 <template>
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
     <el-row :gutter="20">
-      <el-col :span="6">
+      <el-col :span="8">
         <el-form-item label="日期" prop="costDetailDate">
           <el-date-picker
             v-model="formData.costDetailDate" value-format="yyyy-MM" class="width-full"
@@ -10,12 +10,12 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="6">
+      <el-col :span="8">
         <el-form-item label="项目">
           <el-input v-model="formData.projectDetail" />
         </el-form-item>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="8">
         <el-form-item label="金额">
           <el-input v-model="formData.amount"><template slot="append">元</template></el-input>
         </el-form-item>

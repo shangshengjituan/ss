@@ -16,13 +16,13 @@
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>品名规格</span>
-        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='品名规格')">新增</el-button>
+        <!--<el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='品名规格')">新增</el-button>-->
       </div>
       <el-tree :data="saleCommodity">
         <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
           <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleDelete(data, type='品名')">删除</el-button>-->
-          <el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='品名')">修改</el-button>
+          <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='品名')">修改</el-button>-->
         </div>
       </el-tree>
     </el-card>
@@ -42,13 +42,13 @@
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>材料</span>
-        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='材料')">新增</el-button>
+        <!--<el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='材料')">新增</el-button>-->
       </div>
       <el-tree :data="materialTypes">
         <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
           <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleDelete(data, type='材料')">删除</el-button>-->
-          <el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='材料')">修改</el-button>
+          <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='材料')">修改</el-button>-->
         </div>
       </el-tree>
     </el-card>
@@ -68,26 +68,26 @@
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>材料供应商信息({{materialProviders.length}}个)</span>
-        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='材料供应商信息')">新增</el-button>
+        <!--<el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='材料供应商信息')">新增</el-button>-->
       </div>
       <el-tree :data="materialProviders">
         <div slot-scope="{ data }" class="tree-item">
           <span>{{ data.label }}</span>
           <!--<el-button style="float: right" type="text" size="mini" @click="handleDelete(data, type='材料供应商信息')">删除</el-button>-->
-          <el-button style="float: right" type="text" size="mini" @click="handleShow(node, type='材料供应商信息')">修改</el-button>
+          <!--<el-button style="float: right" type="text" size="mini" @click="handleShow(node, type='材料供应商信息')">修改</el-button>-->
         </div>
       </el-tree>
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>辅材用途</span>
-        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='辅材用途')">新增</el-button>
+        <!--<el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='辅材用途')">新增</el-button>-->
       </div>
       <el-tree :data="materialSubUse">
         <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
           <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleDelete(data, type='辅材用途')">删除</el-button>-->
-          <el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='辅材用途')">修改</el-button>
+          <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='辅材用途')">修改</el-button>-->
         </div>
       </el-tree>
     </el-card>

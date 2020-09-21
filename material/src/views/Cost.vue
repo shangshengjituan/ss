@@ -19,7 +19,7 @@
           <el-radio-button label="原材料库存表">原材料库存表</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item style="float: right;" v-if="selectData.type==='成本汇总表' || selectData.type==='固定资产成本' || selectData.type === '产品库存表' || selectData.type === '管理费用明细' || selectData.type === '车间制造费用明细'">
+      <el-form-item style="float: right;" v-if="selectData.type==='成本汇总表' || selectData.type==='固定资产成本' || selectData.type === '产品库存表' || selectData.type === '产品销售利润' || selectData.type === '管理费用明细' || selectData.type === '车间制造费用明细'">
         <el-button-group>
           <el-button @click="handleDelete" size="small" type="warning">删除选中行</el-button>
           <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
@@ -28,6 +28,13 @@
       </el-form-item>
     </el-form>
     <div v-if="selectData.type!=='成本汇总表'" >
+      <el-form :inline="true" class="special-form" v-show="selectData.type==='固定资产成本'">
+        <el-form-item label="类型">
+          <el-select v-model="selectData.selectMaterialUseId" size="small" placeholder="请选择">
+            <el-option v-for="item in uses" :key="item.materialUseId" :label="item.materialUseSort+'-'+item.materialUseDetail" :value="item.materialUseId"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
       <el-table
         ref="tableData" :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
         :span-method="mergeCells"
@@ -54,7 +61,8 @@
         <!--</el-table-column>-->
       </el-table>
     </div>
-    <el-table v-else
+    <el-table
+      v-else
       ref="tableDataRef" :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row
       row-key="costIndex" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       :show-summary="isSummary" :summary-method="getSummaries" @current-change="handleCurrentChange">
@@ -81,6 +89,7 @@
       <cost-product-store v-if="selectData.type==='产品库存表'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <cost-manage-fee v-if="selectData.type==='管理费用明细'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh" />
       <cost-workshop v-if="selectData.type==='车间制造费用明细'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh" />
+      <cost-sale-profit v-if="selectData.type==='产品销售利润'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <cost-summary-sheet v-if="selectData.type==='成本汇总表'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
   </div>
@@ -93,15 +102,18 @@ import CostProductStore from '../components/Cost/CostProductStore'
 import CostManageFee from '../components/Cost/CostManageFee'
 import CostWorkshop from '../components/Cost/CostWorkshop'
 import CostSummarySheet from '../components/Cost/CostSummarySheet'
+import CostSaleProfit from '../components/Cost/CostSaleProfit'
 export default {
   name: 'Cost',
-  components: { CostSummarySheet, CostWorkshop, CostManageFee, CostProductStore, CostFixed },
+  components: { CostSaleProfit, CostSummarySheet, CostWorkshop, CostManageFee, CostProductStore, CostFixed },
   data () {
     return {
       selectData: {
         month: this.$utils.toDateString(new Date(), 'yyyy-MM'),
-        type: '成本汇总表'
+        type: '成本汇总表',
+        selectMaterialUseId: ''
       },
+      uses: [],
       tableHead: thead.summarySheet,
       tableHeadOnly: thead.ceramsitePlate,
       isSummary: true,
@@ -117,6 +129,7 @@ export default {
     }
   },
   created () {
+    this.getBase()
     this.getList()
   },
   watch: {
@@ -135,10 +148,10 @@ export default {
             this.tableHead = thead.ceramsitePlate
             this.isSummary = true
             break
-          case '路牙、盖板成本':
-            this.tableHead = thead.roadBoard
-            this.isSummary = false
-            break
+          // case '路牙、盖板成本':
+          //   this.tableHead = thead.roadBoard
+          //   this.isSummary = false
+          //   break
           case '固定资产成本':
             this.tableHead = thead.fixed
             this.isSummary = true
@@ -194,6 +207,11 @@ export default {
         }
       })
     },
+    getBase () {
+      this.$api.cost.getMaterialUses().then(rsp => {
+        this.uses = rsp.data
+      })
+    },
     getList () {
       if (!this.selectData.month || !this.selectData.type) {
         this.$message.warning('请选择查询类别')
@@ -227,7 +245,11 @@ export default {
           })
           break
         case '固定资产成本':
-          this.$api.cost.getFixedList({ fixAssetDate: this.selectData.month }).then(rsp => {
+          if (!this.selectData.month || !this.selectData.selectMaterialUseId) {
+            this.$message.warning('请选择查询类别')
+            return
+          }
+          this.$api.cost.getFixedList({ fixAssetDate: this.selectData.month, materialUseId: this.selectData.selectMaterialUseId }).then(rsp => {
             this.$message({ type: 'success', message: '查询成功', duration: 1000 })
             this.tableData = rsp.partA
             this.tableDataOnly = rsp.data
@@ -356,14 +378,14 @@ export default {
             } else { this.$message.error(rsp.resultText) }
           })
           break
-        // case '原材料库存表':
-        //   this.$api.cost.delTravelItem({ travelId: item.travelId }).then(rsp => {
-        //     if (rsp.result === 200) {
-        //       this.$message({ type: 'success', message: '删除成功', duration: 1000 })
-        //       this.getList()
-        //     } else { this.$message.error(rsp.resultText) }
-        //   })
-        //   break
+        case '产品销售利润':
+          this.$api.cost.delSaleProfit({ profitId: item.profitId }).then(rsp => {
+            if (rsp.result === 200) {
+              this.$message({ type: 'success', message: '删除成功', duration: 1000 })
+              this.getList()
+            } else { this.$message.error(rsp.resultText) }
+          })
+          break
       }
     },
     filterData (arr) {
@@ -376,6 +398,16 @@ export default {
           // name 修改
           console.log(item)
           switch (this.selectData.type) {
+            case '成本汇总表':
+              // console.log(item.costSort)
+              if (item.costSort === arr[index - 1].costSort) { // 第一列需合并相同内容的判断条件
+                spanOneArr[concatOne] += 1
+                spanOneArr.push(0)
+              } else {
+                spanOneArr.push(1)
+                concatOne = index
+              }
+              break
             case '原材料库存表':
               if (item.rawMaterialCategory === arr[index - 1].rawMaterialCategory) { // 第一列需合并相同内容的判断条件
                 spanOneArr[concatOne] += 1
@@ -386,6 +418,7 @@ export default {
               }
               break
             case '产品销售利润':
+            case '固定资产成本':
             case '陶粒板产品成本':
               if (item.projectName === arr[index - 1].projectName) { // 第一列需合并相同内容的判断条件
                 spanOneArr[concatOne] += 1
@@ -531,5 +564,11 @@ export default {
   }
   .el-table thead.is-group th {
     padding: 3px 0;
+  }
+  .special-form {
+    padding: 0 10px 10px 10px;
+  }
+  .special-form .el-form-item {
+    margin: 0;
   }
 </style>

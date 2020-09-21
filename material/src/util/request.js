@@ -5,8 +5,9 @@ import { Message } from 'element-ui'
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 const instance = axios.create({
-  baseURL: 'http://192.168.20.100:8093'
+  // baseURL: 'http://192.168.20.100:8093'
   // baseURL: 'http://njssjt.wicp.vip:26296'
+  baseURL: 'http://2e56198e61.zicp.vip:57951/'
 })
 
 // 请求拦截器

@@ -14,7 +14,7 @@
         <el-radio-button label="生产销售汇总">生产销售汇总</el-radio-button>
       </el-radio-group>
     </el-form-item>
-    <el-form-item style="float: right;">
+    <el-form-item style="float: right;" v-show="selectData.type !== '生产销售汇总'">
       <el-button-group>
         <el-button @click="handleDelete" size="small" type="warning">删除选中行</el-button>
         <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
@@ -95,7 +95,7 @@ export default {
     return {
       selectData: {
         month: this.$utils.toDateString(new Date(), 'yyyy-MM'),
-        type: '销售收入'
+        type: '生产出版记录'
       },
       tableHead: thead.sale,
       showForm: false,

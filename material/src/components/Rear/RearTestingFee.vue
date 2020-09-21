@@ -34,13 +34,13 @@
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="税金">
-          <el-input v-model="formData.tax"><template slot="append">元</template></el-input>
+        <el-form-item label="税率">
+          <el-input v-model="formData.taxRate"><template slot="append">%</template></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="税率">
-          <el-input v-model="formData.taxRate"><template slot="append">%</template></el-input>
+        <el-form-item label="税金">
+          <el-input v-model="formData.tax"><template slot="append">元</template></el-input>
         </el-form-item>
       </el-col>
     </el-row>

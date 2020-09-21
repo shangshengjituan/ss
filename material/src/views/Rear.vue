@@ -21,14 +21,14 @@
           <el-radio-button label="机械设备">机械设备</el-radio-button>
         </el-radio-group>
       </el-form-item>
+      <el-form-item style="float: right;">
+        <el-button-group>
+          <el-button @click="handleDelete" size="small" type="warning">删除选中行</el-button>
+          <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
+          <el-button @click="handleShow" size="small" type="primary" icon="el-icon-plus">新增数据</el-button>
+        </el-button-group>
+      </el-form-item>
     </el-form>
-    <div  style="text-align: right">
-      <el-button-group>
-        <el-button @click="handleDelete" type="warning">删除选中行</el-button>
-        <!--<el-button @click="handleEditShow" type="warning">编辑选中行</el-button>-->
-        <el-button @click="handleShow" type="primary" icon="el-icon-plus">新增数据</el-button>
-      </el-button-group>
-    </div>
     <el-table
       ref="tableDataRef"
       :data="tableData" border style="width: 100%" header-cell-class-name="top-table" highlight-current-row

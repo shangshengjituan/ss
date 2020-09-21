@@ -1,11 +1,18 @@
 <template>
-  <el-form ref="form" :model="formData" :rules="rules" label-width="100px" hide-required-asterisk>
+  <el-form ref="form" :model="formData" :rules="rules" label-width="120px" hide-required-asterisk>
     <el-row :gutter="20">
       <el-col :span="6">
         <el-form-item label="项目" prop="projectName">
           <el-select v-model="formData.projectName" placeholder="请选择">
             <el-option key="机械设备" label="机械设备" value="机械设备"></el-option>
             <el-option key="专业分包" label="专业分包" value="专业分包"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
+        <el-form-item label="用途" prop="materialUseId">
+          <el-select v-model="formData.materialUseId" size="small" placeholder="请选择">
+            <el-option v-for="item in uses" :key="item.materialUseId" :label="item.materialUseSort+'-'+item.materialUseDetail" :value="item.materialUseId"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -17,14 +24,14 @@
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="供应商" prop="beneficiary">
+        <el-form-item label="供应商">
           <el-input v-model="formData.beneficiary" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-form-item label="品名/作业项目" prop="equipmentName">
+        <el-form-item label="品名/作业项目">
           <el-input v-model="formData.equipmentName" />
         </el-form-item>
       </el-col>
@@ -60,18 +67,18 @@
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="税额">
-          <el-input v-model="formData.tax"><template slot="append">元</template></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="6">
         <el-form-item label="税率">
           <el-input v-model="formData.taxRate"><template slot="append">%</template></el-input>
         </el-form-item>
       </el-col>
+      <el-col :span="6">
+        <el-form-item label="税额">
+          <el-input v-model="formData.tax"><template slot="append">元</template></el-input>
+        </el-form-item>
+      </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="24">
+      <el-col :span="18">
         <el-form-item label="备注">
           <el-input v-model="formData.remark"></el-input>
         </el-form-item>
@@ -96,10 +103,13 @@ export default {
       formData: Object.assign({}, this.baseData),
       unClick: false,
       rules: {
+        projectName: [{ required: true, message: '不可为空' }],
+        materialUseId: [{ required: true, message: '不可为空' }],
         fixAssetDate: [{ required: true, message: '不可为空' }],
         beneficiary: [{ required: true, message: '不可为空' }],
         equipmentName: [{ required: true, message: '不可为空' }]
-      }
+      },
+      uses: []
     }
   },
   watch: {
@@ -111,14 +121,15 @@ export default {
     },
     formData: {
       handler (val, old) {
-        if (val.currentPayment && val.lastPayment) {
-          this.formData.cumulativePayment = this.$utils.add(val.currentPayment, val.lastPayment)
-          this.formData.amountReceipt = this.$utils.divide(this.formData.currentPayment, this.$utils.add(1, this.$utils.divide(val.taxRate, 100))).toFixed(2)
-        }
-        this.formData.taxReceipt = this.$utils.multiply(this.formData.amountReceipt, this.$utils.divide(val.taxRate, 100)).toFixed(2)
+        this.formData.tax = this.$utils.multiply(val.amount, this.$utils.divide(val.taxRate, 100)).toFixed(2)
       },
       deep: true
     }
+  },
+  created () {
+    this.$api.cost.getMaterialUses().then(rsp => {
+      this.uses = rsp.data
+    })
   },
   methods: {
     submitForm (formName) {
