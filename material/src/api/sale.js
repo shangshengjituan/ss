@@ -20,6 +20,14 @@ const sale = {
   getCommodities () {
     return axios.get('/commodityCode')
   },
+  addCommodity (data) {
+    return axios.post('/insertCommodity', data)
+  },
+  delCommodity (data) {
+    return axios.get('/delCommodity', {
+      params: data
+    })
+  },
   // 返回客户/承运商信息
   getClients () {
     return axios.get('/clientCode')

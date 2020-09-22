@@ -16,13 +16,13 @@
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span>品名规格</span>
-        <!--<el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='品名规格')">新增</el-button>-->
+        <el-button style="float: right; padding: 3px 0" type="text" @click="handleShow(data={},type='品名规格')">新增</el-button>
       </div>
       <el-tree :data="saleCommodity">
         <div slot-scope="{ node, data }" class="tree-item">
           <span>{{ data.label }}</span>
-          <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleDelete(data, type='品名')">删除</el-button>-->
-          <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='品名')">修改</el-button>-->
+          <el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleDelete(data, type='品名规格')">删除</el-button>
+          <!--<el-button v-show="node.childNodes.length === 0" style="float: right" type="text" size="mini" @click="handleShow(node, type='品名规格')">修改</el-button>-->
         </div>
       </el-tree>
     </el-card>
@@ -105,19 +105,21 @@
     <!--</el-card>-->
     <el-dialog :title="isEdit ? `编辑 ${selectType} 数据` : `新增 ${selectType} 数据`" :visible.sync="showForm">
       <material-use v-if="selectType==='材料用途'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
-      <sale-commodity v-if="selectType==='客户/承运商'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <sale-client v-if="selectType==='客户/承运商'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
       <sale-project v-if="selectType==='项目'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
+      <sale-commodity v-if="selectType==='品名规格'" :base-data="baseData" :isEdit="isEdit" @cancel="handleHide" @primary="handleHideFresh"/>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import MaterialUse from '../components/Tool/MaterialUse'
-import SaleCommodity from '../components/Tool/SaleCommodity'
+import SaleClient from '../components/Tool/SaleClient'
 import SaleProject from '../components/Tool/SaleProject'
+import SaleCommodity from '../components/Tool/SaleCommodity'
 export default {
   name: 'Tool',
-  components: { SaleProject, SaleCommodity, MaterialUse },
+  components: { SaleCommodity, SaleProject, SaleClient, MaterialUse },
   data () {
     return {
       saleProject: [],
@@ -335,6 +337,16 @@ export default {
           break
         case '材料用途':
           this.$api.material.delMaterialUse({ materialUseId: data.value }).then(rsp => {
+            if (rsp.result === 200) {
+              this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
+              this.getBase()
+            } else {
+              this.$message({ type: 'error', message: rsp.resultText })
+            }
+          })
+          break
+        case '品名规格':
+          this.$api.sale.delCommodity({ commodityId: data.value }).then(rsp => {
             if (rsp.result === 200) {
               this.$message({ type: 'success', message: '删除成功!', duration: 1000 })
               this.getBase()

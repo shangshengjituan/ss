@@ -1,10 +1,7 @@
 <template>
   <el-form ref="form" :model="formData" :rules="rules" label-width="100px">
-    <el-form-item label="品名">
-      <el-input v-model="formData.commodityName"></el-input>
-    </el-form-item>
-    <el-form-item label="规格">
-      <el-input v-model="formData.commoditySize"></el-input>
+    <el-form-item label="客户/承运商">
+      <el-input v-model="formData.clientName"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button @click="handleCancel('form')">取消</el-button>
@@ -15,17 +12,18 @@
 
 <script>
 export default {
-  name: 'SaleCommodity',
+  name: 'SaleClient',
   props: {
     baseData: Object,
     isEdit: Boolean
   },
   data () {
     return {
-      formData: {},
+      formData: {
+        clientName: ''
+      },
       rules: {
-        commodityName: [{ required: true, message: '不可为空' }],
-        commoditySize: [{ required: true, message: '不可为空' }]
+        clientName: [{ required: true, message: '不可为空' }]
       },
       unClick: false,
       usages: []
@@ -37,11 +35,11 @@ export default {
         if (this.isEdit) {
           this.formData = {
             clientId: val.id,
-            commodityName: val.value || ''
+            clientName: val.value || ''
           }
         } else {
           this.formData = {
-            commodityName: val.value || ''
+            clientName: val.value || ''
           }
         }
         this.unClick = false
@@ -53,7 +51,7 @@ export default {
     if (!Object.keys(this.baseData).length) return
     this.formData = {
       clientId: this.baseData.id,
-      commodityName: this.baseData.value
+      clientName: this.baseData.value
     }
   },
   methods: {
@@ -74,7 +72,7 @@ export default {
     addItem () {
       console.log('add')
       this.unClick = true
-      this.$api.sale.addCommodity(this.formData).then(rsp => {
+      this.$api.sale.addClient(this.formData).then(rsp => {
         console.log(rsp)
         this.unClick = false
         if (rsp.result === 200) {
@@ -90,7 +88,7 @@ export default {
     },
     editItem () {
       this.unClick = true
-      this.$api.sale.updateCommodity(this.formData).then(rsp => {
+      this.$api.sale.updateClient(this.formData).then(rsp => {
         console.log(rsp)
         this.unClick = false
         if (rsp.result === 200) {
